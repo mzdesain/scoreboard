@@ -141,25 +141,76 @@
         body[data-theme="tactical"] .team-panel { background: #1e293b !important; color: #f8fafc; }
         body[data-theme="tactical"] .score-panel { background: #020617 !important; }
 
+        /* 12. Papercraft */
+        body[data-theme="papercraft"] .scoreboard-main { background-color: #f8f4e6; border: 3px dashed #333; box-shadow: 8px 8px 0px rgba(0,0,0,0.8); border-radius: 2px; transform: rotate(-1deg); }
+        body[data-theme="papercraft"] .team-panel { background: #e5d9c5 !important; color: #222; border-right: 2px dashed #333; border-left: 2px dashed #333; }
+        body[data-theme="papercraft"] .score-panel { background: #fff !important; color: #000 !important; border-bottom: 4px solid #ccc; }
+        body[data-theme="papercraft"] .score-text { color: #d92525 !important; text-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+        
+        /* 13. La Liga Style (Modern) */
+        body[data-theme="laliga"] .scoreboard-main { background: linear-gradient(135deg, #e30613, #000000); border: 2px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.5); clip-path: polygon(0 15%, 5% 0, 100% 0, 100% 85%, 95% 100%, 0 100%); border-radius: 0; }
+        body[data-theme="laliga"] .team-panel { background: rgba(0,0,0,0.6) !important; color: #fff; text-shadow: 1px 1px 2px #000; font-family: 'Oswald', sans-serif; }
+        body[data-theme="laliga"] .score-panel { background: #fff !important; color: #e30613 !important; }
+        body[data-theme="laliga"] .score-text { color: #000 !important; font-family: 'Inter', sans-serif; font-weight: 900; }
+        body[data-theme="laliga"] .match-time-text { background-color: #e30613; color: #fff; }
+
+        /* 14. Premier League Style */
+        body[data-theme="epl"] .scoreboard-main { background: #38003c; border: none; box-shadow: 0 15px 35px rgba(56,0,60,0.6); border-radius: 10px; font-family: 'Inter', sans-serif; }
+        body[data-theme="epl"] .team-panel { background: transparent !important; color: #fff; font-weight: 800; }
+        body[data-theme="epl"] .score-panel { background: #e90052 !important; border-radius: 8px; margin: 5px; border: 2px solid #00ff85; }
+        body[data-theme="epl"] .score-text { color: #fff !important; font-weight: 800; }
+        body[data-theme="epl"] .match-time-text { background-color: #00ff85; color: #38003c; border-radius: 4px; font-weight: 900; }
+
+        /* 15. UEFA Champions League Style */
+        body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #0b0e27, #1a235a, #0b0e27); border-top: 2px solid #aeb4be; border-bottom: 2px solid #aeb4be; box-shadow: 0 10px 30px rgba(0,0,50,0.8); border-radius: 4px; font-family: 'Inter', sans-serif; }
+        body[data-theme="ucl"] .team-panel { background: transparent !important; color: #fff; letter-spacing: 2px; text-transform: uppercase; }
+        body[data-theme="ucl"] .score-panel { background: rgba(0,0,0,0.5) !important; border: 1px solid #4a5c88; border-radius: 4px; margin: 4px; }
+        body[data-theme="ucl"] .score-text { color: #fff !important; text-shadow: 0 0 10px rgba(255,255,255,0.5); font-weight: 600; }
+        body[data-theme="ucl"] .match-time-text { background-color: transparent; color: #aeb4be; border: 1px solid #aeb4be; }
+
         .scorer-info-top { transition: all 0.5s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; transform: scaleY(0); }
         .scorer-info-top.show { max-height: 100px; opacity: 1; transform: scaleY(1); margin-top: 4px; }
 
         .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 100; text-shadow: 4px 4px 0px #000, -3px -3px 0px #000, 3px -3px 0px #000, -3px 3px 0px #000; pointer-events: none; }
 
-        /* Controller Styling */
-        #controller { position: absolute; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.96); border: 1px solid #334155; border-radius: 14px; padding: 16px; color: white; z-index: 999; font-family: 'Inter', sans-serif; font-size: 13px; width: 420px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
+        /* Web Dashboard/Controller Papercraft Styling Overrides */
+        body:not(.mode-overlay) { 
+            background-color: #f4ebd8 !important; 
+            background-image: repeating-linear-gradient(45deg, #e4d7c1 25%, transparent 25%, transparent 75%, #e4d7c1 75%, #e4d7c1), repeating-linear-gradient(45deg, #e4d7c1 25%, #f4ebd8 25%, #f4ebd8 75%, #e4d7c1 75%, #e4d7c1); 
+            background-position: 0 0, 10px 10px; 
+            background-size: 20px 20px; 
+        }
+        
+        #controller { position: absolute; bottom: 20px; right: 20px; background: #fffdf7; border: 4px solid #111; border-radius: 0; padding: 16px; color: #111 !important; z-index: 999; font-family: 'Inter', sans-serif; font-size: 13px; width: 420px; max-height: 90vh; overflow-y: auto; box-shadow: 8px 8px 0px #111; backdrop-filter: none; }
+        
+        /* Force color overrides inside controller to beat Tailwind dark mode classes */
+        #controller * { color: inherit; }
+        #controller .text-white, #controller .text-gray-400 { color: #111 !important; }
+        #controller .text-emerald-400 { color: #059669 !important; font-weight: 900; }
+        #controller .text-amber-400 { color: #d97706 !important; font-weight: 900; }
+        #controller .text-blue-400 { color: #2563eb !important; font-weight: 900; }
+        #controller .text-red-400 { color: #dc2626 !important; font-weight: 900; }
+        #controller .bg-gray-800, #controller .bg-gray-800\/80 { background: transparent !important; }
+        
         .mode-overlay #controller { display: none !important; }
-        .mode-mobile #controller { position: fixed; inset: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; z-index: 9999; background: #0f172a; }
+        .mode-mobile #controller { position: fixed; inset: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; z-index: 9999; box-shadow: none; border: none; background: #fffdf7; }
         .hide-controller #controller { display: none; }
         
-        #controller::-webkit-scrollbar { width: 6px; }
-        #controller::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-        #controller::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        #controller::-webkit-scrollbar { width: 8px; }
+        #controller::-webkit-scrollbar-track { background: #e4d7c1; border-left: 2px solid #111; }
+        #controller::-webkit-scrollbar-thumb { background: #111; border: 1px solid #e4d7c1; }
         
-        .ctrl-group { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 12px; margin-bottom: 12px; border: 1px solid #1e293b; }
-        .ctrl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; font-weight: bold; display: flex; justify-between; align-items: center; }
-        .input-dark { background: #0f172a; border: 1px solid #334155; color: white; border-radius: 6px; padding: 6px 10px; width: 100%; font-size: 12px; }
-        .input-dark:focus { outline: none; border-color: #3b82f6; }
+        .ctrl-group { background: #fcf9f2; border-radius: 0; padding: 12px; margin-bottom: 12px; border: 2px dashed #111; box-shadow: inset 2px 2px 0px rgba(0,0,0,0.05); }
+        .ctrl-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #111 !important; margin-bottom: 8px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #111; padding-bottom: 4px; }
+        
+        .input-dark { background: #fff; border: 2px solid #111; color: #111 !important; border-radius: 0; padding: 6px 10px; width: 100%; font-size: 12px; box-shadow: 3px 3px 0px rgba(0,0,0,0.15); font-weight: 700; }
+        .input-dark:focus { outline: none; border-color: #3b82f6; box-shadow: 3px 3px 0px #3b82f6; }
+        
+        #controller button { border: 2px solid #111; border-radius: 0; box-shadow: 3px 3px 0px #111; font-weight: 800 !important; text-transform: uppercase; transition: all 0.1s; color: #fff !important; }
+        #controller button:active { transform: translate(3px, 3px); box-shadow: 0px 0px 0px #111; }
+        #controller button.bg-gray-700 { background: #eee !important; color: #111 !important; }
+        #controller button.bg-gray-700:hover { background: #ddd !important; }
+        #controller button.bg-amber-500 { background: #f59e0b !important; color: #000 !important; }
     </style>
 </head>
 
@@ -331,6 +382,10 @@
                             <option value="glass">Frosted Glass</option>
                             <option value="retro">Retro 8-Bit Pixel</option>
                             <option value="tactical">Tactical Slate</option>
+                            <option value="papercraft">✂️ Papercraft Style</option>
+                            <option value="laliga">🇪🇸 La Liga Style</option>
+                            <option value="epl">🇬🇧 Premier League Style</option>
+                            <option value="ucl">⭐ UEFA Champions League</option>
                         </select>
                     </div>
                     <div>
