@@ -172,10 +172,10 @@
         <div id="scoreboard-top-wrapper" class="slide-up-hide transition-all duration-500 w-full flex justify-center">
             
             <!-- THE MAIN SCOREBOARD DESIGN -->
-            <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-2xl pointer-events-auto">
+            <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-4xl pointer-events-auto">
                 <!-- Home Team -->
                 <div class="team-panel panel-home flex-1 text-center py-2 px-6 bg-blue-800 text-white flex items-center justify-center transition-colors duration-300">
-                    <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
+                    <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all whitespace-nowrap">HOME</span>
                 </div>
                 
                 <!-- Scores & Time & League Logo -->
@@ -193,13 +193,13 @@
 
                 <!-- Away Team -->
                 <div class="team-panel panel-away flex-1 text-center py-2 px-6 bg-red-800 text-white flex items-center justify-center transition-colors duration-300">
-                    <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all">AWAY</span>
+                    <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all whitespace-nowrap">AWAY</span>
                 </div>
             </div>
         </div>
 
         <!-- Top Scorer Single Info Dropdown (Only for Top) -->
-        <div id="scorer-info-top" class="scorer-info-top flex justify-center w-full max-w-2xl pointer-events-auto">
+        <div id="scorer-info-top" class="scorer-info-top flex justify-center w-full max-w-4xl pointer-events-auto">
             <div class="bg-amber-500 text-black px-8 py-1 rounded-b-lg border-2 border-t-0 border-gray-800 shadow-lg font-bold flex items-center gap-3">
                 <span class="text-2xl">⚽</span>
                 <span id="top-scorer-name" class="text-3xl uppercase mt-1">Player Name</span>
@@ -216,10 +216,10 @@
         <div id="scoreboard-bottom-wrapper" class="slide-down-hide-bottom transition-all duration-500 w-full flex justify-center">
             
             <!-- THE MAIN SCOREBOARD DESIGN -->
-            <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-2xl pointer-events-auto">
+            <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-4xl pointer-events-auto">
                 <!-- Home Team -->
                 <div class="team-panel panel-home flex-1 text-center py-2 px-6 bg-blue-800 text-white flex items-center justify-center transition-colors duration-300">
-                    <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
+                    <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all whitespace-nowrap">HOME</span>
                 </div>
                 
                 <!-- Scores & Time & League Logo -->
@@ -237,13 +237,13 @@
 
                 <!-- Away Team -->
                 <div class="team-panel panel-away flex-1 text-center py-2 px-6 bg-red-800 text-white flex items-center justify-center transition-colors duration-300">
-                    <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all">AWAY</span>
+                    <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all whitespace-nowrap">AWAY</span>
                 </div>
             </div>
         </div>
 
         <!-- MULTILINE SCORERS FOR BOTTOM SCOREBOARD -->
-        <div id="btm-scorers-panel" class="w-full max-w-2xl flex justify-between transition-all duration-500 overflow-hidden opacity-0 pointer-events-auto" style="max-height: 0;">
+        <div id="btm-scorers-panel" class="w-full max-w-4xl flex justify-between transition-all duration-500 overflow-hidden opacity-0 pointer-events-auto" style="max-height: 0;">
             <div class="flex-1 mx-2 flex flex-col justify-start">
                 <div id="btm-scorers-home" class="text-white text-lg bg-black/85 px-4 py-2 border-l-4 border-blue-500 rounded-b shadow whitespace-pre-line text-left empty:hidden leading-snug"></div>
             </div>
@@ -390,7 +390,7 @@
                 <span class="font-bold">:</span>
                 <input type="number" id="input-secs" value="0" class="input-dark w-12 text-center px-1" min="0" max="59" placeholder="Sec">
                 
-                <input type="text" id="input-stoppage" value="" onkeyup="updateStoppage()" class="input-dark w-16 text-center font-bold text-amber-400 px-1 ml-1" placeholder="+3, ET..">
+                <input type="text" id="input-stoppage" value="" class="input-dark w-16 text-center font-bold text-amber-400 px-1 ml-1" placeholder="+3, ET..">
                 
                 <select id="timer-dir" class="input-dark text-[10px] flex-1 cursor-pointer px-1">
                     <option value="up">Count UP</option>
@@ -562,7 +562,10 @@
             updateTimerRunningState();
 
             if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp) {
-                triggerGoalEffects(newState.goalEvent.team);
+                // Mencegah trigger animasi saat pertama kali load state (oldGoalTimestamp === 0)
+                if (oldGoalTimestamp !== 0) {
+                    triggerGoalEffects(newState.goalEvent.team);
+                }
             }
 
             isUpdatingFromRemote = false;
@@ -823,13 +826,6 @@
             syncState();
         }
 
-        function updateStoppage() {
-            if (!window.appState.timer) window.appState.timer = {};
-            window.appState.timer.stoppage = document.getElementById('input-stoppage').value;
-            renderDOM();
-            syncState();
-        }
-
         function updateLogo() {
             window.appState.logoUrl = document.getElementById('input-logo-url').value || 'https://placehold.co/100x100/ffffff/000000?text=LIGA';
             renderDOM();
@@ -949,11 +945,12 @@
         }
 
         function applyTimerSettings() {
-            stopTimer();
+            // Hapus stopTimer() agar tambahan waktu bisa di set selagi timer berjalan
             let mins = parseInt(document.getElementById('input-mins').value) || 0;
             let secs = parseInt(document.getElementById('input-secs').value) || 0;
             window.appState.timer.direction = document.getElementById('timer-dir').value;
             window.appState.timer.seconds = (mins * 60) + secs;
+            window.appState.timer.stoppage = document.getElementById('input-stoppage').value;
             renderDOM();
             syncState();
         }
