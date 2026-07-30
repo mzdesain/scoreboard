@@ -183,7 +183,10 @@
                     <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                     <div class="flex flex-col items-center justify-center mx-4">
                         <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                        <div class="flex items-center justify-center gap-1.5 w-full">
+                            <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                            <span class="stoppage-time-text text-xl font-black text-amber-400 drop-shadow-md hidden">+0</span>
+                        </div>
                     </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
@@ -224,7 +227,10 @@
                     <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                     <div class="flex flex-col items-center justify-center mx-4">
                         <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                        <div class="flex items-center justify-center gap-1.5 w-full">
+                            <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                            <span class="stoppage-time-text text-xl font-black text-amber-400 drop-shadow-md hidden">+0</span>
+                        </div>
                     </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
@@ -355,7 +361,8 @@
                 <!-- Home -->
                 <div class="bg-gray-800/80 p-2.5 rounded-lg border border-gray-700">
                     <label class="text-[10px] text-blue-400 font-bold block mb-1">HOME TEAM</label>
-                    <input type="text" id="input-home-name" value="HOME" onkeyup="updateNames()" class="input-dark mb-2 text-center font-bold" placeholder="Home Team">
+                    <input type="text" id="input-home-name" value="HOME" onkeyup="updateNames()" class="input-dark mb-1 text-center font-bold" placeholder="Short Name (Top)">
+                    <input type="text" id="input-home-full" value="" onkeyup="updateNames()" class="input-dark mb-2 text-center text-[10px]" placeholder="Full Name (Bottom Scoreboard)">
                     <div class="flex gap-1.5 justify-center">
                         <button onclick="updateScore('home', -1)" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded font-bold text-sm flex-1">-1</button>
                         <button onclick="updateScore('home', 1)" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded font-bold text-sm flex-2 flex items-center justify-center gap-1">+1 ⚽</button>
@@ -365,7 +372,8 @@
                 <!-- Away -->
                 <div class="bg-gray-800/80 p-2.5 rounded-lg border border-gray-700">
                     <label class="text-[10px] text-red-400 font-bold block mb-1">AWAY TEAM</label>
-                    <input type="text" id="input-away-name" value="AWAY" onkeyup="updateNames()" class="input-dark mb-2 text-center font-bold" placeholder="Away Team">
+                    <input type="text" id="input-away-name" value="AWAY" onkeyup="updateNames()" class="input-dark mb-1 text-center font-bold" placeholder="Short Name (Top)">
+                    <input type="text" id="input-away-full" value="" onkeyup="updateNames()" class="input-dark mb-2 text-center text-[10px]" placeholder="Full Name (Bottom Scoreboard)">
                     <div class="flex gap-1.5 justify-center">
                         <button onclick="updateScore('away', -1)" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded font-bold text-sm flex-1">-1</button>
                         <button onclick="updateScore('away', 1)" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded font-bold text-sm flex-2 flex items-center justify-center gap-1">+1 ⚽</button>
@@ -376,14 +384,17 @@
 
         <!-- Timer Controls -->
         <div class="ctrl-group">
-            <div class="ctrl-title">Match Clock</div>
-            <div class="flex items-center gap-2 mb-2">
-                <input type="number" id="input-mins" value="0" class="input-dark w-16 text-center" min="0" placeholder="Min">
+            <div class="ctrl-title">Match Clock & Add Time</div>
+            <div class="flex items-center gap-1 mb-2">
+                <input type="number" id="input-mins" value="0" class="input-dark w-12 text-center px-1" min="0" placeholder="Min">
                 <span class="font-bold">:</span>
-                <input type="number" id="input-secs" value="0" class="input-dark w-16 text-center" min="0" max="59" placeholder="Sec">
-                <select id="timer-dir" class="input-dark text-xs w-full cursor-pointer">
-                    <option value="up">Count UP (00:00 -> 90:00)</option>
-                    <option value="down">Count DOWN (90:00 -> 00:00)</option>
+                <input type="number" id="input-secs" value="0" class="input-dark w-12 text-center px-1" min="0" max="59" placeholder="Sec">
+                
+                <input type="text" id="input-stoppage" value="" onkeyup="updateStoppage()" class="input-dark w-16 text-center font-bold text-amber-400 px-1 ml-1" placeholder="+3, ET..">
+                
+                <select id="timer-dir" class="input-dark text-[10px] flex-1 cursor-pointer px-1">
+                    <option value="up">Count UP</option>
+                    <option value="down">Count DOWN</option>
                 </select>
             </div>
             <div class="flex gap-2 mb-2">
@@ -436,11 +447,12 @@
         window.appState = {
             scores: { home: 0, away: 0 },
             teamNames: { home: 'HOME', away: 'AWAY' },
+            fullTeamNames: { home: '', away: '' },
             activeView: 'none',
             theme: 'standard',
             font: 'font-teko',
             logoUrl: 'https://placehold.co/100x100/ffffff/000000?text=LIGA',
-            timer: { seconds: 0, isRunning: false, direction: 'up' },
+            timer: { seconds: 0, isRunning: false, direction: 'up', stoppage: '' },
             topScorer: { name: '', min: '', visible: false },
             bottomScorers: { home: '', away: '' },
             goalEvent: { active: false, team: null, timestamp: 0 }
@@ -519,6 +531,8 @@
             if (!document.body.classList.contains('mode-overlay')) {
                 const elHome = document.getElementById('input-home-name');
                 const elAway = document.getElementById('input-away-name');
+                const elHomeFull = document.getElementById('input-home-full');
+                const elAwayFull = document.getElementById('input-away-full');
                 const elTheme = document.getElementById('theme-selector');
                 const elFont = document.getElementById('font-selector');
                 const elLogo = document.getElementById('input-logo-url');
@@ -526,10 +540,13 @@
                 const elScorersAway = document.getElementById('input-scorers-away');
                 const elMins = document.getElementById('input-mins');
                 const elSecs = document.getElementById('input-secs');
+                const elStoppage = document.getElementById('input-stoppage');
                 const elTimerDir = document.getElementById('timer-dir');
 
                 if (elHome) elHome.value = window.appState.teamNames.home;
                 if (elAway) elAway.value = window.appState.teamNames.away;
+                if (elHomeFull) elHomeFull.value = window.appState.fullTeamNames?.home || '';
+                if (elAwayFull) elAwayFull.value = window.appState.fullTeamNames?.away || '';
                 if (elTheme) elTheme.value = window.appState.theme;
                 if (elFont) elFont.value = window.appState.font;
                 if (elLogo) elLogo.value = window.appState.logoUrl;
@@ -537,6 +554,7 @@
                 if (elScorersAway) elScorersAway.value = window.appState.bottomScorers?.away || '';
                 if (elMins && !window.appState.timer.isRunning) elMins.value = Math.floor((window.appState.timer?.seconds || 0) / 60);
                 if (elSecs && !window.appState.timer.isRunning) elSecs.value = (window.appState.timer?.seconds || 0) % 60;
+                if (elStoppage) elStoppage.value = window.appState.timer.stoppage || '';
                 if (elTimerDir && window.appState.timer?.direction) elTimerDir.value = window.appState.timer.direction;
             }
 
@@ -672,10 +690,12 @@
 
             // Team Names
             if (!window.isHomeGoalAnimating) {
-                document.querySelectorAll('.team-name-home').forEach(el => el.textContent = state.teamNames.home);
+                document.querySelectorAll('#scoreboard-top-wrapper .team-name-home').forEach(el => el.textContent = state.teamNames.home);
+                document.querySelectorAll('#scoreboard-bottom-wrapper .team-name-home').forEach(el => el.textContent = state.fullTeamNames?.home || state.teamNames.home);
             }
             if (!window.isAwayGoalAnimating) {
-                document.querySelectorAll('.team-name-away').forEach(el => el.textContent = state.teamNames.away);
+                document.querySelectorAll('#scoreboard-top-wrapper .team-name-away').forEach(el => el.textContent = state.teamNames.away);
+                document.querySelectorAll('#scoreboard-bottom-wrapper .team-name-away').forEach(el => el.textContent = state.fullTeamNames?.away || state.teamNames.away);
             }
 
             // Scores
@@ -685,6 +705,16 @@
             // Logo & Time
             document.querySelectorAll('.league-logo-img').forEach(el => el.src = state.logoUrl);
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
+
+            // Stoppage / Extra Time
+            document.querySelectorAll('.stoppage-time-text').forEach(el => {
+                if (state.timer.stoppage && state.timer.stoppage.trim() !== '') {
+                    el.textContent = state.timer.stoppage;
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
 
             // Themes & Fonts
             applyStyles(false);
@@ -759,7 +789,11 @@
 
                 document.querySelectorAll(`.team-name-${team}`).forEach(el => {
                     el.classList.remove('anim-team-goal');
-                    el.textContent = window.appState.teamNames[team];
+                    if (el.closest('#scoreboard-bottom-wrapper')) {
+                        el.textContent = window.appState.fullTeamNames?.[team] || window.appState.teamNames[team];
+                    } else {
+                        el.textContent = window.appState.teamNames[team];
+                    }
                 });
             }, 3500);
         }
@@ -780,6 +814,18 @@
         function updateNames() {
             window.appState.teamNames.home = document.getElementById('input-home-name').value || "HOME";
             window.appState.teamNames.away = document.getElementById('input-away-name').value || "AWAY";
+            
+            if (!window.appState.fullTeamNames) window.appState.fullTeamNames = { home: '', away: '' };
+            window.appState.fullTeamNames.home = document.getElementById('input-home-full').value;
+            window.appState.fullTeamNames.away = document.getElementById('input-away-full').value;
+
+            renderDOM();
+            syncState();
+        }
+
+        function updateStoppage() {
+            if (!window.appState.timer) window.appState.timer = {};
+            window.appState.timer.stoppage = document.getElementById('input-stoppage').value;
             renderDOM();
             syncState();
         }
@@ -915,10 +961,13 @@
         function resetTimer() {
             stopTimer();
             window.appState.timer.seconds = 0;
+            window.appState.timer.stoppage = '';
             const elMins = document.getElementById('input-mins');
             const elSecs = document.getElementById('input-secs');
+            const elStoppage = document.getElementById('input-stoppage');
             if (elMins) elMins.value = 0;
             if (elSecs) elSecs.value = 0;
+            if (elStoppage) elStoppage.value = '';
             renderDOM();
             syncState();
         }
