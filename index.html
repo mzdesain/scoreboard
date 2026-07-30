@@ -179,12 +179,14 @@
                     <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
                 </div>
                 <!-- Scores & Time & League Logo -->
-                <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
-                    <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-                    <div class="flex flex-col items-center justify-center mx-4">
-                        <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
-                    </div>
+            <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
+                <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+                <div class="flex flex-col items-center justify-center mx-4">
+                    <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                    <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                </div>
+                <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+            </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
                 <!-- Away Team -->
@@ -218,12 +220,14 @@
                     <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
                 </div>
                 <!-- Scores & Time & League Logo -->
-                <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
-                    <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-                    <div class="flex flex-col items-center justify-center mx-4">
-                        <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
-                    </div>
+            <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
+                <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+                <div class="flex flex-col items-center justify-center mx-4">
+                    <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                    <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                </div>
+                <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+            </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
                 <!-- Away Team -->
@@ -536,17 +540,34 @@
 
             // Update DOM Controls if in Controller mode (not overlay)
             if (!document.body.classList.contains('mode-overlay')) {
-                document.getElementById('input-home-name').value = window.appState.teamNames.home;
-                document.getElementById('input-away-name').value = window.appState.teamNames.away;
-                document.getElementById('theme-selector').value = window.appState.theme;
-                document.getElementById('font-selector').value = window.appState.font;
-                document.getElementById('input-logo-url').value = window.appState.logoUrl;
-                document.getElementById('input-scorers-home').value = window.appState.bottomScorers?.home || '';
-                document.getElementById('input-scorers-away').value = window.appState.bottomScorers?.away || '';
+                const elHome = document.getElementById('input-home-name');
+                const elAway = document.getElementById('input-away-name');
+                const elTheme = document.getElementById('theme-selector');
+                const elFont = document.getElementById('font-selector');
+                const elLogo = document.getElementById('input-logo-url');
+                const elScorersHome = document.getElementById('input-scorers-home');
+                const elScorersAway = document.getElementById('input-scorers-away');
+                const elMins = document.getElementById('input-mins');
+                const elSecs = document.getElementById('input-secs');
+                const elTimerDir = document.getElementById('timer-dir');
+
+                if (elHome) elHome.value = window.appState.teamNames.home;
+                if (elAway) elAway.value = window.appState.teamNames.away;
+                if (elTheme) elTheme.value = window.appState.theme;
+                if (elFont) elFont.value = window.appState.font;
+                if (elLogo) elLogo.value = window.appState.logoUrl;
+                if (elScorersHome) elScorersHome.value = window.appState.bottomScorers?.home || '';
+                if (elScorersAway) elScorersAway.value = window.appState.bottomScorers?.away || '';
+                if (elMins && !window.appState.timer.isRunning) elMins.value = Math.floor((window.appState.timer?.seconds || 0) / 60);
+                if (elSecs && !window.appState.timer.isRunning) elSecs.value = (window.appState.timer?.seconds || 0) % 60;
+                if (elTimerDir && window.appState.timer?.direction) elTimerDir.value = window.appState.timer.direction;
             }
 
             // Render Scoreboard DOM
             renderDOM();
+
+            // Synchronize Local Timer Loop
+            updateTimerRunningState();
 
             // Trigger Goal animations if detected from remote
             if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp) {
@@ -815,17 +836,29 @@
 
         // --- Styles, Themes, Fonts ---
         function applyStyles(doSync = true) {
-            const theme = document.getElementById('theme-selector').value;
-            const font = document.getElementById('font-selector').value;
+            let theme = window.appState.theme;
+            let font = window.appState.font;
 
-            window.appState.theme = theme;
-            window.appState.font = font;
+            if (doSync) {
+                const themeSelect = document.getElementById('theme-selector');
+                const fontSelect = document.getElementById('font-selector');
+                if (themeSelect) theme = themeSelect.value;
+                if (fontSelect) font = fontSelect.value;
+
+                window.appState.theme = theme;
+                window.appState.font = font;
+            }
 
             document.getElementById('app-body').setAttribute('data-theme', theme);
 
             const bodyClasses = document.getElementById('app-body').className.split(' ');
             const newClasses = bodyClasses.filter(c => !c.startsWith('font-')).join(' ');
             document.getElementById('app-body').className = newClasses + ' ' + font;
+
+            const themeSelect = document.getElementById('theme-selector');
+            const fontSelect = document.getElementById('font-selector');
+            if (themeSelect && themeSelect.value !== theme) themeSelect.value = theme;
+            if (fontSelect && fontSelect.value !== font) fontSelect.value = font;
 
             if (doSync) syncState();
         }
@@ -887,6 +920,39 @@
             return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         }
 
+        function updateTimerRunningState() {
+            const btnStart = document.getElementById('btn-timer-start');
+            const btnStop = document.getElementById('btn-timer-stop');
+
+            if (window.appState.timer.isRunning) {
+                if (btnStart) { btnStart.disabled = true; btnStart.classList.add('opacity-50'); }
+                if (btnStop) { btnStop.disabled = false; btnStop.classList.remove('opacity-50'); }
+
+                if (!timerInterval) {
+                    timerInterval = setInterval(() => {
+                        if (window.appState.timer.direction === 'up') {
+                            window.appState.timer.seconds++;
+                        } else {
+                            window.appState.timer.seconds--;
+                            if (window.appState.timer.seconds <= 0) {
+                                window.appState.timer.seconds = 0;
+                                stopTimer();
+                            }
+                        }
+                        renderDOM();
+                    }, 1000);
+                }
+            } else {
+                if (btnStart) { btnStart.disabled = false; btnStart.classList.remove('opacity-50'); }
+                if (btnStop) { btnStop.disabled = true; btnStop.classList.add('opacity-50'); }
+
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+            }
+        }
+
         function applyTimerSettings() {
             stopTimer();
             let mins = parseInt(document.getElementById('input-mins').value) || 0;
@@ -900,8 +966,10 @@
         function resetTimer() {
             stopTimer();
             window.appState.timer.seconds = 0;
-            document.getElementById('input-mins').value = 0;
-            document.getElementById('input-secs').value = 0;
+            const elMins = document.getElementById('input-mins');
+            const elSecs = document.getElementById('input-secs');
+            if (elMins) elMins.value = 0;
+            if (elSecs) elSecs.value = 0;
             renderDOM();
             syncState();
         }
@@ -909,26 +977,10 @@
         function startTimer() {
             if (!window.appState.timer.isRunning) {
                 window.appState.timer.isRunning = true;
-                window.appState.timer.direction = document.getElementById('timer-dir').value;
+                const elDir = document.getElementById('timer-dir');
+                if (elDir) window.appState.timer.direction = elDir.value;
 
-                document.getElementById('btn-timer-start').disabled = true;
-                document.getElementById('btn-timer-stop').disabled = false;
-                document.getElementById('btn-timer-start').classList.add('opacity-50');
-                document.getElementById('btn-timer-stop').classList.remove('opacity-50');
-
-                timerInterval = setInterval(() => {
-                    if (window.appState.timer.direction === 'up') {
-                        window.appState.timer.seconds++;
-                    } else {
-                        window.appState.timer.seconds--;
-                        if (window.appState.timer.seconds <= 0) {
-                            window.appState.timer.seconds = 0;
-                            stopTimer();
-                        }
-                    }
-                    renderDOM();
-                }, 1000);
-
+                updateTimerRunningState();
                 syncState();
             }
         }
@@ -936,11 +988,7 @@
         function stopTimer() {
             if (window.appState.timer.isRunning) {
                 window.appState.timer.isRunning = false;
-                clearInterval(timerInterval);
-                document.getElementById('btn-timer-start').disabled = false;
-                document.getElementById('btn-timer-stop').disabled = true;
-                document.getElementById('btn-timer-start').classList.remove('opacity-50');
-                document.getElementById('btn-timer-stop').classList.add('opacity-50');
+                updateTimerRunningState();
                 syncState();
             }
         }
