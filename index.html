@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Custom Scoreboard Pro & Remote Controller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@400;600;700;800&family=Bebas+Neue&family=Orbitron:wght@500;700;900&family=Oswald:wght@500;700&family=Press+Start+2P&family=Rajdhani:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: transparent !important;
+            font-family: 'Teko', sans-serif;
+            user-select: none;
+            overflow-x: hidden;
+        }
+        
+        /* Font Classes */
+        .font-teko { font-family: 'Teko', sans-serif; }
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        .font-pressstart { font-family: 'Press Start 2P', cursive; }
+        .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+        .font-syne { font-family: 'Syne', sans-serif; }
+
+        /* --- Transitions & Slide Animations --- */
+        .slide-up-hide { transform: translateY(-160%); opacity: 0; pointer-events: none; }
+        .slide-down-show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        
+        .slide-down-hide-bottom { transform: translateY(220%); opacity: 0; pointer-events: none; }
+        .slide-up-show-bottom { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        /* Score Pop Animation */
+        @keyframes scorePop {
+            0% { transform: scale(1); color: inherit; }
+            40% { transform: scale(1.7); color: #f59e0b; text-shadow: 0 0 25px rgba(245, 158, 11, 0.9); }
+            100% { transform: scale(1); color: inherit; }
+        }
+        .anim-score-update { animation: scorePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        /* Team Name GOAL! Flash Animation */
+        @keyframes teamGoalFlash {
+            0% { transform: scale(1); filter: brightness(1); }
+            20% { transform: scale(1.25) skewX(-6deg); color: #fbbf24; text-shadow: 0 0 20px #fbbf24; }
+            40% { transform: scale(0.95); color: #ef4444; }
+            60% { transform: scale(1.2) skewX(6deg); color: #3b82f6; text-shadow: 0 0 20px #3b82f6; }
+            80% { transform: scale(1.05); color: #10b981; }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        .anim-team-goal { animation: teamGoalFlash 0.8s ease-in-out infinite alternate; }
+
+        /* Team Panel Flash Animation */
+        @keyframes teamFlash {
+            0% { background-color: inherit; }
+            30% { background-color: #fbbf24; color: #000; box-shadow: inset 0 0 30px #fff; }
+            100% { background-color: inherit; }
+        }
+        .anim-team-flash { animation: teamFlash 1s ease-out; }
+
+        /* League Logo Goal Spin */
+        @keyframes logoSpinPulse {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.6) rotate(180deg) drop-shadow(0 0 20px gold); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        .anim-logo-goal { animation: logoSpinPulse 2s ease-in-out; }
+
+        /* Goal Text Banner Animation */
+        @keyframes goalPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-10deg); opacity: 0; }
+            15% { transform: translate(-50%, -50%) scale(1.3) rotate(0deg); opacity: 1; }
+            25% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            75% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            90% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(10deg); opacity: 0; }
+        }
+        .animate-goal { animation: goalPop 3.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        #scoreboard-top { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* --- Themes --- */
+        
+        /* 1. Standard */
+        body[data-theme="standard"] #scoreboard-top { background-color: #111827; border: 2px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.7); }
+        
+        /* 2. Minimalist */
+        body[data-theme="minimalist"] #scoreboard-top { background-color: rgba(0, 0, 0, 0.75); border: none; border-bottom: 4px solid #fff; border-radius: 0; }
+        body[data-theme="minimalist"] .team-panel { background-color: transparent !important; }
+        body[data-theme="minimalist"] .score-panel { background-color: transparent !important; }
+
+        /* 3. Pill (Rounded) */
+        body[data-theme="pill"] #scoreboard-top { border-radius: 999px; border: 3px solid rgba(255,255,255,0.8); background: linear-gradient(90deg, #0f172a, #1e293b, #0f172a); }
+        body[data-theme="pill"] .team-panel { background: transparent !important; padding-left: 2rem; padding-right: 2rem; }
+        body[data-theme="pill"] .score-panel { background-color: rgba(0,0,0,0.5) !important; border-radius: 20px; margin: 4px; }
+
+        /* 4. Neon Glow */
+        body[data-theme="neon"] #scoreboard-top { background-color: rgba(10, 10, 10, 0.95); border: 2px solid #00f0ff; box-shadow: 0 0 20px #00f0ff, inset 0 0 10px #00f0ff; border-radius: 12px; }
+        body[data-theme="neon"] .team-panel { background: transparent !important; color: #fff; text-shadow: 0 0 8px #fff; }
+        body[data-theme="neon"] .score-panel { background-color: rgba(0, 240, 255, 0.15) !important; border-left: 1px solid #00f0ff; border-right: 1px solid #00f0ff; }
+        body[data-theme="neon"] .score-text { color: #00f0ff !important; text-shadow: 0 0 12px #00f0ff; }
+        
+        /* 5. Cyberpunk */
+        body[data-theme="cyberpunk"] #scoreboard-top { background-color: #fce300; border: 4px solid #000; border-radius: 0; box-shadow: 8px 8px 0px #00f0ff; clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%); }
+        body[data-theme="cyberpunk"] .team-panel { background: #000 !important; color: #fce300; clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); margin: 2px; }
+        body[data-theme="cyberpunk"] .score-panel { background-color: #00f0ff !important; color: #000 !important; margin: 2px; }
+        body[data-theme="cyberpunk"] .score-text { color: #000 !important; font-weight: 900; }
+        body[data-theme="cyberpunk"] #match-time { background-color: #000; color: #00f0ff; }
+
+        /* 6. Sports Center */
+        body[data-theme="sportscenter"] #scoreboard-top { background: linear-gradient(to bottom, #2a2a2a, #111); border: 1px solid #444; border-bottom: 4px solid #e11d48; box-shadow: 0 15px 30px rgba(0,0,0,0.8); }
+        body[data-theme="sportscenter"] .team-panel { background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent) !important; text-shadow: 1px 1px 2px #000; }
+        body[data-theme="sportscenter"] .score-panel { background: #000 !important; border-left: 2px solid #333; border-right: 2px solid #333; }
+
+        /* 7. Esports Neon */
+        body[data-theme="esports"] #scoreboard-top { background: linear-gradient(135deg, #18002e, #4c0070); border: 2px solid #ff007f; box-shadow: 0 0 25px rgba(255,0,127,0.6); clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%); }
+        body[data-theme="esports"] .team-panel { background: rgba(0,0,0,0.4) !important; color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
+        body[data-theme="esports"] .score-panel { background: #0d001a !important; border-left: 2px solid #ff007f; border-right: 2px solid #ff007f; }
+        body[data-theme="esports"] .score-text { color: #ff007f !important; text-shadow: 0 0 10px #ff007f; }
+
+        /* 8. Champions Gold */
+        body[data-theme="champions"] #scoreboard-top { background: linear-gradient(180deg, #2b261f, #0d0b08); border: 2px solid #d4af37; box-shadow: 0 10px 30px rgba(212,175,55,0.3); border-radius: 6px; }
+        body[data-theme="champions"] .team-panel { background: linear-gradient(90deg, rgba(212,175,55,0.2), transparent) !important; color: #fef08a; }
+        body[data-theme="champions"] .score-panel { background: #181510 !important; border-left: 2px solid #d4af37; border-right: 2px solid #d4af37; }
+        body[data-theme="champions"] .score-text { color: #f59e0b !important; }
+
+        /* 9. Frosted Glass */
+        body[data-theme="glass"] #scoreboard-top { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); border-radius: 16px; }
+        body[data-theme="glass"] .team-panel { background: transparent !important; color: #ffffff; }
+        body[data-theme="glass"] .score-panel { background: rgba(0,0,0,0.3) !important; border-radius: 12px; margin: 4px; }
+
+        /* 10. Retro 8-Bit */
+        body[data-theme="retro"] #scoreboard-top { background-color: #000; border: 4px solid #00ff00; border-radius: 0; box-shadow: 6px 6px 0px #00ff00; font-family: 'Press Start 2P', cursive; }
+        body[data-theme="retro"] .team-panel { background: #000 !important; color: #fff; }
+        body[data-theme="retro"] .score-panel { background-color: #111 !important; border-left: 2px solid #00ff00; border-right: 2px solid #00ff00; }
+        body[data-theme="retro"] .score-text { color: #00ff00 !important; }
+        body[data-theme="retro"] #match-time { font-size: 0.9rem; padding: 2px 6px; }
+
+        /* 11. Tactical Slate */
+        body[data-theme="tactical"] #scoreboard-top { background: #0f172a; border-top: 3px solid #10b981; border-bottom: 3px solid #10b981; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
+        body[data-theme="tactical"] .team-panel { background: #1e293b !important; color: #f8fafc; }
+        body[data-theme="tactical"] .score-panel { background: #020617 !important; }
+
+        /* Dropdowns & Elements */
+        .scorer-info-top { transition: all 0.5s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; transform: scaleY(0); }
+        .scorer-info-top.show { max-height: 100px; opacity: 1; transform: scaleY(1); margin-top: 4px; }
+
+        .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 100; text-shadow: 4px 4px 0px #000, -3px -3px 0px #000, 3px -3px 0px #000, -3px 3px 0px #000; pointer-events: none; }
+
+        /* Controller Styling */
+        #controller { position: absolute; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.96); border: 1px solid #334155; border-radius: 14px; padding: 16px; color: white; z-index: 999; font-family: 'Inter', sans-serif; font-size: 13px; width: 380px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
+        .mode-overlay #controller { display: none !important; }
+        .mode-mobile #controller { position: fixed; inset: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; z-index: 9999; background: #0f172a; }
+        .hide-controller #controller { display: none; }
+        
+        #controller::-webkit-scrollbar { width: 6px; }
+        #controller::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        #controller::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        
+        .ctrl-group { background: rgba(0,0,0,0.35); border-radius: 10px; padding: 12px; margin-bottom: 12px; border: 1px solid #1e293b; }
+        .ctrl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; font-weight: bold; display: flex; justify-between; align-items: center; }
+        .input-dark { background: #0f172a; border: 1px solid #334155; color: white; border-radius: 6px; padding: 6px 10px; width: 100%; font-size: 12px; }
+        .input-dark:focus { outline: none; border-color: #3b82f6; }
+    </style>
+</head>
+
+<body class="w-screen h-screen relative font-teko" data-theme="standard" id="app-body">
+
+    <!-- OVERLAY AREA TOP -->
+    <div id="overlay-container-top" class="absolute top-8 left-0 w-full flex flex-col items-center pointer-events-none z-30">
+        
+        <!-- Top Scoreboard Main -->
+        <div id="scoreboard-top" class="slide-up-hide flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-2xl">
+            
+            <!-- Home Team -->
+            <div id="panel-home" class="team-panel flex-1 text-center py-2 px-6 bg-blue-800 text-white flex items-center justify-center transition-colors duration-300">
+                <span id="top-home-name" class="text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
+            </div>
+
+            <!-- Scores & Time & League Logo -->
+            <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
+                <span id="top-home-score" class="score-text text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+                
+                <div class="flex flex-col items-center justify-center mx-4">
+                    <!-- League Logo -->
+                    <img id="league-logo" src="https://placehold.co/100x100/ffffff/000000?text=LIGA" alt="Liga" class="w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                    <span id="match-time" class="text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                </div>
+
+                <span id="top-away-score" class="score-text text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+            </div>
+
+            <!-- Away Team -->
+            <div id="panel-away" class="team-panel flex-1 text-center py-2 px-6 bg-red-800 text-white flex items-center justify-center transition-colors duration-300">
+                <span id="top-away-name" class="text-4xl font-bold uppercase tracking-wider mt-1 transition-all">AWAY</span>
+            </div>
+        </div>
+
+        <!-- Top Scorer Info Dropdown -->
+        <div id="scorer-info-top" class="scorer-info-top flex justify-center w-full max-w-2xl">
+            <div class="bg-amber-500 text-black px-8 py-1 rounded-b-lg border-2 border-t-0 border-gray-800 shadow-lg font-bold flex items-center gap-3">
+                <span class="text-2xl">⚽</span>
+                <span id="top-scorer-name" class="text-3xl uppercase mt-1">Player Name</span>
+                <span class="text-gray-900 text-2xl mt-1">|</span>
+                <span id="top-scorer-time" class="text-2xl mt-1">45'</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY AREA BOTTOM (LOWER THIRD) -->
+    <div id="scoreboard-bottom" class="absolute bottom-12 w-full px-12 slide-down-hide-bottom pointer-events-none transition-all duration-700 ease-in-out z-40">
+        <div class="w-full max-w-5xl mx-auto flex flex-col shadow-2xl">
+            
+            <!-- Main Bottom Bar -->
+            <div class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-4 border-gray-700 rounded-t-2xl overflow-hidden flex items-stretch h-24">
+                
+                <!-- Home -->
+                <div id="btm-panel-home" class="flex-1 bg-gradient-to-r from-blue-900 to-blue-800 flex items-center justify-end px-8 transition-colors duration-300">
+                    <span id="btm-home-name" class="text-white text-6xl font-bold uppercase tracking-wide mt-2 drop-shadow-lg transition-all">HOME</span>
+                </div>
+
+                <!-- Center Scores -->
+                <div class="bg-black px-10 flex items-center justify-center gap-6 border-l-2 border-r-2 border-gray-600 min-w-[260px]">
+                    <span id="btm-home-score" class="score-text text-yellow-400 text-7xl font-black mt-2 inline-block">0</span>
+                    <span class="text-gray-500 text-5xl mb-2">-</span>
+                    <span id="btm-away-score" class="score-text text-yellow-400 text-7xl font-black mt-2 inline-block">0</span>
+                </div>
+
+                <!-- Away -->
+                <div id="btm-panel-away" class="flex-1 bg-gradient-to-l from-red-900 to-red-800 flex items-center justify-start px-8 transition-colors duration-300">
+                    <span id="btm-away-name" class="text-white text-6xl font-bold uppercase tracking-wide mt-2 drop-shadow-lg transition-all">AWAY</span>
+                </div>
+            </div>
+
+            <!-- Integrated Bottom Scorer Banner -->
+            <div id="btm-scorer-panel" class="bg-amber-500 text-black overflow-hidden transition-all duration-500 max-h-0 rounded-b-xl border-x-4 border-b-4 border-amber-600 shadow-inner">
+                <div class="flex items-center justify-center gap-4 py-2 px-6">
+                    <span class="text-3xl animate-bounce">⚽</span>
+                    <span class="text-3xl font-bold uppercase tracking-wider mt-1">GOAL SCORER:</span>
+                    <span id="btm-scorer-text" class="text-4xl font-black uppercase tracking-wide mt-1 text-gray-900">LIONEL MESSI - 45'</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- HUGE GOAL ALERT TEXT -->
+    <div id="goal-alert" class="goal-alert">
+        <h1 class="text-[11rem] font-black text-amber-400 uppercase italic drop-shadow-[0_12px_12px_rgba(0,0,0,0.9)] leading-none">GOAL!</h1>
+    </div>
+
+    <!-- CONTROLLER DASHBOARD -->
+    <div id="controller" class="flex flex-col font-sans">
+        <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-3">
+            <div>
+                <h3 class="font-bold text-base text-white flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    OBS Scoreboard Pro
+                </h3>
+                <p class="text-[10px] text-gray-400">Remote Sync & Broadcasting Suite</p>
+            </div>
+            <button onclick="toggleController()" class="text-xs bg-rose-600 hover:bg-rose-500 text-white px-2.5 py-1 rounded font-bold transition-colors">Hide UI</button>
+        </div>
+
+        <!-- Mode & Sync Settings -->
+        <div class="ctrl-group">
+            <div class="ctrl-title">
+                <span>Sync & View Mode</span>
+                <span id="sync-status" class="text-[10px] text-emerald-400 font-mono">Local Sync</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">View Mode</label>
+                    <select id="mode-selector" onchange="changeMode(this.value)" class="input-dark text-xs cursor-pointer">
+                        <option value="combined">Combined (Overlay + UI)</option>
+                        <option value="overlay">OBS Overlay Only (Clean)</option>
+                        <option value="mobile">Mobile Remote Controller</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Room Code (Sync)</label>
+                    <input type="text" id="input-room-code" value="liga-match1" onchange="updateRoomCode()" class="input-dark font-mono text-center text-xs" placeholder="e.g. room123">
+                </div>
+            </div>
+            <p class="text-[10px] text-gray-400">💡 Buka file ini di HP dengan Room Code yang sama untuk mengontrol dari jarak jauh!</p>
+        </div>
+
+        <!-- Display Visibility Controls -->
+        <div class="ctrl-group">
+            <div class="ctrl-title">Display Controls</div>
+            <div class="flex flex-col gap-2">
+                <!-- Toggles -->
+                <div class="flex gap-2">
+                    <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded text-xs font-bold transition-colors">SHOW TOP</button>
+                    <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded text-xs font-bold transition-colors">SHOW BTM (HUGE)</button>
+                </div>
+                
+                <!-- Theme & Font Selection -->
+                <div class="grid grid-cols-2 gap-2 mt-1">
+                    <div>
+                        <label class="text-[10px] text-gray-400 block mb-1">Theme (11 Styles)</label>
+                        <select id="theme-selector" onchange="applyStyles()" class="input-dark text-xs cursor-pointer">
+                            <option value="standard">Standard Block</option>
+                            <option value="minimalist">Minimalist</option>
+                            <option value="pill">Pill / Rounded</option>
+                            <option value="neon">Neon Cyan Glow</option>
+                            <option value="cyberpunk">Cyberpunk Yellow</option>
+                            <option value="sportscenter">Sports Center Red</option>
+                            <option value="esports">Esports Purple Neon</option>
+                            <option value="champions">Champions Gold</option>
+                            <option value="glass">Frosted Glass</option>
+                            <option value="retro">Retro 8-Bit Pixel</option>
+                            <option value="tactical">Tactical Slate</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-gray-400 block mb-1">Font Family</label>
+                        <select id="font-selector" onchange="applyStyles()" class="input-dark text-xs cursor-pointer">
+                            <option value="font-teko">Teko (Broadcaster)</option>
+                            <option value="font-bebas">Bebas Neue</option>
+                            <option value="font-orbitron">Orbitron (Tech/Esports)</option>
+                            <option value="font-oswald">Oswald</option>
+                            <option value="font-pressstart">Press Start 2P (Retro)</option>
+                            <option value="font-rajdhani">Rajdhani</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Logo URL -->
+                <div class="mt-1">
+                    <label class="text-[10px] text-gray-400 block mb-1">League Logo Image URL</label>
+                    <input type="text" id="input-logo-url" value="https://placehold.co/100x100/ffffff/000000?text=LIGA" onchange="updateLogo()" class="input-dark text-xs" placeholder="Paste Image URL here...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Team & Score Controls -->
+        <div class="ctrl-group">
+            <div class="ctrl-title">Teams & Scores</div>
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Home -->
+                <div class="bg-gray-800/80 p-2.5 rounded-lg border border-gray-700">
+                    <label class="text-[10px] text-blue-400 font-bold block mb-1">HOME TEAM</label>
+                    <input type="text" id="input-home-name" value="HOME" onkeyup="updateNames()" class="input-dark mb-2 text-center font-bold" placeholder="Home Team">
+                    <div class="flex gap-1.5 justify-center">
+                        <button onclick="updateScore('home', -1)" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded font-bold text-sm flex-1">-1</button>
+                        <button onclick="updateScore('home', 1)" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded font-bold text-sm flex-2 flex items-center justify-center gap-1">+1 ⚽</button>
+                    </div>
+                </div>
+                
+                <!-- Away -->
+                <div class="bg-gray-800/80 p-2.5 rounded-lg border border-gray-700">
+                    <label class="text-[10px] text-red-400 font-bold block mb-1">AWAY TEAM</label>
+                    <input type="text" id="input-away-name" value="AWAY" onkeyup="updateNames()" class="input-dark mb-2 text-center font-bold" placeholder="Away Team">
+                    <div class="flex gap-1.5 justify-center">
+                        <button onclick="updateScore('away', -1)" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded font-bold text-sm flex-1">-1</button>
+                        <button onclick="updateScore('away', 1)" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded font-bold text-sm flex-2 flex items-center justify-center gap-1">+1 ⚽</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Controls -->
+        <div class="ctrl-group">
+            <div class="ctrl-title">Match Clock</div>
+            <div class="flex items-center gap-2 mb-2">
+                <input type="number" id="input-mins" value="0" class="input-dark w-16 text-center" min="0" placeholder="Min">
+                <span class="font-bold">:</span>
+                <input type="number" id="input-secs" value="0" class="input-dark w-16 text-center" min="0" max="59" placeholder="Sec">
+                <select id="timer-dir" class="input-dark text-xs w-full cursor-pointer">
+                    <option value="up">Count UP (00:00 -> 90:00)</option>
+                    <option value="down">Count DOWN (90:00 -> 00:00)</option>
+                </select>
+            </div>
+            <div class="flex gap-2 mb-2">
+                <button onclick="applyTimerSettings()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs py-1.5 rounded font-bold transition-colors">Apply Time</button>
+                <button onclick="resetTimer()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-xs py-1.5 rounded transition-colors">Reset 00:00</button>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="startTimer()" id="btn-timer-start" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded text-xs transition-colors">START CLOCK</button>
+                <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 rounded text-xs opacity-50 cursor-not-allowed transition-colors" disabled>STOP</button>
+            </div>
+        </div>
+
+        <!-- Match Events & Scorer -->
+        <div class="ctrl-group mb-0">
+            <div class="ctrl-title">Goal & Scorer Events</div>
+            
+            <button onclick="triggerGoalAnimation()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-black text-base py-2 rounded shadow-lg transition-transform transform active:scale-95 mb-3 flex items-center justify-center gap-2">
+                🔥 TRIGGER BIG GOAL BANNER!
+            </button>
+
+            <hr class="border-gray-800 my-2">
+
+            <label class="text-[10px] text-gray-400 mb-1 block">Goal Scorer Info (Trigger when ready)</label>
+            <div class="flex gap-2 mb-2">
+                <input type="text" id="input-scorer-name" placeholder="e.g. Lionel Messi" class="input-dark w-2/3">
+                <input type="text" id="input-scorer-min" placeholder="e.g. 45'" class="input-dark w-1/3 text-center">
+            </div>
+            <div class="flex gap-2">
+                <button onclick="triggerScorerInfo()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 rounded text-xs transition-colors">Show Scorer Info</button>
+                <button onclick="hideScorerInfo()" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded text-xs">Hide</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main State Initialization (Synchronous) -->
+    <script>
+        window.appState = {
+            scores: { home: 0, away: 0 },
+            teamNames: { home: 'HOME', away: 'AWAY' },
+            activeView: 'none', // 'top', 'bottom', or 'none'
+            theme: 'standard',
+            font: 'font-teko',
+            logoUrl: 'https://placehold.co/100x100/ffffff/000000?text=LIGA',
+            timer: { seconds: 0, isRunning: false, direction: 'up' },
+            scorer: { name: '', min: '', visible: false },
+            goalEvent: { active: false, team: null, timestamp: 0 }
+        };
+    </script>
+
+    <!-- Firebase Imports for Remote Synchronization -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Config Setup
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'obs-scoreboard-default';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "",
+            authDomain: "demo.firebaseapp.com",
+            projectId: "demo-project",
+            storageBucket: "demo.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:123456"
+        };
+
+        let app, db, auth;
+        let isFirebaseActive = false;
+        let roomCode = 'liga-match1';
+
+        // Local Broadcast Channel fallback for tab-to-tab sync
+        const broadcastChannel = new BroadcastChannel('obs_scoreboard_channel');
+
+        let timerInterval = null;
+        let isUpdatingFromRemote = false;
+
+        // --- Firebase Init ---
+        async function initFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                isFirebaseActive = true;
+                document.getElementById('sync-status').textContent = 'Cloud Sync Active';
+                listenToRoomChanges();
+            } catch (err) {
+                console.warn("Firebase fallback to Local Broadcast Channel:", err);
+                document.getElementById('sync-status').textContent = 'Local Sync Active';
+            }
+        }
+
+        function getRoomDocRef() {
+            return doc(db, 'artifacts', appId, 'public', 'data', 'rooms', roomCode);
+        }
+
+        function listenToRoomChanges() {
+            if (!isFirebaseActive || !auth.currentUser) return;
+
+            onSnapshot(getRoomDocRef(), (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.data();
+                    if (data && data.appState) {
+                        applyRemoteState(data.appState);
+                    }
+                }
+            }, (error) => {
+                console.warn("Firestore listener error:", error);
+            });
+        }
+
+        window.updateRoomCode = function() {
+            roomCode = document.getElementById('input-room-code').value.trim() || 'liga-match1';
+            if (isFirebaseActive) {
+                listenToRoomChanges();
+            }
+        };
+
+        // --- Sync State Outgoing ---
+        window.syncState = function(triggerGoalForTeam = null) {
+            if (triggerGoalForTeam) {
+                window.appState.goalEvent = { active: true, team: triggerGoalForTeam, timestamp: Date.now() };
+            }
+
+            // 1. BroadcastChannel (Same Device / Different Tabs)
+            broadcastChannel.postMessage(window.appState);
+
+            // 2. Firebase Sync (Cross-Device Mobile to PC OBS)
+            if (isFirebaseActive && auth?.currentUser && !isUpdatingFromRemote) {
+                setDoc(getRoomDocRef(), { appState: window.appState, updatedAt: Date.now() }, { merge: true }).catch(err => {
+                    console.warn("Error syncing to Firestore:", err);
+                });
+            }
+        };
+
+        // --- BroadcastChannel Incoming ---
+        broadcastChannel.onmessage = (event) => {
+            if (event.data) {
+                applyRemoteState(event.data);
+            }
+        };
+
+        // --- Apply Remote State to UI ---
+        function applyRemoteState(newState) {
+            isUpdatingFromRemote = true;
+            const oldScores = { ...window.appState.scores };
+            const oldGoalTimestamp = window.appState.goalEvent?.timestamp || 0;
+
+            window.appState = { ...newState };
+
+            // Update DOM Controls if in Controller mode
+            document.getElementById('input-home-name').value = window.appState.teamNames.home;
+            document.getElementById('input-away-name').value = window.appState.teamNames.away;
+            document.getElementById('theme-selector').value = window.appState.theme;
+            document.getElementById('font-selector').value = window.appState.font;
+            document.getElementById('input-logo-url').value = window.appState.logoUrl;
+
+            // Render Scoreboard DOM
+            renderDOM();
+
+            // Trigger Goal animations if detected from remote
+            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp) {
+                triggerGoalEffects(newState.goalEvent.team);
+            }
+
+            isUpdatingFromRemote = false;
+        }
+
+        // Initialize Firebase on page load
+        initFirebase();
+    </script>
+
+    <script>
+        // --- Core UI Methods ---
+
+        // Check URL parameters for Mode (e.g. ?mode=overlay or ?mode=mobile)
+        const urlParams = new URLSearchParams(window.location.search);
+        const modeParam = urlParams.get('mode');
+        if (modeParam) {
+            document.getElementById('mode-selector').value = modeParam;
+            changeMode(modeParam);
+        }
+
+        function changeMode(mode) {
+            const body = document.body;
+            body.classList.remove('mode-overlay', 'mode-mobile');
+            if (mode === 'overlay') {
+                body.classList.add('mode-overlay');
+            } else if (mode === 'mobile') {
+                body.classList.add('mode-mobile');
+            }
+        }
+
+        // --- Scoreboard View Toggle (Top vs Bottom) ---
+        function toggleView(view) {
+            if (window.appState.activeView === view) {
+                window.appState.activeView = 'none';
+            } else {
+                window.appState.activeView = view;
+            }
+            hideScorerInfo(false);
+            renderDOM();
+            syncState();
+        }
+
+        function renderDOM() {
+            const state = window.appState;
+            const elTop = document.getElementById('scoreboard-top');
+            const elBtm = document.getElementById('scoreboard-bottom');
+            const btnTop = document.getElementById('btn-show-top');
+            const btnBtm = document.getElementById('btn-show-bottom');
+
+            // 1. View Toggles
+            if (state.activeView === 'top') {
+                elBtm.classList.replace('slide-up-show-bottom', 'slide-down-hide-bottom');
+                setTimeout(() => elTop.classList.replace('slide-up-hide', 'slide-down-show'), 50);
+                
+                if (btnTop) {
+                    btnTop.textContent = "HIDE TOP";
+                    btnTop.className = "flex-1 bg-amber-600 hover:bg-amber-500 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+                if (btnBtm) {
+                    btnBtm.textContent = "SHOW BTM (HUGE)";
+                    btnBtm.className = "flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+            } else if (state.activeView === 'bottom') {
+                elTop.classList.replace('slide-down-show', 'slide-up-hide');
+                setTimeout(() => elBtm.classList.replace('slide-down-hide-bottom', 'slide-up-show-bottom'), 50);
+                
+                if (btnBtm) {
+                    btnBtm.textContent = "HIDE BTM";
+                    btnBtm.className = "flex-1 bg-amber-600 hover:bg-amber-500 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+                if (btnTop) {
+                    btnTop.textContent = "SHOW TOP";
+                    btnTop.className = "flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+            } else {
+                elTop.classList.replace('slide-down-show', 'slide-up-hide');
+                elBtm.classList.replace('slide-up-show-bottom', 'slide-down-hide-bottom');
+                if (btnTop) {
+                    btnTop.textContent = "SHOW TOP";
+                    btnTop.className = "flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+                if (btnBtm) {
+                    btnBtm.textContent = "SHOW BTM (HUGE)";
+                    btnBtm.className = "flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded text-xs font-bold transition-colors";
+                }
+            }
+
+            // 2. Team Names (Unless currently mid-GOAL animation)
+            if (!window.isHomeGoalAnimating) {
+                document.getElementById('top-home-name').textContent = state.teamNames.home;
+                document.getElementById('btm-home-name').textContent = state.teamNames.home;
+            }
+            if (!window.isAwayGoalAnimating) {
+                document.getElementById('top-away-name').textContent = state.teamNames.away;
+                document.getElementById('btm-away-name').textContent = state.teamNames.away;
+            }
+
+            // 3. Scores
+            document.getElementById('top-home-score').textContent = state.scores.home;
+            document.getElementById('btm-home-score').textContent = state.scores.home;
+            document.getElementById('top-away-score').textContent = state.scores.away;
+            document.getElementById('btm-away-score').textContent = state.scores.away;
+
+            // 4. Logo
+            document.getElementById('league-logo').src = state.logoUrl;
+
+            // 5. Timer Display
+            document.getElementById('match-time').textContent = formatTime(state.timer.seconds);
+
+            // 6. Themes & Fonts
+            applyStyles(false);
+
+            // 7. Scorer Display
+            if (state.scorer.visible) {
+                document.getElementById('top-scorer-name').textContent = state.scorer.name;
+                document.getElementById('top-scorer-time').textContent = state.scorer.min;
+                document.getElementById('btm-scorer-text').textContent = `${state.scorer.name} - ${state.scorer.min}`;
+
+                document.getElementById('scorer-info-top').classList.add('show');
+                const btmPanel = document.getElementById('btm-scorer-panel');
+                btmPanel.style.maxHeight = "80px";
+            } else {
+                document.getElementById('scorer-info-top').classList.remove('show');
+                document.getElementById('btm-scorer-panel').style.maxHeight = "0px";
+            }
+        }
+
+        // --- Score Update & Goal Trigger ---
+        function updateScore(team, change) {
+            window.appState.scores[team] += change;
+            if (window.appState.scores[team] < 0) window.appState.scores[team] = 0;
+
+            renderDOM();
+
+            // Trigger GOAL Animations if score increased
+            if (change > 0) {
+                triggerGoalEffects(team);
+                syncState(team);
+            } else {
+                syncState();
+            }
+        }
+
+        function triggerGoalEffects(team) {
+            // 1. Big Goal Banner Alert
+            triggerGoalAnimation();
+
+            // 2. Score Pop Animation
+            const topEl = document.getElementById(`top-${team}-score`);
+            const btmEl = document.getElementById(`btm-${team}-score`);
+            [topEl, btmEl].forEach(el => {
+                if (el) {
+                    el.classList.remove('anim-score-update');
+                    void el.offsetWidth;
+                    el.classList.add('anim-score-update');
+                }
+            });
+
+            // 3. Team Panel Background Flash
+            const topPanel = document.getElementById(`panel-${team}`);
+            const btmPanel = document.getElementById(`btm-panel-${team}`);
+            [topPanel, btmPanel].forEach(el => {
+                if (el) {
+                    el.classList.remove('anim-team-flash');
+                    void el.offsetWidth;
+                    el.classList.add('anim-team-flash');
+                }
+            });
+
+            // 4. TEAM NAME "GOOOAAL!" ANIMATION
+            const topNameEl = document.getElementById(`top-${team}-name`);
+            const btmNameEl = document.getElementById(`btm-${team}-name`);
+
+            if (team === 'home') window.isHomeGoalAnimating = true;
+            if (team === 'away') window.isAwayGoalAnimating = true;
+
+            [topNameEl, btmNameEl].forEach(el => {
+                if (el) {
+                    el.textContent = "GOOOAAL!";
+                    el.classList.add('anim-team-goal');
+                }
+            });
+
+            // Revert Team Name back after 3.5s
+            setTimeout(() => {
+                if (team === 'home') window.isHomeGoalAnimating = false;
+                if (team === 'away') window.isAwayGoalAnimating = false;
+
+                [topNameEl, btmNameEl].forEach(el => {
+                    if (el) {
+                        el.classList.remove('anim-team-goal');
+                        el.textContent = window.appState.teamNames[team];
+                    }
+                });
+            }, 3500);
+        }
+
+        function triggerGoalAnimation() {
+            const elGoal = document.getElementById('goal-alert');
+            const elLogo = document.getElementById('league-logo');
+
+            elGoal.classList.remove('animate-goal');
+            void elGoal.offsetWidth;
+            elGoal.classList.add('animate-goal');
+
+            elLogo.classList.remove('anim-logo-goal');
+            void elLogo.offsetWidth;
+            elLogo.classList.add('anim-logo-goal');
+        }
+
+        // --- Team Names & Logo Updates ---
+        function updateNames() {
+            window.appState.teamNames.home = document.getElementById('input-home-name').value || "HOME";
+            window.appState.teamNames.away = document.getElementById('input-away-name').value || "AWAY";
+            renderDOM();
+            syncState();
+        }
+
+        function updateLogo() {
+            window.appState.logoUrl = document.getElementById('input-logo-url').value || 'https://placehold.co/100x100/ffffff/000000?text=LIGA';
+            renderDOM();
+            syncState();
+        }
+
+        // --- Styles, Themes, Fonts ---
+        function applyStyles(doSync = true) {
+            const theme = document.getElementById('theme-selector').value;
+            const font = document.getElementById('font-selector').value;
+
+            window.appState.theme = theme;
+            window.appState.font = font;
+
+            document.getElementById('app-body').setAttribute('data-theme', theme);
+
+            const bodyClasses = document.getElementById('app-body').className.split(' ');
+            const newClasses = bodyClasses.filter(c => !c.startsWith('font-')).join(' ');
+            document.getElementById('app-body').className = newClasses + ' ' + font;
+
+            if (doSync) syncState();
+        }
+
+        // --- Scorer Notification ---
+        function triggerScorerInfo() {
+            const playerName = document.getElementById('input-scorer-name').value.trim() || "Player Name";
+            let minute = document.getElementById('input-scorer-min').value.trim();
+
+            if (minute !== "" && !minute.includes("'")) minute += "'";
+            if (minute === "") minute = "Goal";
+
+            window.appState.scorer = {
+                name: playerName,
+                min: minute,
+                visible: true
+            };
+
+            // Auto show top view if none visible
+            if (window.appState.activeView === 'none') {
+                window.appState.activeView = 'top';
+            }
+
+            renderDOM();
+            syncState();
+
+            // Auto-hide after 12s
+            setTimeout(() => {
+                hideScorerInfo(true);
+            }, 12000);
+        }
+
+        function hideScorerInfo(doSync = true) {
+            window.appState.scorer.visible = false;
+            renderDOM();
+            if (doSync) syncState();
+        }
+
+        // --- Timer Logic ---
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function applyTimerSettings() {
+            stopTimer();
+            let mins = parseInt(document.getElementById('input-mins').value) || 0;
+            let secs = parseInt(document.getElementById('input-secs').value) || 0;
+            window.appState.timer.direction = document.getElementById('timer-dir').value;
+            window.appState.timer.seconds = (mins * 60) + secs;
+            renderDOM();
+            syncState();
+        }
+
+        function resetTimer() {
+            stopTimer();
+            window.appState.timer.seconds = 0;
+            document.getElementById('input-mins').value = 0;
+            document.getElementById('input-secs').value = 0;
+            renderDOM();
+            syncState();
+        }
+
+        function startTimer() {
+            if (!window.appState.timer.isRunning) {
+                window.appState.timer.isRunning = true;
+                window.appState.timer.direction = document.getElementById('timer-dir').value;
+
+                document.getElementById('btn-timer-start').disabled = true;
+                document.getElementById('btn-timer-stop').disabled = false;
+                document.getElementById('btn-timer-start').classList.add('opacity-50');
+                document.getElementById('btn-timer-stop').classList.remove('opacity-50');
+
+                timerInterval = setInterval(() => {
+                    if (window.appState.timer.direction === 'up') {
+                        window.appState.timer.seconds++;
+                    } else {
+                        window.appState.timer.seconds--;
+                        if (window.appState.timer.seconds <= 0) {
+                            window.appState.timer.seconds = 0;
+                            stopTimer();
+                        }
+                    }
+                    renderDOM();
+                }, 1000);
+
+                syncState();
+            }
+        }
+
+        function stopTimer() {
+            if (window.appState.timer.isRunning) {
+                window.appState.timer.isRunning = false;
+                clearInterval(timerInterval);
+                document.getElementById('btn-timer-start').disabled = false;
+                document.getElementById('btn-timer-stop').disabled = true;
+                document.getElementById('btn-timer-start').classList.remove('opacity-50');
+                document.getElementById('btn-timer-stop').classList.add('opacity-50');
+                syncState();
+            }
+        }
+
+        // Controller Hider
+        function toggleController() {
+            document.body.classList.toggle('hide-controller');
+        }
+
+        // Initial setup on DOM Ready
+        window.addEventListener('DOMContentLoaded', () => {
+            updateNames();
+            updateLogo();
+        });
+    </script>
+</body>
+</html>
