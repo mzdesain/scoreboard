@@ -36,7 +36,7 @@
         /* Score Pop Animation */
         @keyframes scorePop {
             0% { transform: scale(1); color: inherit; }
-            40% { transform: scale(1.7); color: #f59e0b; text-shadow: 0 0 25px rgba(245, 158, 11, 0.9); }
+            40% { transform: scale(1.6); color: #f59e0b; text-shadow: 0 0 25px rgba(245, 158, 11, 0.9); }
             100% { transform: scale(1); color: inherit; }
         }
         .anim-score-update { animation: scorePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -44,9 +44,9 @@
         /* Team Name GOAL! Flash Animation */
         @keyframes teamGoalFlash {
             0% { transform: scale(1); filter: brightness(1); }
-            20% { transform: scale(1.25) skewX(-6deg); color: #fbbf24; text-shadow: 0 0 20px #fbbf24; }
+            20% { transform: scale(1.2) skewX(-4deg); color: #fbbf24; text-shadow: 0 0 20px #fbbf24; }
             40% { transform: scale(0.95); color: #ef4444; }
-            60% { transform: scale(1.2) skewX(6deg); color: #3b82f6; text-shadow: 0 0 20px #3b82f6; }
+            60% { transform: scale(1.15) skewX(4deg); color: #3b82f6; text-shadow: 0 0 20px #3b82f6; }
             80% { transform: scale(1.05); color: #10b981; }
             100% { transform: scale(1); filter: brightness(1); }
         }
@@ -63,7 +63,7 @@
         /* League Logo Goal Spin */
         @keyframes logoSpinPulse {
             0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.6) rotate(180deg) drop-shadow(0 0 20px gold); }
+            50% { transform: scale(1.5) rotate(180deg) drop-shadow(0 0 20px gold); }
             100% { transform: scale(1) rotate(360deg); }
         }
         .anim-logo-goal { animation: logoSpinPulse 2s ease-in-out; }
@@ -85,7 +85,7 @@
         body[data-theme="standard"] .scoreboard-main { background-color: #111827; border: 2px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.7); }
         
         /* 2. Minimalist */
-        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(0, 0, 0, 0.75); border: none; border-bottom: 4px solid #fff; border-radius: 0; }
+        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(0, 0, 0, 0.8); border: none; border-bottom: 4px solid #fff; border-radius: 0; }
         body[data-theme="minimalist"] .team-panel { background-color: transparent !important; }
         body[data-theme="minimalist"] .score-panel { background-color: transparent !important; }
 
@@ -141,14 +141,13 @@
         body[data-theme="tactical"] .team-panel { background: #1e293b !important; color: #f8fafc; }
         body[data-theme="tactical"] .score-panel { background: #020617 !important; }
 
-        /* --- Dropdowns & Elements --- */
         .scorer-info-top { transition: all 0.5s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; transform: scaleY(0); }
         .scorer-info-top.show { max-height: 100px; opacity: 1; transform: scaleY(1); margin-top: 4px; }
 
         .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 100; text-shadow: 4px 4px 0px #000, -3px -3px 0px #000, 3px -3px 0px #000, -3px 3px 0px #000; pointer-events: none; }
 
         /* Controller Styling */
-        #controller { position: absolute; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.96); border: 1px solid #334155; border-radius: 14px; padding: 16px; color: white; z-index: 999; font-family: 'Inter', sans-serif; font-size: 13px; width: 400px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
+        #controller { position: absolute; bottom: 20px; right: 20px; background: rgba(15, 23, 42, 0.96); border: 1px solid #334155; border-radius: 14px; padding: 16px; color: white; z-index: 999; font-family: 'Inter', sans-serif; font-size: 13px; width: 420px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
         .mode-overlay #controller { display: none !important; }
         .mode-mobile #controller { position: fixed; inset: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; z-index: 9999; background: #0f172a; }
         .hide-controller #controller { display: none; }
@@ -169,26 +168,26 @@
     <!-- OVERLAY AREA TOP -->
     <div id="overlay-container-top" class="absolute top-8 left-0 w-full flex flex-col items-center pointer-events-none z-30">
         
-        <!-- Top Scoreboard Wrapper (handles sliding) -->
+        <!-- Top Scoreboard Wrapper -->
         <div id="scoreboard-top-wrapper" class="slide-up-hide transition-all duration-500 w-full flex justify-center">
             
-            <!-- THE MAIN SCOREBOARD DESIGN (Identical for Top & Bottom) -->
+            <!-- THE MAIN SCOREBOARD DESIGN -->
             <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-2xl pointer-events-auto">
                 <!-- Home Team -->
                 <div class="team-panel panel-home flex-1 text-center py-2 px-6 bg-blue-800 text-white flex items-center justify-center transition-colors duration-300">
                     <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
                 </div>
+                
                 <!-- Scores & Time & League Logo -->
-            <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
-                <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-                <div class="flex flex-col items-center justify-center mx-4">
-                    <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                    <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
-                </div>
-                <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-            </div>
+                <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
+                    <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+                    <div class="flex flex-col items-center justify-center mx-4">
+                        <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                    </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
+
                 <!-- Away Team -->
                 <div class="team-panel panel-away flex-1 text-center py-2 px-6 bg-red-800 text-white flex items-center justify-center transition-colors duration-300">
                     <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all">AWAY</span>
@@ -210,26 +209,26 @@
     <!-- OVERLAY AREA BOTTOM -->
     <div id="overlay-container-bottom" class="absolute bottom-12 left-0 w-full flex flex-col items-center pointer-events-none z-40">
         
-        <!-- Bottom Scoreboard Wrapper (handles sliding) -->
+        <!-- Bottom Scoreboard Wrapper -->
         <div id="scoreboard-bottom-wrapper" class="slide-down-hide-bottom transition-all duration-500 w-full flex justify-center">
             
-            <!-- THE MAIN SCOREBOARD DESIGN (Identical for Top & Bottom) -->
+            <!-- THE MAIN SCOREBOARD DESIGN -->
             <div class="scoreboard-main flex items-center justify-center bg-gray-900 border-2 border-gray-700 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden transition-all duration-300 w-full max-w-2xl pointer-events-auto">
                 <!-- Home Team -->
                 <div class="team-panel panel-home flex-1 text-center py-2 px-6 bg-blue-800 text-white flex items-center justify-center transition-colors duration-300">
                     <span class="team-name-home text-4xl font-bold uppercase tracking-wider mt-1 transition-all">HOME</span>
                 </div>
+                
                 <!-- Scores & Time & League Logo -->
-            <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
-                <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-                <div class="flex flex-col items-center justify-center mx-4">
-                    <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                    <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
-                </div>
-                <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
-            </div>
+                <div class="score-panel flex items-center justify-center bg-black px-6 py-2 min-w-[210px]">
+                    <span class="score-text score-home text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
+                    <div class="flex flex-col items-center justify-center mx-4">
+                        <img src="https://placehold.co/100x100/ffffff/000000?text=LIGA" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%231e293b\' stroke=\'%23fbbf24\' stroke-width=\'4\'/><text x=\'50\' y=\'58\' font-size=\'22\' font-weight=\'bold\' fill=\'%23fbbf24\' text-anchor=\'middle\' font-family=\'sans-serif\'>LIGA</text></svg>';" alt="Liga" class="league-logo-img w-10 h-10 mb-1 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                        <span class="match-time-text text-2xl font-bold text-white bg-gray-800 px-3 py-0.5 rounded tracking-widest leading-none">00:00</span>
+                    </div>
                     <span class="score-text score-away text-5xl font-bold text-yellow-400 w-12 text-center inline-block">0</span>
                 </div>
+
                 <!-- Away Team -->
                 <div class="team-panel panel-away flex-1 text-center py-2 px-6 bg-red-800 text-white flex items-center justify-center transition-colors duration-300">
                     <span class="team-name-away text-4xl font-bold uppercase tracking-wider mt-1 transition-all">AWAY</span>
@@ -237,14 +236,12 @@
             </div>
         </div>
 
-        <!-- NEW: MULTILINE SCORERS FOR BOTTOM SCOREBOARD -->
+        <!-- MULTILINE SCORERS FOR BOTTOM SCOREBOARD -->
         <div id="btm-scorers-panel" class="w-full max-w-2xl flex justify-between transition-all duration-500 overflow-hidden opacity-0 pointer-events-auto" style="max-height: 0;">
             <div class="flex-1 mx-2 flex flex-col justify-start">
-                <!-- empty:hidden will hide this if there's no text -->
                 <div id="btm-scorers-home" class="text-white text-lg bg-black/85 px-4 py-2 border-l-4 border-blue-500 rounded-b shadow whitespace-pre-line text-left empty:hidden leading-snug"></div>
             </div>
             <div class="flex-1 mx-2 flex flex-col justify-start">
-                <!-- empty:hidden will hide this if there's no text -->
                 <div id="btm-scorers-away" class="text-white text-lg bg-black/85 px-4 py-2 border-r-4 border-red-500 rounded-b shadow whitespace-pre-line text-right empty:hidden leading-snug"></div>
             </div>
         </div>
@@ -409,7 +406,7 @@
 
             <hr class="border-gray-700 my-3">
 
-            <!-- FORM 1: TOP SCOREBOARD (Single Goal Scorer Alert) -->
+            <!-- FORM 1: TOP SCOREBOARD -->
             <div class="ctrl-title text-emerald-400">FORM 1: TOP SCOREBOARD (SATU GOL)</div>
             <label class="text-[10px] text-gray-400 mb-1 block">Tampil sbg banner drop-down di Top Scoreboard</label>
             <div class="flex gap-2 mb-2">
@@ -423,7 +420,7 @@
 
             <hr class="border-gray-700 my-3">
 
-            <!-- FORM 2: BOTTOM SCOREBOARD (Multiline Scorers List) -->
+            <!-- FORM 2: BOTTOM SCOREBOARD -->
             <div class="ctrl-title text-blue-400">FORM 2: BOTTOM SCOREBOARD (LIST GOL)</div>
             <label class="text-[10px] text-gray-400 mb-1 block">Tampil sbg list di bawah Bottom Scoreboard (Enter u/ baris baru)</label>
             <div class="flex gap-2 mb-2">
@@ -434,31 +431,26 @@
         </div>
     </div>
 
-    <!-- Main State Initialization (Synchronous) -->
     <script>
+        // Main State Initialization (Synchronous)
         window.appState = {
             scores: { home: 0, away: 0 },
             teamNames: { home: 'HOME', away: 'AWAY' },
-            activeView: 'none', // 'top', 'bottom', or 'none'
+            activeView: 'none',
             theme: 'standard',
             font: 'font-teko',
             logoUrl: 'https://placehold.co/100x100/ffffff/000000?text=LIGA',
             timer: { seconds: 0, isRunning: false, direction: 'up' },
-            
-            // Separated state for Top (Single Alert) and Bottom (Multiline List)
             topScorer: { name: '', min: '', visible: false },
             bottomScorers: { home: '', away: '' },
-            
             goalEvent: { active: false, team: null, timestamp: 0 }
         };
     </script>
 
-    <!-- MQTT Sync Script for Global Sharing -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         let roomCode = urlParams.get('room') || 'liga-match1';
         
-        // Local Broadcast Channel fallback for tab-to-tab sync
         const broadcastChannel = new BroadcastChannel('obs_scoreboard_channel');
 
         let timerInterval = null;
@@ -468,15 +460,15 @@
 
         function initMQTT() {
             try {
-                // Connect to free public MQTT Broker via WebSocket
                 mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
                 
                 mqttClient.on('connect', () => {
                     isMQTTActive = true;
-                    document.getElementById('sync-status').textContent = 'Global Sync (MQTT)';
-                    document.getElementById('sync-status').classList.replace('text-amber-400', 'text-blue-400');
-                    
-                    // Subscribe to unique room topic
+                    const statusEl = document.getElementById('sync-status');
+                    if (statusEl) {
+                        statusEl.textContent = 'Global Sync (MQTT)';
+                        statusEl.classList.replace('text-amber-400', 'text-blue-400');
+                    }
                     mqttClient.subscribe('obs-score-pro/' + roomCode);
                 });
 
@@ -489,56 +481,41 @@
                     }
                 });
             } catch (err) {
-                console.warn("MQTT Initialization Failed. Falling back to local.", err);
-                document.getElementById('sync-status').textContent = 'Local Sync Active';
+                console.warn("MQTT Initialization Failed.", err);
             }
         }
 
         window.updateRoomCode = function() {
             const oldRoom = roomCode;
             roomCode = document.getElementById('input-room-code').value.trim() || 'liga-match1';
-            
             if (window.generateOBSLink) window.generateOBSLink();
-            
             if (isMQTTActive && mqttClient) {
                 mqttClient.unsubscribe('obs-score-pro/' + oldRoom);
                 mqttClient.subscribe('obs-score-pro/' + roomCode);
-                // Push current state to new room so clients can get it instantly
                 syncState();
             }
         };
 
-        // --- Sync State Outgoing ---
         window.syncState = function(triggerGoalForTeam = null) {
             if (triggerGoalForTeam) {
                 window.appState.goalEvent = { active: true, team: triggerGoalForTeam, timestamp: Date.now() };
             }
-
-            // 1. BroadcastChannel (Same Device / Different Tabs)
             broadcastChannel.postMessage(window.appState);
-
-            // 2. MQTT Sync (Cross-Device Mobile to PC OBS)
             if (isMQTTActive && !isUpdatingFromRemote && mqttClient) {
-                // publish with { retain: true } ensures the OBS browser immediately gets the last state upon loading the link!
                 mqttClient.publish('obs-score-pro/' + roomCode, JSON.stringify(window.appState), { retain: true });
             }
         };
 
-        // --- BroadcastChannel Incoming ---
         broadcastChannel.onmessage = (event) => {
-            if (event.data) {
-                applyRemoteState(event.data);
-            }
+            if (event.data) applyRemoteState(event.data);
         };
 
-        // --- Apply Remote State to UI ---
         function applyRemoteState(newState) {
             isUpdatingFromRemote = true;
             const oldGoalTimestamp = window.appState.goalEvent?.timestamp || 0;
 
             window.appState = { ...newState };
 
-            // Update DOM Controls if in Controller mode (not overlay)
             if (!document.body.classList.contains('mode-overlay')) {
                 const elHome = document.getElementById('input-home-name');
                 const elAway = document.getElementById('input-away-name');
@@ -563,13 +540,9 @@
                 if (elTimerDir && window.appState.timer?.direction) elTimerDir.value = window.appState.timer.direction;
             }
 
-            // Render Scoreboard DOM
             renderDOM();
-
-            // Synchronize Local Timer Loop
             updateTimerRunningState();
 
-            // Trigger Goal animations if detected from remote
             if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp) {
                 triggerGoalEffects(newState.goalEvent.team);
             }
@@ -577,26 +550,21 @@
             isUpdatingFromRemote = false;
         }
 
-        // Initialize MQTT
         initMQTT();
     </script>
 
     <script>
-        // --- Core UI Methods ---
-
-        // Check URL parameters for Mode (e.g. ?mode=overlay or ?mode=mobile)
-        const urlParams2 = new URLSearchParams(window.location.search);
-        const modeParam2 = urlParams2.get('mode');
+        // Check URL parameters for Mode
+        const modeParam2 = urlParams.get('mode');
         if (modeParam2) {
             document.getElementById('mode-selector').value = modeParam2;
             changeMode(modeParam2);
         }
-        const roomParam2 = urlParams2.get('room');
+        const roomParam2 = urlParams.get('room');
         if (roomParam2) {
             document.getElementById('input-room-code').value = roomParam2;
         }
 
-        // --- OBS Link Generation ---
         window.generateOBSLink = function() {
             try {
                 const url = new URL(window.location.href);
@@ -643,19 +611,15 @@
             }
         }
 
-        // --- Scoreboard View Toggle (Top vs Bottom) ---
         function toggleView(view) {
             if (window.appState.activeView === view) {
                 window.appState.activeView = 'none';
             } else {
                 window.appState.activeView = view;
             }
-            
-            // Sembunyikan notifikasi atas jika berganti view (reset state)
             if (window.appState.activeView !== 'top') {
                 window.appState.topScorer.visible = false;
             }
-            
             renderDOM();
             syncState();
         }
@@ -667,7 +631,7 @@
             const btnTop = document.getElementById('btn-show-top');
             const btnBtm = document.getElementById('btn-show-bottom');
 
-            // 1. View Toggles Logic
+            // View Toggles Logic
             if (state.activeView === 'top') {
                 wrapperBtm.classList.replace('slide-up-show-bottom', 'slide-down-hide-bottom');
                 setTimeout(() => wrapperTop.classList.replace('slide-up-hide', 'slide-down-show'), 50);
@@ -706,7 +670,7 @@
                 }
             }
 
-            // 2. Global Sync classes (Top and Bottom share identical structure so we update all matching classes)
+            // Team Names
             if (!window.isHomeGoalAnimating) {
                 document.querySelectorAll('.team-name-home').forEach(el => el.textContent = state.teamNames.home);
             }
@@ -714,18 +678,18 @@
                 document.querySelectorAll('.team-name-away').forEach(el => el.textContent = state.teamNames.away);
             }
 
-            // 3. Scores
+            // Scores
             document.querySelectorAll('.score-home').forEach(el => el.textContent = state.scores.home);
             document.querySelectorAll('.score-away').forEach(el => el.textContent = state.scores.away);
 
-            // 4. Logo & Time
+            // Logo & Time
             document.querySelectorAll('.league-logo-img').forEach(el => el.src = state.logoUrl);
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
 
-            // 5. Themes & Fonts
+            // Themes & Fonts
             applyStyles(false);
 
-            // 6. Form 1: Top Scorer Logic
+            // Form 1: Top Scorer Logic
             document.getElementById('top-scorer-name').textContent = state.topScorer.name;
             document.getElementById('top-scorer-time').textContent = state.topScorer.min;
             if (state.activeView === 'top' && state.topScorer.visible) {
@@ -734,7 +698,7 @@
                 document.getElementById('scorer-info-top').classList.remove('show');
             }
             
-            // 7. Form 2: Bottom Scorers Logic (Multiline List)
+            // Form 2: Bottom Scorers Logic
             const homeList = state.bottomScorers?.home || '';
             const awayList = state.bottomScorers?.away || '';
             document.getElementById('btm-scorers-home').innerText = homeList;
@@ -752,14 +716,12 @@
             }
         }
 
-        // --- Score Update & Goal Trigger ---
         function updateScore(team, change) {
             window.appState.scores[team] += change;
             if (window.appState.scores[team] < 0) window.appState.scores[team] = 0;
             
             renderDOM();
 
-            // Trigger GOAL Animations if score increased
             if (change > 0) {
                 triggerGoalEffects(team);
                 syncState(team);
@@ -769,24 +731,20 @@
         }
 
         function triggerGoalEffects(team) {
-            // 1. Big Goal Banner Alert
             triggerGoalAnimation();
 
-            // 2. Score Pop Animation across all scoreboards
             document.querySelectorAll(`.score-${team}`).forEach(el => {
                 el.classList.remove('anim-score-update');
                 void el.offsetWidth;
                 el.classList.add('anim-score-update');
             });
 
-            // 3. Team Panel Background Flash across all scoreboards
             document.querySelectorAll(`.panel-${team}`).forEach(el => {
                 el.classList.remove('anim-team-flash');
                 void el.offsetWidth;
                 el.classList.add('anim-team-flash');
             });
 
-            // 4. TEAM NAME "GOOOAAL!" ANIMATION across all scoreboards
             if (team === 'home') window.isHomeGoalAnimating = true;
             if (team === 'away') window.isAwayGoalAnimating = true;
 
@@ -795,7 +753,6 @@
                 el.classList.add('anim-team-goal');
             });
 
-            // Revert Team Name back after 3.5s
             setTimeout(() => {
                 if (team === 'home') window.isHomeGoalAnimating = false;
                 if (team === 'away') window.isAwayGoalAnimating = false;
@@ -820,7 +777,6 @@
             });
         }
 
-        // --- Team Names & Logo Updates ---
         function updateNames() {
             window.appState.teamNames.home = document.getElementById('input-home-name').value || "HOME";
             window.appState.teamNames.away = document.getElementById('input-away-name').value || "AWAY";
@@ -834,7 +790,6 @@
             syncState();
         }
 
-        // --- Styles, Themes, Fonts ---
         function applyStyles(doSync = true) {
             let theme = window.appState.theme;
             let font = window.appState.font;
@@ -863,7 +818,6 @@
             if (doSync) syncState();
         }
 
-        // --- FORM 1: Top Scorer Logic ---
         function triggerTopScorer() {
             const playerName = document.getElementById('input-top-scorer-name').value.trim() || "Player Name";
             let minute = document.getElementById('input-top-scorer-min').value.trim();
@@ -877,7 +831,6 @@
                 visible: true
             };
 
-            // Auto show top view if none visible
             if (window.appState.activeView === 'none') {
                 window.appState.activeView = 'top';
             }
@@ -885,7 +838,6 @@
             renderDOM();
             syncState();
 
-            // Auto-hide after 12s
             setTimeout(() => {
                 hideTopScorer(true);
             }, 12000);
@@ -897,14 +849,12 @@
             if (doSync) syncState();
         }
 
-        // --- FORM 2: Bottom Scorers List Logic ---
         function updateBottomScorers() {
             window.appState.bottomScorers = {
                 home: document.getElementById('input-scorers-home').value,
                 away: document.getElementById('input-scorers-away').value
             };
             
-            // Auto show bottom view to verify the update visually
             if (window.appState.activeView === 'none') {
                 window.appState.activeView = 'bottom';
             }
@@ -913,7 +863,6 @@
             syncState();
         }
 
-        // --- Timer Logic ---
         function formatTime(seconds) {
             const m = Math.floor(seconds / 60);
             const s = seconds % 60;
@@ -993,12 +942,10 @@
             }
         }
 
-        // Controller Hider
         function toggleController() {
             document.body.classList.toggle('hide-controller');
         }
 
-        // Initial setup on DOM Ready
         window.addEventListener('DOMContentLoaded', () => {
             updateNames();
             updateLogo();
