@@ -282,7 +282,17 @@
                     <input type="text" id="input-room-code" value="liga-match1" onchange="updateRoomCode()" class="input-dark font-mono text-center text-xs" placeholder="e.g. room123">
                 </div>
             </div>
-            <p class="text-[10px] text-gray-400">💡 Buka file ini di HP dengan Room Code yang sama untuk mengontrol dari jarak jauh!</p>
+            
+            <!-- OBS Link Generator -->
+            <div class="mt-2 bg-gray-800 p-2 rounded border border-gray-700">
+                <label class="text-[10px] text-emerald-400 font-bold block mb-1">🔗 Link Khusus OBS Browser Source:</label>
+                <div class="flex gap-2">
+                    <input type="text" id="obs-link-display" readonly class="input-dark text-[10px] text-gray-400 w-full" value="">
+                    <button onclick="copyOBSLink(event)" class="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-[10px] font-bold transition-colors whitespace-nowrap">Copy Link</button>
+                    <button onclick="openOBSLink()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold transition-colors whitespace-nowrap">Buka</button>
+                </div>
+            </div>
+            <p class="text-[10px] text-gray-400 mt-2 leading-tight">💡 Buka file/link ini di HP (pilih mode Mobile). Lalu <b>Copy Link</b> di atas dan <b>Paste di OBS Browser Source</b>.</p>
         </div>
 
         <!-- Display Visibility Controls -->
@@ -392,7 +402,7 @@
 
             <hr class="border-gray-800 my-2">
 
-            <label class="text-[10px] text-gray-400 mb-1 block">Goal Scorer Info (Trigger when ready)</label>
+            <label class="text-[10px] text-gray-400 mb-1 block">Goal Scorer Info (Auto-muncul di Bawah saat SHOW BTM)</label>
             <div class="flex gap-2 mb-2">
                 <input type="text" id="input-scorer-name" placeholder="e.g. Lionel Messi" class="input-dark w-2/3">
                 <input type="text" id="input-scorer-min" placeholder="e.g. 45'" class="input-dark w-1/3 text-center">
@@ -438,8 +448,11 @@
 
         let app, db, auth;
         let isFirebaseActive = false;
-        let roomCode = 'liga-match1';
-
+        
+        // Ambil Room dari URL parameter jika ada
+        const urlParams = new URLSearchParams(window.location.search);
+        let roomCode = urlParams.get('room') || 'liga-match1';
+        
         // Local Broadcast Channel fallback for tab-to-tab sync
         const broadcastChannel = new BroadcastChannel('obs_scoreboard_channel');
 
@@ -489,6 +502,7 @@
 
         window.updateRoomCode = function() {
             roomCode = document.getElementById('input-room-code').value.trim() || 'liga-match1';
+            if (window.generateOBSLink) window.generateOBSLink();
             if (isFirebaseActive) {
                 listenToRoomChanges();
             }
@@ -552,12 +566,57 @@
         // --- Core UI Methods ---
 
         // Check URL parameters for Mode (e.g. ?mode=overlay or ?mode=mobile)
-        const urlParams = new URLSearchParams(window.location.search);
-        const modeParam = urlParams.get('mode');
-        if (modeParam) {
-            document.getElementById('mode-selector').value = modeParam;
-            changeMode(modeParam);
+        const urlParams2 = new URLSearchParams(window.location.search);
+        const modeParam2 = urlParams2.get('mode');
+        if (modeParam2) {
+            document.getElementById('mode-selector').value = modeParam2;
+            changeMode(modeParam2);
         }
+        const roomParam2 = urlParams2.get('room');
+        if (roomParam2) {
+            document.getElementById('input-room-code').value = roomParam2;
+        }
+
+        // --- OBS Link Generation ---
+        window.generateOBSLink = function() {
+            try {
+                const url = new URL(window.location.href);
+                url.searchParams.set('mode', 'overlay');
+                const currentRoom = document.getElementById('input-room-code').value || 'liga-match1';
+                url.searchParams.set('room', currentRoom);
+                document.getElementById('obs-link-display').value = url.href;
+            } catch(e) {
+                console.error("URL generation failed", e);
+            }
+        };
+
+        window.copyOBSLink = function(event) {
+            const link = document.getElementById('obs-link-display').value;
+            const textArea = document.createElement("textarea");
+            textArea.value = link;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                
+                // Animasi tombol copy
+                const btn = event.target;
+                const oldText = btn.textContent;
+                btn.textContent = "Copied!";
+                btn.classList.replace("bg-blue-600", "bg-emerald-600");
+                setTimeout(() => {
+                    btn.textContent = oldText;
+                    btn.classList.replace("bg-emerald-600", "bg-blue-600");
+                }, 2000);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(textArea);
+        };
+
+        window.openOBSLink = function() {
+            window.open(document.getElementById('obs-link-display').value, '_blank');
+        };
 
         function changeMode(mode) {
             const body = document.body;
@@ -575,8 +634,25 @@
                 window.appState.activeView = 'none';
             } else {
                 window.appState.activeView = view;
+                
+                // Jika memunculkan bottom (Lower Third), otomatis tarik data dari input Scorer
+                if (view === 'bottom') {
+                    const playerName = document.getElementById('input-scorer-name').value.trim();
+                    let minute = document.getElementById('input-scorer-min').value.trim();
+                    
+                    if (minute !== "" && !minute.includes("'")) minute += "'";
+                    if (minute === "" && playerName !== "") minute = "Goal";
+
+                    window.appState.scorer.name = playerName;
+                    window.appState.scorer.min = minute;
+                }
             }
-            hideScorerInfo(false);
+            
+            // Sembunyikan notifikasi atas jika berganti view (reset state)
+            if (window.appState.activeView !== 'top') {
+                window.appState.scorer.visible = false;
+            }
+            
             renderDOM();
             syncState();
         }
@@ -651,18 +727,24 @@
             // 6. Themes & Fonts
             applyStyles(false);
 
-            // 7. Scorer Display
-            if (state.scorer.visible) {
-                document.getElementById('top-scorer-name').textContent = state.scorer.name;
-                document.getElementById('top-scorer-time').textContent = state.scorer.min;
-                document.getElementById('btm-scorer-text').textContent = `${state.scorer.name} - ${state.scorer.min}`;
+            // 7. Scorer Display Logic
+            document.getElementById('top-scorer-name').textContent = state.scorer.name;
+            document.getElementById('top-scorer-time').textContent = state.scorer.min;
+            document.getElementById('btm-scorer-text').textContent = state.scorer.name ? `${state.scorer.name} - ${state.scorer.min}` : "";
 
+            // Top Scorer (Manual Show/Hide)
+            if (state.activeView === 'top' && state.scorer.visible) {
                 document.getElementById('scorer-info-top').classList.add('show');
-                const btmPanel = document.getElementById('btm-scorer-panel');
-                btmPanel.style.maxHeight = "80px";
             } else {
                 document.getElementById('scorer-info-top').classList.remove('show');
-                document.getElementById('btm-scorer-panel').style.maxHeight = "0px";
+            }
+            
+            // Bottom Scorer (Auto Show if activeView is bottom and has name)
+            const btmPanel = document.getElementById('btm-scorer-panel');
+            if (state.activeView === 'bottom' && state.scorer.name !== "") {
+                btmPanel.style.maxHeight = "80px";
+            } else {
+                btmPanel.style.maxHeight = "0px";
             }
         }
 
@@ -888,6 +970,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             updateNames();
             updateLogo();
+            if (window.generateOBSLink) window.generateOBSLink();
         });
     </script>
 </body>
