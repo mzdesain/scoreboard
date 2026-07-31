@@ -137,24 +137,25 @@
         }
         .mode-overlay #preview-scale-wrapper { transform: scale(1) !important; }
 
-        /* Controller Controls (Light Theme) */
-        #controller-panel { background: #ffffff; color: #0f172a; scrollbar-width: thin; scrollbar-color: #cbd5e1 #ffffff; }
-        .ctrl-group { background: #f8fafc; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-        .ctrl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b; margin-bottom: 12px; font-weight: 700; }
-        .input-pro { background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 6px; padding: 8px 12px; width: 100%; font-size: 13px; font-weight: 500; transition: all 0.2s; }
-        .input-pro:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+        /* Controller Controls (Pro Dashboard Theme) */
+        #controller-panel { background: #f1f5f9; color: #1e293b; scrollbar-width: thin; scrollbar-color: #cbd5e1 #f1f5f9; }
+        .ctrl-group { background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -2px rgba(0,0,0,0.02); transition: all 0.2s; }
+        .ctrl-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #334155; margin-bottom: 24px; font-weight: 800; border-bottom: 2px solid #f8fafc; padding-bottom: 16px; display: flex; align-items: center; }
+        .input-pro { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 8px; padding: 10px 14px; width: 100%; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+        .input-pro:focus { outline: none; border-color: #3b82f6; background: #ffffff; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+        .label-pro { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; display: block; margin-bottom: 6px; }
         
-        .btn-pro { border-radius: 6px; font-weight: 600; font-size: 12px; transition: all 0.15s; cursor: pointer; padding: 8px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; }
-        .btn-pro:active:not(:disabled) { transform: scale(0.97); }
-        .btn-pro:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-outline { background: #ffffff; color: #334155; border-color: #cbd5e1; }
-        .btn-outline:hover:not(:disabled) { background: #f1f5f9; border-color: #94a3b8; }
-        .btn-primary { background: #2563eb; color: #ffffff; }
-        .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
-        .btn-danger { background: #ef4444; color: #ffffff; }
-        .btn-danger:hover:not(:disabled) { background: #dc2626; }
-        .btn-success { background: #10b981; color: #ffffff; }
-        .btn-success:hover:not(:disabled) { background: #059669; }
+        .btn-pro { border-radius: 8px; font-weight: 600; font-size: 13px; transition: all 0.2s; cursor: pointer; padding: 10px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; }
+        .btn-pro:active:not(:disabled) { transform: translateY(1px); }
+        .btn-pro:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-outline { background: #ffffff; color: #475569; border-color: #cbd5e1; }
+        .btn-outline:hover:not(:disabled) { background: #f8fafc; border-color: #94a3b8; color: #0f172a; }
+        .btn-primary { background: #2563eb; color: #ffffff; box-shadow: 0 2px 4px rgba(37,99,235,0.1); }
+        .btn-primary:hover:not(:disabled) { background: #1d4ed8; box-shadow: 0 4px 6px rgba(37,99,235,0.2); }
+        .btn-danger { background: #ef4444; color: #ffffff; box-shadow: 0 2px 4px rgba(239,68,68,0.1); }
+        .btn-danger:hover:not(:disabled) { background: #dc2626; box-shadow: 0 4px 6px rgba(239,68,68,0.2); }
+        .btn-success { background: #10b981; color: #ffffff; box-shadow: 0 2px 4px rgba(16,185,129,0.1); }
+        .btn-success:hover:not(:disabled) { background: #059669; box-shadow: 0 4px 6px rgba(16,185,129,0.2); }
 
         /* Huge Goal Alert */
         .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 9999; text-shadow: 0px 10px 30px rgba(0,0,0,0.8); pointer-events: none; }
@@ -165,62 +166,71 @@
 
     <div id="main-layout">
         
-        <!-- Controller Panel (Light Clean Dashboard) -->
+        <!-- Controller Panel (Pro Dashboard Redesign) -->
         <div id="controller-panel" class="w-[55%] xl:w-[50%] flex-shrink-0 h-full flex flex-col border-r border-[#e2e8f0] z-50 overflow-y-auto relative">
             
             <!-- Top Header -->
-            <div class="px-6 py-4 bg-white border-b border-[#e2e8f0] flex justify-between items-center sticky top-0 z-20 shadow-sm">
-                <h1 class="font-bold text-lg text-slate-800 flex items-center gap-2">
-                    <i class="fas fa-broadcast-tower text-blue-600"></i> OBS Scoreboard Pro <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">V2 Light</span>
+            <div class="px-8 py-5 bg-white border-b border-[#e2e8f0] flex justify-between items-center sticky top-0 z-20 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
+                <h1 class="font-bold text-xl text-slate-800 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-broadcast-tower"></i></div> 
+                    OBS Scoreboard <span class="text-[10px] bg-slate-800 text-white px-2.5 py-1 rounded-md font-bold uppercase tracking-widest ml-1">V2 Pro</span>
                 </h1>
                 <div class="flex items-center gap-3">
-                    <span id="sync-status" class="text-xs text-slate-600 font-mono bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                        <i class="fas fa-circle-notch fa-spin text-blue-500 mr-1"></i> Connecting
+                    <span id="sync-status" class="text-xs text-slate-600 font-mono bg-slate-100 px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center">
+                        <i class="fas fa-circle-notch fa-spin text-blue-500 mr-2"></i> Connecting
                     </span>
                 </div>
             </div>
 
-            <div class="p-6 flex-grow space-y-4">
-                
-                <!-- Connection & Style Settings -->
-                <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                    <!-- Connection Setup -->
-                    <div class="ctrl-group !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-plug mr-1"></i> Connection & Mode</div>
-                        <div class="grid grid-cols-2 gap-3 mb-3">
-                            <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Room Code</label>
-                                <input type="text" id="input-room-code" value="liga-match-v2" onchange="updateRoomCode()" class="input-pro font-mono text-center text-blue-600 font-bold" placeholder="e.g. match123">
+            <!-- Main Scrollable Content -->
+            <div class="p-8 flex-grow overflow-y-auto bg-slate-50">
+                <div class="max-w-4xl mx-auto space-y-6 w-full pb-10">
+                    
+                    <!-- SECTION 1: Connection & Setup -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-plug text-blue-500 mr-2.5 text-lg"></i> 1. Connection & Setup</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-end">
+                            <div class="lg:col-span-3">
+                                <label class="label-pro">Room Code</label>
+                                <input type="text" id="input-room-code" value="liga-match-v2" onchange="updateRoomCode()" class="input-pro font-mono text-blue-700 font-bold" placeholder="e.g. match123">
                             </div>
-                            <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">View Mode</label>
+                            <div class="lg:col-span-3">
+                                <label class="label-pro">View Mode</label>
                                 <select id="mode-selector" onchange="changeMode(this.value)" class="input-pro cursor-pointer">
                                     <option value="combined">Dashboard View</option>
                                     <option value="overlay">OBS Overlay Only</option>
                                     <option value="mobile">Mobile Remote</option>
                                 </select>
                             </div>
+                            <div class="lg:col-span-4">
+                                <label class="label-pro">OBS Browser Source Link</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="obs-link-display" readonly class="input-pro text-slate-500 bg-slate-100 border-dashed" value="">
+                                    <button onclick="copyOBSLink(event)" class="btn-pro btn-outline px-4 flex-shrink-0" title="Copy Link"><i class="fas fa-copy"></i></button>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-2">
+                                <button onclick="requestForceSync()" class="w-full btn-pro btn-outline text-blue-600 border-blue-200 hover:bg-blue-50 bg-blue-50/50"><i class="fas fa-sync-alt"></i> Sync</button>
+                            </div>
                         </div>
-                        <div class="flex gap-2">
-                            <input type="text" id="obs-link-display" readonly class="input-pro text-xs text-slate-500 bg-slate-50" value="">
-                            <button onclick="copyOBSLink(event)" class="btn-pro btn-outline px-3 whitespace-nowrap"><i class="fas fa-copy"></i> Copy Link</button>
-                        </div>
-                        <button onclick="requestForceSync()" class="w-full btn-pro btn-outline mt-3 text-blue-600 border-blue-200 hover:bg-blue-50"><i class="fas fa-sync-alt"></i> Force Sync to OBS</button>
                     </div>
 
-                    <!-- Appearance -->
-                    <div class="ctrl-group !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-paint-brush mr-1"></i> Appearance & Layout</div>
-                        <div class="flex gap-2 mb-3">
-                            <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-maximize"></i> Top Scorebar</button>
-                            <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-minimize"></i> Bottom Scorebar</button>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3">
+                    <!-- SECTION 2: Appearance & Layout -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-paint-roller text-purple-500 mr-2.5 text-lg"></i> 2. Appearance & Layout</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+                            <div class="lg:col-span-2">
+                                <label class="label-pro">Scorebar Visibility</label>
+                                <div class="flex gap-2 h-[42px]">
+                                    <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-maximize"></i> Top Bar</button>
+                                    <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-minimize"></i> Bottom Bar</button>
+                                </div>
+                            </div>
                             <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Theme Preset</label>
+                                <label class="label-pro">Theme Preset</label>
                                 <select id="theme-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
-                                    <option value="epl">Premier League (EPL)</option>
-                                    <option value="ucl">Champions League (UCL)</option>
+                                    <option value="epl">Premier League</option>
+                                    <option value="ucl">Champions League</option>
                                     <option value="standard">Standard Dark</option>
                                     <option value="minimalist">Minimalist Blue</option>
                                     <option value="broadcast">Broadcast Clean</option>
@@ -229,7 +239,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Font Family</label>
+                                <label class="label-pro">Font Family</label>
                                 <select id="font-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
                                     <option value="font-teko">Teko Bold</option>
                                     <option value="font-inter">Inter Sans</option>
@@ -239,209 +249,245 @@
                                     <option value="font-rajdhani">Rajdhani</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Font Color</label>
-                                <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-full h-9 cursor-pointer rounded-md border border-slate-300 bg-white p-1">
-                            </div>
-                            <div>
-                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Entry Animation</label>
+                                <label class="label-pro">Entry Animation</label>
                                 <select id="anim-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
-                                    <option value="slide">Slide In/Out</option>
-                                    <option value="fade">Fade In/Out</option>
-                                    <option value="scale">Zoom & Scale</option>
+                                    <option value="slide">Slide</option>
+                                    <option value="fade">Fade</option>
+                                    <option value="scale">Scale</option>
                                 </select>
+                            </div>
+                            <div class="lg:col-span-5 pt-2 border-t border-slate-100 flex items-center justify-between">
+                                <label class="label-pro !mb-0 text-slate-500">Custom Text Color Overlay</label>
+                                <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-24 h-8 cursor-pointer rounded border border-slate-300 bg-white p-0.5">
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
-                    
-                    <!-- Match Scores & Teams -->
-                    <div class="ctrl-group xl:col-span-8 !mb-0 flex flex-col">
-                        <div class="ctrl-title"><i class="fas fa-futbol mr-1"></i> Teams, Scores & Cards</div>
-                        
-                        <div class="grid grid-cols-2 gap-4 flex-grow">
+                    <!-- SECTION 3: Teams & Match Stats -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-futbol text-emerald-500 mr-2.5 text-lg"></i> 3. Teams & Match Stats</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            
                             <!-- HOME TEAM -->
-                            <div class="bg-white border border-slate-200 p-3 rounded-lg flex flex-col relative overflow-hidden shadow-sm">
-                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600"></div>
-                                <div class="text-xs font-bold text-blue-600 mb-2 uppercase tracking-wide"><i class="fas fa-shield-alt mr-1"></i> Home Team</div>
-                                <div class="flex gap-2 mb-2">
-                                    <input type="text" id="input-home-name" value="HOM" onchange="updateNames()" class="input-pro font-bold uppercase text-center w-1/3" placeholder="Short">
-                                    <input type="text" id="input-home-full" value="Home Team FC" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Full Long Name">
-                                </div>
-                                <div class="flex gap-2 mb-3">
-                                    <button onclick="updateScore('home', -1)" class="btn-pro btn-outline px-3">-1</button>
-                                    <button onclick="updateScore('home', 1)" class="btn-pro btn-primary flex-1 font-bold"><i class="fas fa-plus mr-1"></i> GOAL HOME</button>
-                                </div>
-                                <!-- Cards & Fouls -->
-                                <div class="grid grid-cols-3 gap-2 mt-auto pt-2 border-t border-slate-100">
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-slate-500 mb-1">FOULS</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('home','fouls',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('home','fouls',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                            <div class="p-5 border border-blue-100 rounded-xl bg-gradient-to-b from-blue-50/50 to-white relative shadow-sm">
+                                <div class="absolute left-0 top-0 bottom-0 w-2 bg-blue-500 rounded-l-xl"></div>
+                                <div class="pl-3">
+                                    <div class="text-xs font-black text-blue-700 mb-4 uppercase tracking-widest flex justify-between items-center">
+                                        <span><i class="fas fa-shield-alt mr-1"></i> Home Team</span>
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px]">HOST</span>
+                                    </div>
+                                    <div class="flex gap-3 mb-4">
+                                        <div class="w-1/3">
+                                            <label class="label-pro">Short Name</label>
+                                            <input type="text" id="input-home-name" value="HOM" onchange="updateNames()" class="input-pro font-bold uppercase text-center text-blue-800" placeholder="HOM">
+                                        </div>
+                                        <div class="w-2/3">
+                                            <label class="label-pro">Full Name</label>
+                                            <input type="text" id="input-home-full" value="Home Team FC" onchange="updateNames()" class="input-pro" placeholder="Full Long Name">
                                         </div>
                                     </div>
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-amber-600 mb-1">YELLOW</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('home','yellow',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('home','yellow',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
-                                        </div>
+                                    <div class="flex gap-2 mb-5">
+                                        <button onclick="updateScore('home', -1)" class="btn-pro btn-outline px-4 hover:bg-red-50 hover:text-red-600 hover:border-red-200" title="Minus 1"><i class="fas fa-minus"></i></button>
+                                        <button onclick="updateScore('home', 1)" class="btn-pro btn-primary flex-1 font-bold text-sm bg-blue-600 hover:bg-blue-700 shadow-[0_4px_10px_rgba(37,99,235,0.2)]"><i class="fas fa-futbol mr-2 text-[10px]"></i> +1 GOAL HOME</button>
                                     </div>
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-red-600 mb-1">RED</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('home','red',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('home','red',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                    <div class="grid grid-cols-3 gap-3 pt-4 border-t border-blue-100">
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-slate-500 mb-1.5">FOULS</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('home','fouls',-1)" class="flex-1 py-1 hover:bg-slate-100 border-r border-slate-200 text-slate-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('home','fouls',1)" class="flex-1 py-1 hover:bg-slate-100 text-slate-800 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-amber-500 mb-1.5">YELLOW</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('home','yellow',-1)" class="flex-1 py-1 hover:bg-amber-50 border-r border-amber-100 text-amber-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('home','yellow',1)" class="flex-1 py-1 hover:bg-amber-50 text-amber-600 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-red-500 mb-1.5">RED</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('home','red',-1)" class="flex-1 py-1 hover:bg-red-50 border-r border-red-100 text-red-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('home','red',1)" class="flex-1 py-1 hover:bg-red-50 text-red-600 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- AWAY TEAM -->
-                            <div class="bg-white border border-slate-200 p-3 rounded-lg flex flex-col relative overflow-hidden shadow-sm">
-                                <div class="absolute right-0 top-0 bottom-0 w-1.5 bg-red-600"></div>
-                                <div class="text-xs font-bold text-red-600 mb-2 uppercase tracking-wide text-right"><i class="fas fa-shield-alt mr-1"></i> Away Team</div>
-                                <div class="flex gap-2 mb-2">
-                                    <input type="text" id="input-away-full" value="Away Team FC" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Full Long Name">
-                                    <input type="text" id="input-away-name" value="AWY" onchange="updateNames()" class="input-pro font-bold uppercase text-center w-1/3" placeholder="Short">
-                                </div>
-                                <div class="flex gap-2 mb-3">
-                                    <button onclick="updateScore('away', 1)" class="btn-pro btn-danger flex-1 font-bold"><i class="fas fa-plus mr-1"></i> GOAL AWAY</button>
-                                    <button onclick="updateScore('away', -1)" class="btn-pro btn-outline px-3">-1</button>
-                                </div>
-                                <!-- Cards & Fouls -->
-                                <div class="grid grid-cols-3 gap-2 mt-auto pt-2 border-t border-slate-100">
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-red-600 mb-1">RED</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('away','red',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('away','red',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                            <div class="p-5 border border-red-100 rounded-xl bg-gradient-to-b from-red-50/50 to-white relative shadow-sm">
+                                <div class="absolute right-0 top-0 bottom-0 w-2 bg-red-500 rounded-r-xl"></div>
+                                <div class="pr-3">
+                                    <div class="text-xs font-black text-red-600 mb-4 uppercase tracking-widest flex justify-between items-center flex-row-reverse">
+                                        <span>Away Team <i class="fas fa-shield-alt ml-1"></i></span>
+                                        <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded text-[10px]">GUEST</span>
+                                    </div>
+                                    <div class="flex gap-3 mb-4">
+                                        <div class="w-2/3">
+                                            <label class="label-pro">Full Name</label>
+                                            <input type="text" id="input-away-full" value="Away Team FC" onchange="updateNames()" class="input-pro" placeholder="Full Long Name">
+                                        </div>
+                                        <div class="w-1/3">
+                                            <label class="label-pro">Short Name</label>
+                                            <input type="text" id="input-away-name" value="AWY" onchange="updateNames()" class="input-pro font-bold uppercase text-center text-red-800" placeholder="AWY">
                                         </div>
                                     </div>
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-amber-600 mb-1">YELLOW</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('away','yellow',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('away','yellow',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
-                                        </div>
+                                    <div class="flex gap-2 mb-5">
+                                        <button onclick="updateScore('away', 1)" class="btn-pro btn-danger flex-1 font-bold text-sm bg-red-600 hover:bg-red-700 shadow-[0_4px_10px_rgba(220,38,38,0.2)]"><i class="fas fa-futbol mr-2 text-[10px]"></i> +1 GOAL AWAY</button>
+                                        <button onclick="updateScore('away', -1)" class="btn-pro btn-outline px-4 hover:bg-red-50 hover:text-red-600 hover:border-red-200" title="Minus 1"><i class="fas fa-minus"></i></button>
                                     </div>
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-[10px] font-bold text-slate-500 mb-1">FOULS</span>
-                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
-                                            <button onclick="updateStat('away','fouls',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
-                                            <button onclick="updateStat('away','fouls',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                    <div class="grid grid-cols-3 gap-3 pt-4 border-t border-red-100">
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-red-500 mb-1.5">RED</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('away','red',-1)" class="flex-1 py-1 hover:bg-red-50 border-r border-red-100 text-red-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('away','red',1)" class="flex-1 py-1 hover:bg-red-50 text-red-600 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-amber-500 mb-1.5">YELLOW</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('away','yellow',-1)" class="flex-1 py-1 hover:bg-amber-50 border-r border-amber-100 text-amber-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('away','yellow',1)" class="flex-1 py-1 hover:bg-amber-50 text-amber-600 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border border-slate-200">
+                                            <span class="text-[10px] font-extrabold text-slate-500 mb-1.5">FOULS</span>
+                                            <div class="flex w-full">
+                                                <button onclick="updateStat('away','fouls',-1)" class="flex-1 py-1 hover:bg-slate-100 border-r border-slate-200 text-slate-600 transition-colors rounded-l-md"><i class="fas fa-minus text-[10px]"></i></button>
+                                                <button onclick="updateStat('away','fouls',1)" class="flex-1 py-1 hover:bg-slate-100 text-slate-800 font-bold transition-colors rounded-r-md"><i class="fas fa-plus text-[10px]"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- Match Clock -->
-                    <div class="ctrl-group xl:col-span-4 flex flex-col !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-clock mr-1"></i> Match Clock Settings</div>
-                        
-                        <!-- Target Match Time & Extra Time Inputs -->
-                        <div class="grid grid-cols-2 gap-2 mb-2">
-                            <div>
-                                <label class="text-[10px] text-slate-500 font-bold block mb-0.5">TARGET TIME (MIN)</label>
-                                <input type="number" id="input-target-mins" value="15" min="1" class="input-pro text-xs text-center font-bold text-blue-600" placeholder="e.g. 15 or 45">
+                    <!-- SECTION 4: Match Clock -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-stopwatch text-amber-500 mr-2.5 text-lg"></i> 4. Match Clock Controls</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                            
+                            <!-- Settings -->
+                            <div class="lg:col-span-4 space-y-4">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="label-pro">Target Min</label>
+                                        <input type="number" id="input-target-mins" value="15" min="1" class="input-pro text-center font-bold text-blue-700" placeholder="e.g. 15">
+                                    </div>
+                                    <div>
+                                        <label class="label-pro">Extra Min</label>
+                                        <input type="number" id="input-stoppage-mins" value="0" min="0" class="input-pro text-center font-bold text-amber-600" placeholder="e.g. 3">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="label-pro">Direction</label>
+                                        <select id="timer-dir" class="input-pro text-center text-sm px-1">
+                                            <option value="up">Count UP</option>
+                                            <option value="down">Count DOWN</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="label-pro">Stop Label</label>
+                                        <input type="text" id="input-stoppage" oninput="window.appState.timer.stoppage = this.value; renderDOM(); syncState();" class="input-pro text-center font-bold text-amber-600" placeholder="e.g. ADD">
+                                    </div>
+                                </div>
+                                <button onclick="applyTimerSettings()" class="btn-pro btn-outline w-full hover:bg-slate-100 text-slate-600 border-slate-300"><i class="fas fa-check text-green-500"></i> Apply Clock Settings</button>
                             </div>
-                            <div>
-                                <label class="text-[10px] text-slate-500 font-bold block mb-0.5">EXTRA TIME (MIN)</label>
-                                <input type="number" id="input-stoppage-mins" value="0" min="0" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="e.g. 3">
+
+                            <!-- Big Clock -->
+                            <div class="lg:col-span-4 flex flex-col items-center justify-center bg-slate-900 rounded-xl p-5 shadow-inner border border-slate-700 h-full">
+                                <div class="flex items-center gap-1.5 mb-2">
+                                    <input type="number" id="input-mins" value="0" class="w-16 text-center text-5xl font-black font-mono bg-transparent border-none focus:outline-none text-white p-0 leading-none" min="0" placeholder="00">
+                                    <span class="font-black text-4xl text-blue-400 opacity-80 pb-2">:</span>
+                                    <input type="number" id="input-secs" value="0" class="w-16 text-center text-5xl font-black font-mono bg-transparent border-none focus:outline-none text-white p-0 leading-none" min="0" max="59" placeholder="00">
+                                </div>
+                                <div class="text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase bg-slate-800 px-3 py-1 rounded-full border border-slate-600 shadow-sm mt-1">Live Display Timer</div>
+                            </div>
+
+                            <!-- Controls -->
+                            <div class="lg:col-span-4 space-y-3 h-full flex flex-col justify-center">
+                                <button onclick="startTimer()" id="btn-timer-start" class="btn-pro btn-success w-full py-3.5 text-[15px]"><i class="fas fa-play"></i> Start Clock</button>
+                                <button onclick="stopTimer()" id="btn-timer-stop" class="btn-pro btn-danger w-full py-3.5 text-[15px]" disabled><i class="fas fa-pause"></i> Pause Clock</button>
+                                <button onclick="resetTimer()" class="btn-pro w-full bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 py-2.5 mt-auto"><i class="fas fa-undo"></i> Reset to Zero</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- SECTION 5: Single Goal Banner -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-bullhorn text-rose-500 mr-2.5 text-lg"></i> 5. Single Goal Event Banner</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+                            <div class="lg:col-span-4">
+                                <button onclick="triggerGoalAnimation()" class="w-full btn-pro btn-outline border-amber-300 text-amber-700 bg-amber-50 hover:bg-amber-100 h-[42px] font-extrabold tracking-wide uppercase"><i class="fas fa-star text-amber-500"></i> HUGE GOAL OVERLAY</button>
+                            </div>
+                            <div class="lg:col-span-4">
+                                <label class="label-pro">Event Player Name</label>
+                                <input type="text" id="input-top-scorer-name" placeholder="e.g. L. Messi" class="input-pro">
+                            </div>
+                            <div class="lg:col-span-1">
+                                <label class="label-pro">Min</label>
+                                <input type="text" id="input-top-scorer-min" placeholder="45'" class="input-pro text-center">
+                            </div>
+                            <div class="lg:col-span-3 flex gap-2">
+                                <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_8px_rgba(79,70,229,0.3)] border-none"><i class="fas fa-eye"></i> Show Banner</button>
+                                <button onclick="hideTopScorer()" class="btn-pro btn-outline px-4 text-slate-400 hover:text-red-500" title="Hide"><i class="fas fa-eye-slash"></i></button>
                             </div>
                         </div>
-
-                        <!-- Current Time Input -->
-                        <div class="flex justify-center items-center gap-1 mb-2 bg-slate-900 border border-slate-800 rounded-lg py-1.5 shadow-inner">
-                            <input type="number" id="input-mins" value="0" class="w-12 text-center text-xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" placeholder="00">
-                            <span class="font-bold text-xl text-blue-400">:</span>
-                            <input type="number" id="input-secs" value="0" class="w-12 text-center text-xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" max="59" placeholder="00">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 mb-2">
-                            <select id="timer-dir" class="input-pro text-xs text-center">
-                                <option value="up">Count UP (0->Target)</option>
-                                <option value="down">Count DOWN</option>
-                            </select>
-                            <input type="text" id="input-stoppage" value="" oninput="window.appState.timer.stoppage = this.value; renderDOM(); syncState();" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="Label (e.g. ADD, EXTRA)">
-                        </div>
-                        
-                        <div class="flex gap-2 mb-3">
-                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-outline py-1.5 text-xs"><i class="fas fa-check"></i> Apply Time</button>
-                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-outline py-1.5 text-xs"><i class="fas fa-undo"></i> Reset</button>
-                        </div>
-
-                        <div class="flex gap-2 mt-auto">
-                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-success py-2 text-xs"><i class="fas fa-play"></i> Start Clock</button>
-                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-danger py-2 text-xs" disabled><i class="fas fa-pause"></i> Pause Clock</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Events & Scorers -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div class="ctrl-group !mb-0 border-l-4 border-amber-500">
-                        <div class="ctrl-title"><i class="fas fa-star mr-1"></i> Single Goal Banner</div>
-                        <button onclick="triggerGoalAnimation()" class="w-full btn-pro btn-outline border-amber-300 text-amber-700 hover:bg-amber-50 py-2 mb-3 font-bold">
-                            <i class="fas fa-bullhorn mr-1"></i> Trigger GOAL! Banner Overlay
-                        </button>
-                        <div class="flex gap-2 mb-2">
-                            <input type="text" id="input-top-scorer-name" placeholder="Scorer Name" class="input-pro w-2/3">
-                            <input type="text" id="input-top-scorer-min" placeholder="Minute (e.g. 45')" class="input-pro w-1/3 text-center">
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-primary"><i class="fas fa-eye"></i> Show Event Banner</button>
-                            <button onclick="hideTopScorer()" class="btn-pro btn-outline px-3"><i class="fas fa-eye-slash"></i></button>
-                        </div>
                     </div>
 
-                    <div class="ctrl-group !mb-0 border-l-4 border-purple-500 flex flex-col">
-                        <div class="ctrl-title"><i class="fas fa-list-ol mr-1"></i> Bottom Scorers List</div>
-                        <div class="flex gap-2 mb-2 flex-grow">
-                            <textarea id="input-scorers-home" class="input-pro text-xs h-20 resize-none bg-white" placeholder="Home Scorers (e.g. Messi 12', 44')"></textarea>
-                            <textarea id="input-scorers-away" class="input-pro text-xs h-20 resize-none bg-white text-right" placeholder="Away Scorers (e.g. Mbappe 88')"></textarea>
+                    <!-- SECTION 6: Bottom Scorers List -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-list text-cyan-500 mr-2.5 text-lg"></i> 6. Multiline Scorers List (Bottom Bar)</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+                            <div class="relative">
+                                <div class="absolute -left-3 top-0 bottom-0 w-1 bg-blue-500 rounded-r-md"></div>
+                                <label class="label-pro text-blue-600 font-bold">Home Scorers List</label>
+                                <textarea id="input-scorers-home" class="input-pro text-sm h-24 resize-none leading-relaxed" placeholder="e.g. Messi 12'&#10;Neymar 45+2'"></textarea>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -right-3 top-0 bottom-0 w-1 bg-red-500 rounded-l-md"></div>
+                                <label class="label-pro text-red-600 font-bold text-right block">Away Scorers List</label>
+                                <textarea id="input-scorers-away" class="input-pro text-sm h-24 resize-none text-right leading-relaxed" placeholder="e.g. Mbappe 88'"></textarea>
+                            </div>
                         </div>
-                        <button onclick="updateBottomScorers()" class="w-full btn-pro btn-outline py-1.5"><i class="fas fa-sync"></i> Update Scorers List</button>
+                        <button onclick="updateBottomScorers()" class="w-full btn-pro bg-slate-800 text-white hover:bg-slate-900 py-3 shadow-[0_2px_8px_rgba(15,23,42,0.3)]"><i class="fas fa-cloud-upload-alt mr-2"></i> Update Multiline Scorer List Display</button>
                     </div>
-                </div>
 
-                <!-- Support & Footer -->
-                <div class="ctrl-group !mb-0 bg-slate-100 border border-slate-200 text-center py-4">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-2">
-                        <div class="text-left">
-                            <h4 class="font-bold text-slate-800 text-sm">OBS Scoreboard Pro V2</h4>
-                            <p class="text-xs text-slate-500">Created by <span class="font-bold text-slate-700">Muzanni</span></p>
-                            <div class="flex gap-3 mt-2 text-slate-600 text-sm">
-                                <a href="https://instagram.com" target="_blank" class="hover:text-pink-600"><i class="fab fa-instagram"></i></a>
-                                <a href="https://tiktok.com" target="_blank" class="hover:text-black"><i class="fab fa-tiktok"></i></a>
-                                <a href="https://youtube.com" target="_blank" class="hover:text-red-600"><i class="fab fa-youtube"></i></a>
-                                <a href="https://wa.me/6285251675143" target="_blank" class="hover:text-green-600 font-semibold text-xs flex items-center gap-1">
+                    <!-- SECTION 7: Footer & Support -->
+                    <div class="ctrl-group !mb-0 !border-slate-200 !bg-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 py-6 px-8">
+                        <div>
+                            <h4 class="font-extrabold text-slate-800 text-base mb-1">OBS Scoreboard Pro V2</h4>
+                            <p class="text-sm text-slate-500">Created meticulously by <span class="font-bold text-slate-700">Muzanni</span></p>
+                            <div class="flex gap-4 mt-3 text-slate-500 text-lg">
+                                <a href="https://instagram.com" target="_blank" class="hover:text-pink-600 transition-colors"><i class="fab fa-instagram"></i></a>
+                                <a href="https://tiktok.com" target="_blank" class="hover:text-black transition-colors"><i class="fab fa-tiktok"></i></a>
+                                <a href="https://youtube.com" target="_blank" class="hover:text-red-600 transition-colors"><i class="fab fa-youtube"></i></a>
+                                <a href="https://wa.me/6285251675143" target="_blank" class="hover:text-green-600 transition-colors font-semibold text-sm flex items-center gap-1.5 ml-2 bg-white px-2 py-0.5 rounded-full border border-slate-300 shadow-sm">
                                     <i class="fab fa-whatsapp text-green-500"></i> 085251675143
                                 </a>
                             </div>
                         </div>
                         
-                        <!-- Donation QR Section -->
-                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">
-                            <div class="w-14 h-14 bg-slate-200 rounded flex items-center justify-center border border-dashed border-slate-400 text-slate-500 text-[10px] text-center p-1">
-                                <i class="fas fa-qrcode text-lg text-slate-400 block mb-0.5"></i>
+                        <div class="flex items-center gap-4 bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm max-w-sm w-full md:w-auto">
+                            <div class="w-16 h-16 bg-slate-50 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 text-slate-400">
+                                <i class="fas fa-qrcode text-2xl"></i>
                             </div>
-                            <div class="text-left">
-                                <span class="text-xs font-bold text-slate-800 block">Support & Donation</span>
-                                <span class="text-[10px] text-slate-500 block">Scan QR Code to support development</span>
+                            <div class="text-left flex-1">
+                                <span class="text-sm font-extrabold text-slate-800 block mb-0.5">Support & Donation</span>
+                                <span class="text-xs text-slate-500 block leading-tight">Scan this QR Code to support continuous updates.</span>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
 
