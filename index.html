@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBS Scoreboard Pro - V2</title>
+    <title>OBS Scoreboard Pro - V2 (Light Edition)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&family=Orbitron:wght@500;700;900&family=Oswald:wght@500;700&family=Press+Start+2P&family=Rajdhani:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,10 +15,17 @@
         }
 
         body {
-            background-color: transparent !important;
+            background-color: #f1f5f9;
             font-family: 'Inter', sans-serif;
             user-select: none;
             overflow: hidden;
+            color: #0f172a;
+        }
+
+        /* Mode Overlay forcing 100% Transparency */
+        body.mode-overlay {
+            background-color: transparent !important;
+            background: transparent !important;
         }
         
         /* Font Classes */
@@ -30,7 +37,6 @@
         .font-rajdhani { font-family: 'Rajdhani', sans-serif !important; }
         .font-syne { font-family: 'Syne', sans-serif !important; }
 
-        /* Dynamic Enter/Exit Animation Base */
         #scoreboard-top-wrapper, #scoreboard-bottom-wrapper {
             transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
             will-change: transform, opacity;
@@ -46,109 +52,106 @@
         /* Animation Type: Scale */
         .anim-type-scale.scoreboard-hidden-top, .anim-type-scale.scoreboard-hidden-bottom { transform: scale(0.8); opacity: 0; pointer-events: none; }
 
-        /* Visible State (Shared) */
+        /* Visible State */
         .scoreboard-visible { transform: translate(0) scale(1) !important; opacity: 1 !important; pointer-events: auto; }
 
-        /* Apply Custom Colors */
         .custom-colored-text { color: var(--custom-text-color) !important; }
 
-        /* Elements Animations */
-        @keyframes scorePop { 0% { transform: scale(1); } 40% { transform: scale(1.5); color: #f59e0b; } 100% { transform: scale(1); } }
+        /* Element Animations */
+        @keyframes scorePop { 0% { transform: scale(1); } 40% { transform: scale(1.4); color: #f59e0b; } 100% { transform: scale(1); } }
         .anim-score-update { animation: scorePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
         @keyframes teamGoalFlash { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; color: #fbbf24; } 75% { opacity: 0; } 100% { opacity: 1; } }
         .anim-team-goal { animation: teamGoalFlash 1.5s ease-in-out infinite alternate; }
 
         @keyframes goalPop {
-            0% { transform: translate(-50%, -50%) scale(0.2) skewX(-15deg); opacity: 0; }
-            15% { transform: translate(-50%, -50%) scale(1.3) skewX(-15deg); opacity: 1; text-shadow: 0 0 30px #facc15; }
-            25% { transform: translate(-50%, -50%) scale(1) skewX(-15deg); opacity: 1; }
-            85% { transform: translate(-50%, -50%) scale(1.05) skewX(-15deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(0.8) skewX(-15deg); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0.2) skewX(-10deg); opacity: 0; }
+            15% { transform: translate(-50%, -50%) scale(1.2) skewX(-10deg); opacity: 1; text-shadow: 0 0 30px #facc15; }
+            25% { transform: translate(-50%, -50%) scale(1) skewX(-10deg); opacity: 1; }
+            85% { transform: translate(-50%, -50%) scale(1.05) skewX(-10deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.8) skewX(-10deg); opacity: 0; }
         }
         .animate-goal { animation: goalPop 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        /* --- PREMIUM THEMES (Upgraded) --- */
         /* Standard */
-        body[data-theme="standard"] .scoreboard-main { background: linear-gradient(180deg, #1f2937, #111827); border: 1px solid #374151; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 8px; }
+        body[data-theme="standard"] .scoreboard-main { background: linear-gradient(180deg, #1f2937, #111827); border: 1px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-radius: 8px; }
         body[data-theme="standard"] .score-panel { background: #000; border-left: 2px solid #374151; border-right: 2px solid #374151; }
         body[data-theme="standard"] .team-panel { background: transparent; }
         
         /* Minimalist */
-        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(10, 10, 10, 0.85); backdrop-filter: blur(8px); border-bottom: 4px solid #fff; border-radius: 0; }
-        body[data-theme="minimalist"] .score-panel { border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); }
+        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); border-bottom: 4px solid #3b82f6; border-radius: 4px; }
+        body[data-theme="minimalist"] .score-panel { border-left: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
         
-        /* EPL Style (Premium Modern) */
-        body[data-theme="epl"] .scoreboard-main { background: #3d195b; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); overflow: visible; }
+        /* EPL Style (Premier League) */
+        body[data-theme="epl"] .scoreboard-main { background: #3d195b; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
         body[data-theme="epl"] .score-panel { background: #e90052; margin: 0; border-radius: 0; }
         body[data-theme="epl"] .score-text { color: #fff !important; }
         body[data-theme="epl"] .match-time-text { background: #00ff85; color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
-        body[data-theme="epl"] .stoppage-time-text { background: #3d195b; color: #00ff85; border-radius: 4px; padding: 0 4px; margin-top: -2px; }
+        body[data-theme="epl"] .stoppage-time-text { background: #3d195b; color: #00ff85; border-radius: 4px; }
 
-        /* UCL Style (Champions) */
-        body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #001235, #002366, #001235); border-top: 2px solid #silver; border-bottom: 2px solid #silver; border-radius: 40px; }
-        body[data-theme="ucl"] .score-panel { background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); }
-        body[data-theme="ucl"] .match-time-text { color: #fff; border-bottom: 1px solid #silver; }
-        body[data-theme="ucl"] .stoppage-time-text { color: #silver; }
+        /* UCL Style (Champions League) */
+        body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #001235, #002366, #001235); border-top: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body[data-theme="ucl"] .score-panel { background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); }
+        body[data-theme="ucl"] .match-time-text { color: #fff; }
+        body[data-theme="ucl"] .stoppage-time-text { color: #cbd5e1; }
 
         /* Broadcast Clean */
-        body[data-theme="broadcast"] .scoreboard-main { background: #0f172a; border-left: 6px solid #3b82f6; border-right: 6px solid #ef4444; border-radius: 4px; }
+        body[data-theme="broadcast"] .scoreboard-main { background: #0f172a; border-left: 6px solid #2563eb; border-right: 6px solid #dc2626; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         body[data-theme="broadcast"] .score-panel { background: linear-gradient(180deg, #1e293b, #020617); }
 
         /* World Cup */
-        body[data-theme="worldcup"] .scoreboard-main { background: #5a0026; border: 2px solid #cfb268; border-radius: 8px; }
+        body[data-theme="worldcup"] .scoreboard-main { background: #5a0026; border: 2px solid #cfb268; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
         body[data-theme="worldcup"] .score-panel { background: #cfb268; margin: 4px; border-radius: 4px; }
         body[data-theme="worldcup"] .score-text { color: #5a0026 !important; }
         body[data-theme="worldcup"] .match-time-text { color: #cfb268; }
 
-        /* Sportscenter */
-        body[data-theme="sportscenter"] .scoreboard-main { background: #111; border-bottom: 6px solid #e11d48; }
-        body[data-theme="sportscenter"] .score-panel { background: #222; border-left: 2px solid #333; border-right: 2px solid #333; }
-        body[data-theme="sportscenter"] .match-time-text { color: #e11d48; }
+        /* Sports Red */
+        body[data-theme="sportscenter"] .scoreboard-main { background: #111827; border-bottom: 5px solid #dc2626; border-radius: 6px; }
+        body[data-theme="sportscenter"] .score-panel { background: #1f2937; border-left: 2px solid #374151; border-right: 2px solid #374151; }
+        body[data-theme="sportscenter"] .match-time-text { color: #ef4444; }
 
-        /* Shared Scorer / Stats Sub-panels */
-        .scorer-dropdown { transition: all 0.5s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; }
-        .scorer-dropdown.show { max-height: 200px; opacity: 1; }
+        /* Sub-panels / Scorer Dropdowns */
+        .scorer-dropdown { transition: all 0.4s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; }
+        .scorer-dropdown.show { max-height: 250px; opacity: 1; }
 
-        /* Controller Layout Styles */
-        #main-layout { display: flex; width: 100vw; height: 100vh; overflow: hidden; background: #0a0a0a; }
-        .mode-overlay #main-layout { display: block; }
+        #main-layout { display: flex; width: 100vw; height: 100vh; overflow: hidden; background: #f8fafc; }
+        .mode-overlay #main-layout { display: block; background: transparent !important; }
         .mode-overlay #controller-panel { display: none !important; }
         .mode-overlay #preview-panel { background: transparent !important; position: absolute; inset: 0; width: 100vw; height: 100vh; z-index: 10; }
         .mode-mobile #main-layout { flex-direction: column; }
         .mode-mobile #controller-panel { width: 100% !important; max-width: 100%; border: none; }
         .mode-mobile #preview-panel { display: none !important; }
 
-        /* Preview Checkerboard */
+        /* Preview Grid Checkerboard */
         .bg-transparent-grid {
-            background-color: #1a1a1a;
-            background-image: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%, #222), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%, #222);
+            background-color: #cbd5e1;
+            background-image: linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8), linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8);
             background-size: 20px 20px; background-position: 0 0, 10px 10px;
         }
 
         #preview-scale-wrapper {
-            transform: scale(0.65); transform-origin: center center; width: 100%; height: 100%; position: absolute; inset: 0;
-            display: flex; flex-direction: column; justify-content: space-between;
+            transform: scale(0.75); transform-origin: top left; width: 100%; height: 100%; position: absolute; inset: 0;
+            pointer-events: none;
         }
-        @media (max-width: 1280px) { #preview-scale-wrapper { transform: scale(0.5); } }
         .mode-overlay #preview-scale-wrapper { transform: scale(1) !important; }
 
-        /* Controller Components */
-        #controller-panel { background: #0a0a0a; color: #e5e5e5; scrollbar-width: thin; scrollbar-color: #333 #0a0a0a; }
-        .ctrl-group { background: #121212; border-radius: 6px; padding: 16px; border: 1px solid #262626; margin-bottom: 16px; }
-        .ctrl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 12px; font-weight: 600; }
-        .input-pro { background: #171717; border: 1px solid #333; color: #eee; border-radius: 4px; padding: 8px 12px; width: 100%; font-size: 12px; transition: border-color 0.2s; }
-        .input-pro:focus { outline: none; border-color: #555; }
-        .btn-pro { border-radius: 4px; font-weight: 500; font-size: 12px; transition: all 0.15s; cursor: pointer; padding: 8px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent;}
-        .btn-pro:active:not(:disabled) { transform: scale(0.98); }
+        /* Controller Controls (Light Theme) */
+        #controller-panel { background: #ffffff; color: #0f172a; scrollbar-width: thin; scrollbar-color: #cbd5e1 #ffffff; }
+        .ctrl-group { background: #f8fafc; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .ctrl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b; margin-bottom: 12px; font-weight: 700; }
+        .input-pro { background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 6px; padding: 8px 12px; width: 100%; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+        .input-pro:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+        
+        .btn-pro { border-radius: 6px; font-weight: 600; font-size: 12px; transition: all 0.15s; cursor: pointer; padding: 8px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; }
+        .btn-pro:active:not(:disabled) { transform: scale(0.97); }
         .btn-pro:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-outline { background: transparent; color: #e5e5e5; border-color: #333; }
-        .btn-outline:hover:not(:disabled) { background: #171717; border-color: #555; }
-        .btn-primary { background: #fff; color: #000; }
-        .btn-primary:hover:not(:disabled) { background: #e5e5e5; }
-        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-outline { background: #ffffff; color: #334155; border-color: #cbd5e1; }
+        .btn-outline:hover:not(:disabled) { background: #f1f5f9; border-color: #94a3b8; }
+        .btn-primary { background: #2563eb; color: #ffffff; }
+        .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+        .btn-danger { background: #ef4444; color: #ffffff; }
         .btn-danger:hover:not(:disabled) { background: #dc2626; }
-        .btn-success { background: #10b981; color: #fff; }
+        .btn-success { background: #10b981; color: #ffffff; }
         .btn-success:hover:not(:disabled) { background: #059669; }
 
         /* Huge Goal Alert */
@@ -156,74 +159,80 @@
     </style>
 </head>
 
-<body class="w-screen h-screen overflow-hidden bg-transparent" data-theme="standard" id="app-body">
+<body class="w-screen h-screen overflow-hidden" data-theme="standard" id="app-body">
 
     <div id="main-layout">
         
-        <!-- Controller Side -->
-        <div id="controller-panel" class="w-[60%] xl:w-[65%] flex-shrink-0 h-full flex flex-col border-r border-[#262626] z-50 overflow-y-auto relative">
+        <!-- Controller Panel (Light Clean Dashboard) -->
+        <div id="controller-panel" class="w-[55%] xl:w-[50%] flex-shrink-0 h-full flex flex-col border-r border-[#e2e8f0] z-50 overflow-y-auto relative">
             
-            <div class="px-6 py-4 bg-[#0a0a0a]/90 backdrop-blur border-b border-[#262626] flex justify-between items-center sticky top-0 z-20">
-                <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                    <i class="fas fa-broadcast-tower text-blue-500"></i> OBS Scoreboard Pro V2
-                </h3>
+            <!-- Top Header -->
+            <div class="px-6 py-4 bg-white border-b border-[#e2e8f0] flex justify-between items-center sticky top-0 z-20 shadow-sm">
+                <h1 class="font-bold text-lg text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-broadcast-tower text-blue-600"></i> OBS Scoreboard Pro <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">V2 Light</span>
+                </h1>
                 <div class="flex items-center gap-3">
-                    <span id="sync-status" class="text-[10px] text-gray-400 font-mono bg-[#171717] px-2 py-1 rounded border border-[#333]"><i class="fas fa-circle-notch fa-spin mr-1"></i> Connecting</span>
+                    <span id="sync-status" class="text-xs text-slate-600 font-mono bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                        <i class="fas fa-circle-notch fa-spin text-blue-500 mr-1"></i> Connecting
+                    </span>
                 </div>
             </div>
 
-            <div class="p-6 flex-grow space-y-2">
-                <!-- Connect & Style -->
+            <div class="p-6 flex-grow space-y-4">
+                
+                <!-- Connection & Style Settings -->
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    <!-- Connection Setup -->
                     <div class="ctrl-group !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-link mr-1"></i> Connection Setup</div>
+                        <div class="ctrl-title"><i class="fas fa-plug mr-1"></i> Connection & Mode</div>
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">Room Code</label>
-                                <input type="text" id="input-room-code" value="liga-match-v2" onchange="updateRoomCode()" class="input-pro font-mono text-center text-blue-400" placeholder="e.g. room123">
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Room Code</label>
+                                <input type="text" id="input-room-code" value="liga-match-v2" onchange="updateRoomCode()" class="input-pro font-mono text-center text-blue-600 font-bold" placeholder="e.g. match123">
                             </div>
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">View Mode</label>
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">View Mode</label>
                                 <select id="mode-selector" onchange="changeMode(this.value)" class="input-pro cursor-pointer">
                                     <option value="combined">Dashboard View</option>
-                                    <option value="overlay">OBS Overlay</option>
+                                    <option value="overlay">OBS Overlay Only</option>
                                     <option value="mobile">Mobile Remote</option>
                                 </select>
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <input type="text" id="obs-link-display" readonly class="input-pro text-[10px] text-gray-500" value="">
-                            <button onclick="copyOBSLink(event)" class="btn-pro btn-outline px-3 whitespace-nowrap"><i class="fas fa-copy"></i> Copy</button>
+                            <input type="text" id="obs-link-display" readonly class="input-pro text-xs text-slate-500 bg-slate-50" value="">
+                            <button onclick="copyOBSLink(event)" class="btn-pro btn-outline px-3 whitespace-nowrap"><i class="fas fa-copy"></i> Copy Link</button>
                         </div>
-                        <button onclick="requestForceSync()" class="w-full btn-pro btn-outline mt-3 text-blue-400 border-blue-500/30 hover:bg-blue-500/10"><i class="fas fa-sync-alt"></i> Force Sync to OBS</button>
+                        <button onclick="requestForceSync()" class="w-full btn-pro btn-outline mt-3 text-blue-600 border-blue-200 hover:bg-blue-50"><i class="fas fa-sync-alt"></i> Force Sync to OBS</button>
                     </div>
 
+                    <!-- Appearance -->
                     <div class="ctrl-group !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-paint-brush mr-1"></i> Appearance</div>
+                        <div class="ctrl-title"><i class="fas fa-paint-brush mr-1"></i> Appearance & Layout</div>
                         <div class="flex gap-2 mb-3">
-                            <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-outline"><i class="fas fa-chevron-up"></i> Top Layout</button>
-                            <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-outline"><i class="fas fa-chevron-down"></i> Bottom Layout</button>
+                            <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-maximize"></i> Top Scorebar</button>
+                            <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-minimize"></i> Bottom Scorebar</button>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">Theme</label>
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Theme Preset</label>
                                 <select id="theme-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
-                                    <option value="epl">Premier Modern (EPL)</option>
-                                    <option value="ucl">Champions (UCL)</option>
+                                    <option value="epl">Premier League (EPL)</option>
+                                    <option value="ucl">Champions League (UCL)</option>
                                     <option value="standard">Standard Dark</option>
-                                    <option value="minimalist">Minimalist</option>
+                                    <option value="minimalist">Minimalist Blue</option>
                                     <option value="broadcast">Broadcast Clean</option>
-                                    <option value="worldcup">World Cup</option>
+                                    <option value="worldcup">World Cup Gold</option>
                                     <option value="sportscenter">Sports Red</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">Font Family</label>
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Font Family</label>
                                 <select id="font-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
-                                    <option value="font-teko">Teko</option>
-                                    <option value="font-inter">Inter</option>
+                                    <option value="font-teko">Teko Bold</option>
+                                    <option value="font-inter">Inter Sans</option>
                                     <option value="font-bebas">Bebas Neue</option>
-                                    <option value="font-orbitron">Orbitron</option>
+                                    <option value="font-orbitron">Orbitron Sci-Fi</option>
                                     <option value="font-oswald">Oswald</option>
                                     <option value="font-rajdhani">Rajdhani</option>
                                 </select>
@@ -232,237 +241,303 @@
                         
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">Font Color</label>
-                                <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-full h-8 cursor-pointer rounded border border-[#333] bg-[#171717] p-0.5">
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Font Color</label>
+                                <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-full h-9 cursor-pointer rounded-md border border-slate-300 bg-white p-1">
                             </div>
                             <div>
-                                <label class="text-[10px] text-[#888] block mb-1">Anim Type</label>
-                                <select id="anim-selector" onchange="applyStyles()" class="input-pro cursor-pointer py-1.5 h-8">
+                                <label class="text-[11px] text-slate-500 font-semibold block mb-1">Entry Animation</label>
+                                <select id="anim-selector" onchange="applyStyles()" class="input-pro cursor-pointer">
                                     <option value="slide">Slide In/Out</option>
-                                    <option value="fade">Fade</option>
-                                    <option value="scale">Scale & Zoom</option>
+                                    <option value="fade">Fade In/Out</option>
+                                    <option value="scale">Zoom & Scale</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 xl:grid-cols-12 gap-4 pt-2">
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
                     
-                    <!-- Scores -->
+                    <!-- Match Scores & Teams -->
                     <div class="ctrl-group xl:col-span-8 !mb-0 flex flex-col">
-                        <div class="ctrl-title"><i class="fas fa-futbol mr-1"></i> Match Scores & Names</div>
+                        <div class="ctrl-title"><i class="fas fa-futbol mr-1"></i> Teams, Scores & Cards</div>
                         
                         <div class="grid grid-cols-2 gap-4 flex-grow">
-                            <!-- HOME -->
-                            <div class="bg-[#171717] border border-[#262626] p-3 rounded flex flex-col relative overflow-hidden">
-                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500"></div>
+                            <!-- HOME TEAM -->
+                            <div class="bg-white border border-slate-200 p-3 rounded-lg flex flex-col relative overflow-hidden shadow-sm">
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600"></div>
+                                <div class="text-xs font-bold text-blue-600 mb-2 uppercase tracking-wide"><i class="fas fa-shield-alt mr-1"></i> Home Team</div>
                                 <div class="flex gap-2 mb-2">
                                     <input type="text" id="input-home-name" value="HOM" onchange="updateNames()" class="input-pro font-bold uppercase text-center w-1/3" placeholder="Short">
-                                    <input type="text" id="input-home-full" value="Home Team" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Long Name (Bottom)">
+                                    <input type="text" id="input-home-full" value="Home Team FC" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Full Long Name">
                                 </div>
                                 <div class="flex gap-2 mb-3">
                                     <button onclick="updateScore('home', -1)" class="btn-pro btn-outline px-3">-1</button>
-                                    <button onclick="updateScore('home', 1)" class="btn-pro btn-outline flex-1 border-blue-500/30 hover:border-blue-500 hover:text-blue-400 font-bold"><i class="fas fa-plus mr-1"></i> GOAL</button>
+                                    <button onclick="updateScore('home', 1)" class="btn-pro btn-primary flex-1 font-bold"><i class="fas fa-plus mr-1"></i> GOAL HOME</button>
                                 </div>
-                                <!-- Stats -->
-                                <div class="grid grid-cols-3 gap-1 mt-auto">
+                                <!-- Cards & Fouls -->
+                                <div class="grid grid-cols-3 gap-2 mt-auto pt-2 border-t border-slate-100">
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-[#888] mb-1">FOULS</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('home','fouls',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('home','fouls',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-slate-500 mb-1">FOULS</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('home','fouls',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('home','fouls',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-yellow-500 mb-1">YELLOW</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('home','yellow',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('home','yellow',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-amber-600 mb-1">YELLOW</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('home','yellow',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('home','yellow',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-red-500 mb-1">RED</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('home','red',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('home','red',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-red-600 mb-1">RED</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('home','red',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('home','red',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- AWAY -->
-                            <div class="bg-[#171717] border border-[#262626] p-3 rounded flex flex-col relative overflow-hidden">
-                                <div class="absolute right-0 top-0 bottom-0 w-1 bg-red-500"></div>
+                            <!-- AWAY TEAM -->
+                            <div class="bg-white border border-slate-200 p-3 rounded-lg flex flex-col relative overflow-hidden shadow-sm">
+                                <div class="absolute right-0 top-0 bottom-0 w-1.5 bg-red-600"></div>
+                                <div class="text-xs font-bold text-red-600 mb-2 uppercase tracking-wide text-right"><i class="fas fa-shield-alt mr-1"></i> Away Team</div>
                                 <div class="flex gap-2 mb-2">
-                                    <input type="text" id="input-away-full" value="Away Team" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Long Name (Bottom)">
+                                    <input type="text" id="input-away-full" value="Away Team FC" onchange="updateNames()" class="input-pro text-center w-2/3" placeholder="Full Long Name">
                                     <input type="text" id="input-away-name" value="AWY" onchange="updateNames()" class="input-pro font-bold uppercase text-center w-1/3" placeholder="Short">
                                 </div>
                                 <div class="flex gap-2 mb-3">
-                                    <button onclick="updateScore('away', 1)" class="btn-pro btn-outline flex-1 border-red-500/30 hover:border-red-500 hover:text-red-400 font-bold"><i class="fas fa-plus mr-1"></i> GOAL</button>
+                                    <button onclick="updateScore('away', 1)" class="btn-pro btn-danger flex-1 font-bold"><i class="fas fa-plus mr-1"></i> GOAL AWAY</button>
                                     <button onclick="updateScore('away', -1)" class="btn-pro btn-outline px-3">-1</button>
                                 </div>
-                                <!-- Stats -->
-                                <div class="grid grid-cols-3 gap-1 mt-auto">
+                                <!-- Cards & Fouls -->
+                                <div class="grid grid-cols-3 gap-2 mt-auto pt-2 border-t border-slate-100">
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-red-500 mb-1">RED</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('away','red',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('away','red',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-red-600 mb-1">RED</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('away','red',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('away','red',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-yellow-500 mb-1">YELLOW</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('away','yellow',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('away','yellow',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-amber-600 mb-1">YELLOW</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('away','yellow',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('away','yellow',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <span class="text-[9px] text-[#888] mb-1">FOULS</span>
-                                        <div class="flex border border-[#333] rounded"><button onclick="updateStat('away','fouls',-1)" class="px-2 py-0.5 hover:bg-[#262626] text-xs">-</button><button onclick="updateStat('away','fouls',1)" class="px-2 py-0.5 border-l border-[#333] hover:bg-[#262626] text-xs">+</button></div>
+                                        <span class="text-[10px] font-bold text-slate-500 mb-1">FOULS</span>
+                                        <div class="flex border border-slate-200 rounded-md overflow-hidden bg-slate-50">
+                                            <button onclick="updateStat('away','fouls',-1)" class="px-2 py-0.5 hover:bg-slate-200 text-xs">-</button>
+                                            <button onclick="updateStat('away','fouls',1)" class="px-2 py-0.5 border-l border-slate-200 hover:bg-slate-200 text-xs font-bold">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Timer -->
+                    <!-- Match Clock -->
                     <div class="ctrl-group xl:col-span-4 flex flex-col !mb-0">
                         <div class="ctrl-title"><i class="fas fa-clock mr-1"></i> Match Clock</div>
                         
-                        <div class="flex justify-center items-center gap-1 mb-3 bg-[#171717] border border-[#262626] rounded py-2">
-                            <input type="number" id="input-mins" value="0" class="w-12 text-center text-xl font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" placeholder="00">
-                            <span class="font-bold text-xl text-[#555]">:</span>
-                            <input type="number" id="input-secs" value="0" class="w-12 text-center text-xl font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" max="59" placeholder="00">
+                        <div class="flex justify-center items-center gap-1 mb-3 bg-slate-900 border border-slate-800 rounded-lg py-2 shadow-inner">
+                            <input type="number" id="input-mins" value="0" class="w-14 text-center text-2xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" placeholder="00">
+                            <span class="font-bold text-2xl text-blue-400">:</span>
+                            <input type="number" id="input-secs" value="0" class="w-14 text-center text-2xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" max="59" placeholder="00">
                         </div>
                         
                         <div class="grid grid-cols-2 gap-2 mb-3">
-                            <select id="timer-dir" class="input-pro text-xs text-center py-1">
-                                <option value="up">Count UP</option>
+                            <select id="timer-dir" class="input-pro text-xs text-center">
+                                <option value="up">Count UP (00->90)</option>
                                 <option value="down">Count DOWN</option>
                             </select>
-                            <input type="text" id="input-stoppage" value="" class="input-pro text-xs text-center py-1 text-yellow-500" placeholder="+ Extra Time">
+                            <input type="text" id="input-stoppage" value="" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="+ Extra Time">
                         </div>
                         
                         <div class="flex gap-2 mb-3">
-                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-outline py-1.5 text-[10px]">Set</button>
-                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-outline py-1.5 text-[10px]"><i class="fas fa-undo"></i> Reset</button>
+                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-outline py-1.5"><i class="fas fa-check"></i> Apply Time</button>
+                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-outline py-1.5"><i class="fas fa-undo"></i> Reset</button>
                         </div>
 
                         <div class="flex gap-2 mt-auto">
-                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-success py-2"><i class="fas fa-play"></i> Start</button>
-                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-danger py-2" disabled><i class="fas fa-stop"></i> Stop</button>
+                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-success py-2 text-sm"><i class="fas fa-play"></i> Start</button>
+                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-danger py-2 text-sm" disabled><i class="fas fa-pause"></i> Pause</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
-                    <div class="ctrl-group !mb-0 border-l-2 border-yellow-500">
-                        <div class="ctrl-title"><i class="fas fa-bolt mr-1"></i> Events / Goal Scorer</div>
-                        <button onclick="triggerGoalAnimation()" class="w-full btn-pro btn-outline border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/10 py-2.5 mb-3">
-                            <i class="fas fa-star mr-1"></i> Trigger GOAL! Banner
+                <!-- Events & Scorers -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="ctrl-group !mb-0 border-l-4 border-amber-500">
+                        <div class="ctrl-title"><i class="fas fa-star mr-1"></i> Single Goal Banner</div>
+                        <button onclick="triggerGoalAnimation()" class="w-full btn-pro btn-outline border-amber-300 text-amber-700 hover:bg-amber-50 py-2 mb-3 font-bold">
+                            <i class="fas fa-bullhorn mr-1"></i> Trigger GOAL! Banner Overlay
                         </button>
                         <div class="flex gap-2 mb-2">
-                            <input type="text" id="input-top-scorer-name" placeholder="Player Name" class="input-pro w-2/3">
-                            <input type="text" id="input-top-scorer-min" placeholder="Min" class="input-pro w-1/3 text-center">
+                            <input type="text" id="input-top-scorer-name" placeholder="Scorer Name" class="input-pro w-2/3">
+                            <input type="text" id="input-top-scorer-min" placeholder="Minute (e.g. 45')" class="input-pro w-1/3 text-center">
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-primary py-1.5"><i class="fas fa-eye"></i> Show Event</button>
-                            <button onclick="hideTopScorer()" class="btn-pro btn-outline px-3 py-1.5"><i class="fas fa-eye-slash"></i></button>
+                            <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-primary"><i class="fas fa-eye"></i> Show Event Banner</button>
+                            <button onclick="hideTopScorer()" class="btn-pro btn-outline px-3"><i class="fas fa-eye-slash"></i></button>
                         </div>
                     </div>
 
-                    <div class="ctrl-group !mb-0 border-l-2 border-purple-500 flex flex-col">
-                        <div class="ctrl-title"><i class="fas fa-list mr-1"></i> Scorers List (Bottom)</div>
+                    <div class="ctrl-group !mb-0 border-l-4 border-purple-500 flex flex-col">
+                        <div class="ctrl-title"><i class="fas fa-list-ol mr-1"></i> Bottom Scorers List</div>
                         <div class="flex gap-2 mb-2 flex-grow">
-                            <textarea id="input-scorers-home" class="input-pro text-xs h-full resize-none bg-[#171717]" placeholder="Home Scorers..."></textarea>
-                            <textarea id="input-scorers-away" class="input-pro text-xs h-full resize-none bg-[#171717] text-right" placeholder="Away Scorers..."></textarea>
+                            <textarea id="input-scorers-home" class="input-pro text-xs h-20 resize-none bg-white" placeholder="Home Scorers (e.g. Messi 12', 44')"></textarea>
+                            <textarea id="input-scorers-away" class="input-pro text-xs h-20 resize-none bg-white text-right" placeholder="Away Scorers (e.g. Mbappe 88')"></textarea>
                         </div>
-                        <button onclick="updateBottomScorers()" class="w-full btn-pro btn-outline py-1.5">Update Scorer List</button>
+                        <button onclick="updateBottomScorers()" class="w-full btn-pro btn-outline py-1.5"><i class="fas fa-sync"></i> Update Scorers List</button>
+                    </div>
+                </div>
+
+                <!-- Support & Footer -->
+                <div class="ctrl-group !mb-0 bg-slate-100 border border-slate-200 text-center py-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-2">
+                        <div class="text-left">
+                            <h4 class="font-bold text-slate-800 text-sm">OBS Scoreboard Pro V2</h4>
+                            <p class="text-xs text-slate-500">Created by <span class="font-bold text-slate-700">Muzanni</span></p>
+                            <div class="flex gap-3 mt-2 text-slate-600 text-sm">
+                                <a href="https://instagram.com" target="_blank" class="hover:text-pink-600"><i class="fab fa-instagram"></i></a>
+                                <a href="https://tiktok.com" target="_blank" class="hover:text-black"><i class="fab fa-tiktok"></i></a>
+                                <a href="https://youtube.com" target="_blank" class="hover:text-red-600"><i class="fab fa-youtube"></i></a>
+                                <a href="https://wa.me/6285251675143" target="_blank" class="hover:text-green-600 font-semibold text-xs flex items-center gap-1">
+                                    <i class="fab fa-whatsapp text-green-500"></i> 085251675143
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Donation QR Section -->
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">
+                            <div class="w-14 h-14 bg-slate-200 rounded flex items-center justify-center border border-dashed border-slate-400 text-slate-500 text-[10px] text-center p-1">
+                                <i class="fas fa-qrcode text-lg text-slate-400 block mb-0.5"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="text-xs font-bold text-slate-800 block">Support & Donation</span>
+                                <span class="text-[10px] text-slate-500 block">Scan QR Code to support development</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Preview Panel -->
+        <!-- Live Preview Panel -->
         <div id="preview-panel" class="flex-1 relative bg-transparent-grid overflow-hidden flex items-center justify-center">
             
             <div id="preview-scale-wrapper">
                 
-                <!-- TOP SCOREBOARD -->
-                <div id="overlay-container-top" class="absolute top-8 left-0 w-full flex flex-col items-center pointer-events-none z-30">
-                    <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide w-full flex flex-col items-center justify-center">
+                <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
+                <div id="overlay-container-top" class="absolute top-6 left-6 w-auto flex flex-col items-start pointer-events-none z-30">
+                    <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex flex-col items-start justify-start">
                         
-                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full max-w-4xl pointer-events-auto relative">
-                            <!-- Home -->
-                            <div class="team-panel flex-1 text-center py-2 px-6 flex items-center justify-center relative">
-                                <div id="top-stats-home" class="absolute left-4 flex gap-1 items-center"></div>
-                                <span class="team-name-home custom-colored-text text-4xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
+                        <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl">
+                            <!-- Home Team -->
+                            <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
+                                <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
                             </div>
                             
-                            <!-- Middle / Score / Clock -->
-                            <div class="score-panel flex items-stretch justify-center px-6 min-w-[220px] relative z-20">
-                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-5xl font-bold w-12 text-center block">0</span></div>
-                                <div class="flex flex-col items-center justify-center mx-4 my-1">
-                                    <span class="match-time-text custom-colored-text text-3xl font-bold px-3 rounded tracking-wider leading-none">00:00</span>
-                                    <span class="stoppage-time-text text-sm font-bold text-yellow-400 mt-0.5 leading-none hidden">+0</span>
+                            <!-- Score & Timer Middle Bar -->
+                            <div class="score-panel flex items-stretch justify-center px-4 min-w-[180px] relative z-20">
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-4xl font-bold w-10 text-center block">0</span></div>
+                                <div class="flex flex-col items-center justify-center mx-3 my-1">
+                                    <span class="match-time-text custom-colored-text text-2xl font-bold px-2 rounded tracking-wider leading-none">00:00</span>
                                 </div>
-                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-5xl font-bold w-12 text-center block">0</span></div>
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-4xl font-bold w-10 text-center block">0</span></div>
                             </div>
 
-                            <!-- Away -->
-                            <div class="team-panel flex-1 text-center py-2 px-6 flex items-center justify-center relative">
-                                <span class="team-name-away custom-colored-text text-4xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
-                                <div id="top-stats-away" class="absolute right-4 flex gap-1 items-center"></div>
+                            <!-- Away Team -->
+                            <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
+                                <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
                             </div>
                         </div>
 
-                        <!-- Single Event Dropdown -->
-                        <div id="scorer-info-top" class="scorer-dropdown w-full max-w-4xl flex justify-center pointer-events-auto">
-                            <div class="bg-black/80 backdrop-blur text-white px-8 py-2 rounded-b border border-t-0 border-white/10 shadow-lg flex items-center gap-3">
-                                <i class="fas fa-futbol text-white"></i>
-                                <span id="top-scorer-name" class="text-2xl font-bold uppercase tracking-wide custom-colored-text">Player</span>
-                                <span class="text-gray-500 text-xl">|</span>
-                                <span id="top-scorer-time" class="text-xl font-bold text-yellow-400">45'</span>
+                        <!-- Additional Time / Stoppage Time Badge (Below Scoreboard Bar) -->
+                        <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
+                            <span class="stoppage-time-text text-xs font-bold text-amber-300 bg-slate-900/90 border border-amber-400/40 px-3 py-0.5 rounded-full shadow hidden tracking-wider">+0</span>
+                        </div>
+
+                        <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
+                        <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
+                            <div id="top-stats-home" class="flex gap-1 items-center"></div>
+                            <div id="top-stats-away" class="flex gap-1 items-center"></div>
+                        </div>
+
+                        <!-- Single Goal Banner Dropdown -->
+                        <div id="scorer-info-top" class="scorer-dropdown w-full flex justify-center pointer-events-auto mt-1">
+                            <div class="bg-slate-900/90 backdrop-blur text-white px-6 py-1.5 rounded-b-lg border border-t-0 border-white/20 shadow-xl flex items-center gap-2">
+                                <i class="fas fa-futbol text-amber-400"></i>
+                                <span id="top-scorer-name" class="text-xl font-bold uppercase tracking-wide custom-colored-text">Player</span>
+                                <span class="text-slate-500 text-lg">|</span>
+                                <span id="top-scorer-time" class="text-lg font-bold text-amber-400">45'</span>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
                 <!-- BOTTOM SCOREBOARD -->
-                <div id="overlay-container-bottom" class="absolute bottom-12 left-0 w-full flex flex-col items-center pointer-events-none z-40">
-                    <div id="scoreboard-bottom-wrapper" class="scoreboard-hidden-bottom anim-type-slide w-[92%] max-w-7xl flex flex-col items-center justify-center">
+                <div id="overlay-container-bottom" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-40">
+                    <div id="scoreboard-bottom-wrapper" class="scoreboard-hidden-bottom anim-type-slide w-[90%] max-w-6xl flex flex-col items-center justify-center">
                         
-                        <!-- Main Bottom Bar -->
-                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative">
-                            <!-- Home -->
-                            <div class="team-panel flex-1 text-center py-2 px-8 flex items-center justify-end relative">
-                                <div id="btm-stats-home" class="absolute left-6 flex gap-1 items-center"></div>
-                                <span class="team-name-home-full custom-colored-text text-4xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right">Home Team</span>
+                        <!-- Main Bottom Scorebar -->
+                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative shadow-2xl">
+                            <!-- Home Team Long -->
+                            <div class="team-panel flex-1 text-center py-2.5 px-6 flex items-center justify-end relative">
+                                <span class="team-name-home-full custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right">Home Team FC</span>
                             </div>
                             
-                            <!-- Middle / Score / Clock -->
-                            <div class="score-panel flex items-stretch justify-center px-6 min-w-[240px] relative z-20">
-                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-5xl font-bold w-14 text-center block">0</span></div>
+                            <!-- Middle Scores & Clock -->
+                            <div class="score-panel flex items-stretch justify-center px-6 min-w-[220px] relative z-20">
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-4xl font-bold w-12 text-center block">0</span></div>
                                 <div class="flex flex-col items-center justify-center mx-4 my-1">
-                                    <span class="match-time-text custom-colored-text text-3xl font-bold px-3 rounded tracking-wider leading-none">00:00</span>
-                                    <span class="stoppage-time-text text-sm font-bold text-yellow-400 mt-0.5 leading-none hidden">+0</span>
+                                    <span class="match-time-text custom-colored-text text-2xl font-bold px-3 rounded tracking-wider leading-none">00:00</span>
                                 </div>
-                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-5xl font-bold w-14 text-center block">0</span></div>
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-4xl font-bold w-12 text-center block">0</span></div>
                             </div>
 
-                            <!-- Away -->
-                            <div class="team-panel flex-1 text-center py-2 px-8 flex items-center justify-start relative">
-                                <span class="team-name-away-full custom-colored-text text-4xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left">Away Team</span>
-                                <div id="btm-stats-away" class="absolute right-6 flex gap-1 items-center"></div>
+                            <!-- Away Team Long -->
+                            <div class="team-panel flex-1 text-center py-2.5 px-6 flex items-center justify-start relative">
+                                <span class="team-name-away-full custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left">Away Team FC</span>
                             </div>
                         </div>
 
-                        <!-- Bottom Multiline Scorers (Dropdown) -->
-                        <div id="btm-scorers-panel" class="scorer-dropdown w-full flex justify-between pointer-events-auto">
+                        <!-- Additional Time / Stoppage Time Badge (Below Bottom Scoreboard Bar) -->
+                        <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1">
+                            <span class="stoppage-time-text text-xs font-bold text-amber-300 bg-slate-900/90 border border-amber-400/40 px-3 py-0.5 rounded-full shadow hidden tracking-wider">+0</span>
+                        </div>
+
+                        <!-- Cards & Fouls Bar (Below Bottom Scoreboard) -->
+                        <div class="w-full flex justify-between items-center px-8 mt-1 pointer-events-auto">
+                            <div id="btm-stats-home" class="flex gap-1 items-center"></div>
+                            <div id="btm-stats-away" class="flex gap-1 items-center"></div>
+                        </div>
+
+                        <!-- Bottom Multiline Scorers List -->
+                        <div id="btm-scorers-panel" class="scorer-dropdown w-full flex justify-between pointer-events-auto mt-2">
                             <div class="flex-1 flex justify-end pr-2">
-                                <div id="btm-scorers-home" class="custom-colored-text text-xl bg-black/80 backdrop-blur px-6 py-3 border-l-4 border-blue-500 rounded-bl-lg shadow-lg whitespace-pre-line text-right empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-home" class="custom-colored-text text-base bg-slate-900/90 backdrop-blur px-5 py-2.5 border-l-4 border-blue-500 rounded-bl-lg shadow-xl whitespace-pre-line text-right empty:hidden leading-snug"></div>
                             </div>
-                            <!-- Spacer for middle panel alignment -->
-                            <div class="min-w-[240px]"></div> 
+                            <div class="min-w-[220px]"></div> 
                             <div class="flex-1 flex justify-start pl-2">
-                                <div id="btm-scorers-away" class="custom-colored-text text-xl bg-black/80 backdrop-blur px-6 py-3 border-r-4 border-red-500 rounded-br-lg shadow-lg whitespace-pre-line text-left empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-away" class="custom-colored-text text-base bg-slate-900/90 backdrop-blur px-5 py-2.5 border-r-4 border-red-500 rounded-br-lg shadow-xl whitespace-pre-line text-left empty:hidden leading-snug"></div>
                             </div>
                         </div>
                         
                     </div>
                 </div>
 
-                <!-- HUGE GOAL ALERT -->
+                <!-- HUGE GOAL ALERT OVERLAY -->
                 <div id="goal-alert" class="goal-alert">
-                    <h1 class="text-[12rem] font-black text-white uppercase italic leading-none">GOAL<span class="text-yellow-400">!</span></h1>
+                    <h1 class="text-[12rem] font-black text-white uppercase italic leading-none drop-shadow-2xl">GOAL<span class="text-amber-400">!</span></h1>
                 </div>
 
             </div>
@@ -470,10 +545,11 @@
     </div>
 
     <script>
+        /* State management */
         window.appState = {
             scores: { home: 0, away: 0 },
             teamNames: { home: 'HOM', away: 'AWY' },
-            fullTeamNames: { home: 'Home Team', away: 'Away Team' },
+            fullTeamNames: { home: 'Home Team FC', away: 'Away Team FC' },
             stats: { home: { fouls: 0, yellow: 0, red: 0 }, away: { fouls: 0, yellow: 0, red: 0 } },
             activeView: 'none',
             theme: 'epl',
@@ -491,14 +567,13 @@
         let timerInterval = null;
         let mqttClient = null;
         let isMQTTActive = false;
-        let bc = null; // BroadcastChannel for local/Canvas sync
+        let bc = null;
 
         function inIframe() {
             try { return window.self !== window.top; } catch (e) { return true; }
         }
 
         function initSync() {
-            // 1. Initialize BroadcastChannel (Local sync for Canvas/Tabs)
             try {
                 bc = new BroadcastChannel('obs_score_channel_' + roomCode);
                 bc.onmessage = (event) => {
@@ -513,14 +588,13 @@
                 if (document.body.classList.contains('mode-overlay')) {
                     bc.postMessage({ type: 'request' });
                 }
-            } catch (e) { console.warn("BroadcastChannel not supported"); }
+            } catch (e) { console.warn("BroadcastChannel warning", e); }
 
-            // 2. Initialize MQTT (Remote sync for OBS) - ONLY if not in Canvas/Iframe
             if (!inIframe()) {
                 initMQTT();
             } else {
-                document.getElementById('sync-status').innerHTML = '<i class="fas fa-satellite-dish text-yellow-500 mr-1"></i> Local Sync (Canvas)';
-                console.log("Canvas preview detected: MQTT disabled to prevent CSP errors. Using Local BroadcastChannel instead.");
+                const statusEl = document.getElementById('sync-status');
+                if (statusEl) statusEl.innerHTML = '<i class="fas fa-satellite-dish text-amber-500 mr-1"></i> Local Sync (Preview)';
             }
         }
 
@@ -529,19 +603,16 @@
                 mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
                 mqttClient.on('connect', () => {
                     isMQTTActive = true;
-                    document.getElementById('sync-status').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-1"></i> Online';
+                    const statusEl = document.getElementById('sync-status');
+                    if (statusEl) statusEl.innerHTML = '<i class="fas fa-check-circle text-emerald-500 mr-1"></i> Online';
                     
-                    // Subscribe to state topic
                     mqttClient.subscribe('obs-score-v2/state/' + roomCode);
                     
                     const isOverlay = document.body.classList.contains('mode-overlay');
                     if (isOverlay) {
-                        // If I am OBS, tell the controller I need the state immediately
                         mqttClient.publish('obs-score-v2/request/' + roomCode, 'sync_me');
                     } else {
-                        // If I am Controller, listen for OBS requests
                         mqttClient.subscribe('obs-score-v2/request/' + roomCode);
-                        // Also push current state initially
                         syncState();
                     }
                 });
@@ -549,7 +620,6 @@
                 mqttClient.on('message', (topic, message) => {
                     const msgStr = message.toString();
                     if (topic.includes('/request/')) {
-                        // OBS is asking for data, send it (only controller responds)
                         if (!document.body.classList.contains('mode-overlay')) {
                             syncState();
                         }
@@ -572,7 +642,7 @@
             
             if (bc) {
                 bc.close();
-                initSync(); // Re-init channels with new room code
+                initSync();
             } else {
                 initSync();
             }
@@ -604,7 +674,6 @@
             }
 
             if (isMQTTActive && mqttClient) {
-                // Publish with retained flag so new clients get it immediately
                 mqttClient.publish('obs-score-v2/state/' + roomCode, JSON.stringify(window.appState), { retain: true, qos: 1 });
             }
         };
@@ -613,31 +682,47 @@
             const oldGoalTimestamp = window.appState.goalEvent?.timestamp || 0;
             window.appState = { ...newState };
 
-            // Update inputs if we are in controller mode
             if (!document.body.classList.contains('mode-overlay')) {
-                document.getElementById('input-home-name').value = window.appState.teamNames.home;
-                document.getElementById('input-away-name').value = window.appState.teamNames.away;
-                document.getElementById('input-home-full').value = window.appState.fullTeamNames?.home || '';
-                document.getElementById('input-away-full').value = window.appState.fullTeamNames?.away || '';
-                document.getElementById('theme-selector').value = window.appState.theme;
-                document.getElementById('font-selector').value = window.appState.font;
-                document.getElementById('input-text-color').value = window.appState.customColor || '#ffffff';
-                document.getElementById('anim-selector').value = window.appState.animation || 'slide';
-                document.getElementById('input-scorers-home').value = window.appState.bottomScorers?.home || '';
-                document.getElementById('input-scorers-away').value = window.appState.bottomScorers?.away || '';
+                const elHome = document.getElementById('input-home-name');
+                const elAway = document.getElementById('input-away-name');
+                if (elHome) elHome.value = window.appState.teamNames.home;
+                if (elAway) elAway.value = window.appState.teamNames.away;
+                
+                const elHomeFull = document.getElementById('input-home-full');
+                const elAwayFull = document.getElementById('input-away-full');
+                if (elHomeFull) elHomeFull.value = window.appState.fullTeamNames?.home || '';
+                if (elAwayFull) elAwayFull.value = window.appState.fullTeamNames?.away || '';
+
+                const elTheme = document.getElementById('theme-selector');
+                const elFont = document.getElementById('font-selector');
+                const elColor = document.getElementById('input-text-color');
+                const elAnim = document.getElementById('anim-selector');
+
+                if (elTheme) elTheme.value = window.appState.theme;
+                if (elFont) elFont.value = window.appState.font;
+                if (elColor) elColor.value = window.appState.customColor || '#ffffff';
+                if (elAnim) elAnim.value = window.appState.animation || 'slide';
+
+                const elScorersH = document.getElementById('input-scorers-home');
+                const elScorersA = document.getElementById('input-scorers-away');
+                if (elScorersH) elScorersH.value = window.appState.bottomScorers?.home || '';
+                if (elScorersA) elScorersA.value = window.appState.bottomScorers?.away || '';
                 
                 if (!window.appState.timer.isRunning) {
-                    document.getElementById('input-mins').value = Math.floor((window.appState.timer?.seconds || 0) / 60);
-                    document.getElementById('input-secs').value = (window.appState.timer?.seconds || 0) % 60;
+                    const elMins = document.getElementById('input-mins');
+                    const elSecs = document.getElementById('input-secs');
+                    if (elMins) elMins.value = Math.floor((window.appState.timer?.seconds || 0) / 60);
+                    if (elSecs) elSecs.value = (window.appState.timer?.seconds || 0) % 60;
                 }
-                document.getElementById('input-stoppage').value = window.appState.timer.stoppage || '';
-                document.getElementById('timer-dir').value = window.appState.timer.direction || 'up';
+                const elStop = document.getElementById('input-stoppage');
+                const elDir = document.getElementById('timer-dir');
+                if (elStop) elStop.value = window.appState.timer.stoppage || '';
+                if (elDir) elDir.value = window.appState.timer.direction || 'up';
             }
 
             renderDOM();
             updateTimerRunningState();
 
-            // Trigger goal animation if it's new
             if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
                 triggerGoalEffects(newState.goalEvent.team);
             }
@@ -656,7 +741,7 @@
             textArea.value = link; document.body.appendChild(textArea); textArea.select();
             try {
                 document.execCommand('copy');
-                const btn = event.target; const oldHTML = btn.innerHTML;
+                const btn = event.currentTarget || event.target; const oldHTML = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                 setTimeout(() => btn.innerHTML = oldHTML, 2000);
             } catch (err) {}
@@ -686,24 +771,20 @@
             const wrapperTop = document.getElementById('scoreboard-top-wrapper');
             const wrapperBtm = document.getElementById('scoreboard-bottom-wrapper');
 
-            // Apply Theme & CSS Variables
             document.getElementById('app-body').setAttribute('data-theme', state.theme);
             document.documentElement.style.setProperty('--custom-text-color', state.customColor || '#ffffff');
             
-            // Fonts
             document.querySelectorAll('.scoreboard-main, .scorer-dropdown').forEach(el => {
                 el.className = el.className.replace(/font-\w+/g, ''); 
                 el.classList.add(state.font);
             });
 
-            // Set Animation Classes base on state.animation
             const animTypeClass = `anim-type-${state.animation || 'slide'}`;
             wrapperTop.className = wrapperTop.className.replace(/anim-type-\w+/g, '');
             wrapperTop.classList.add(animTypeClass);
             wrapperBtm.className = wrapperBtm.className.replace(/anim-type-\w+/g, '');
             wrapperBtm.classList.add(animTypeClass);
 
-            // View toggling logic (Show/Hide)
             if (state.activeView === 'top') {
                 wrapperBtm.classList.remove('scoreboard-visible');
                 wrapperBtm.classList.add('scoreboard-hidden-bottom');
@@ -725,7 +806,6 @@
                 wrapperBtm.classList.add('scoreboard-hidden-bottom');
             }
 
-            // Names & Scores
             if (!window.isHomeGoalAnimating) {
                 document.querySelectorAll('.team-name-home').forEach(el => el.textContent = state.teamNames.home);
                 document.querySelectorAll('.team-name-home-full').forEach(el => el.textContent = state.fullTeamNames?.home || state.teamNames.home);
@@ -737,7 +817,6 @@
             document.querySelectorAll('.score-home').forEach(el => el.textContent = state.scores.home);
             document.querySelectorAll('.score-away').forEach(el => el.textContent = state.scores.away);
             
-            // Timer & Stoppage
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
             document.querySelectorAll('.stoppage-time-text').forEach(el => {
                 if (state.timer.stoppage && state.timer.stoppage.trim() !== '') {
@@ -745,7 +824,6 @@
                 } else { el.classList.add('hidden'); }
             });
 
-            // Scorers logic
             document.getElementById('top-scorer-name').textContent = state.topScorer.name;
             document.getElementById('top-scorer-time').textContent = state.topScorer.min;
             if (state.activeView === 'top' && state.topScorer.visible) {
@@ -763,16 +841,18 @@
                 btmScorersPanel.classList.remove('show');
             }
 
-            // Cards & Fouls Render
+            /* Cards & Fouls Render Below Scoreboard Bar */
             const createCardHTML = (color, count) => {
                 let html = '';
-                const bgClass = color === 'yellow' ? 'bg-yellow-400' : 'bg-red-600';
-                for(let i = 0; i < count; i++) html += `<div class="w-3 h-4.5 ${bgClass} rounded-sm border border-black/50 shadow-md inline-block mr-0.5"></div>`;
+                const bgClass = color === 'yellow' ? 'bg-amber-400' : 'bg-red-600';
+                for(let i = 0; i < count; i++) {
+                    html += `<div class="w-3.5 h-5 ${bgClass} rounded-sm border border-slate-900/40 shadow-md inline-block mr-0.5"></div>`;
+                }
                 return html;
             };
 
-            const homeStatsHTML = `${state.stats.home.fouls > 0 ? `<span class="text-[11px] font-bold bg-white/10 text-white border border-white/20 px-1.5 rounded shadow mr-1">F: ${state.stats.home.fouls}</span>` : ''} ${createCardHTML('yellow', state.stats.home.yellow)} ${createCardHTML('red', state.stats.home.red)}`;
-            const awayStatsHTML = `${createCardHTML('red', state.stats.away.red)} ${createCardHTML('yellow', state.stats.away.yellow)} ${state.stats.away.fouls > 0 ? `<span class="text-[11px] font-bold bg-white/10 text-white border border-white/20 px-1.5 rounded shadow ml-1">F: ${state.stats.away.fouls}</span>` : ''}`;
+            const homeStatsHTML = `${state.stats.home.fouls > 0 ? `<span class="text-[11px] font-bold bg-slate-900/90 text-white border border-slate-700 px-2 py-0.5 rounded shadow mr-1"><i class="fas fa-exclamation-triangle text-amber-400 text-[10px] mr-1"></i>${state.stats.home.fouls}</span>` : ''} ${createCardHTML('yellow', state.stats.home.yellow)} ${createCardHTML('red', state.stats.home.red)}`;
+            const awayStatsHTML = `${createCardHTML('red', state.stats.away.red)} ${createCardHTML('yellow', state.stats.away.yellow)} ${state.stats.away.fouls > 0 ? `<span class="text-[11px] font-bold bg-slate-900/90 text-white border border-slate-700 px-2 py-0.5 rounded shadow ml-1"><i class="fas fa-exclamation-triangle text-amber-400 text-[10px] mr-1"></i>${state.stats.away.fouls}</span>` : ''}`;
 
             document.getElementById('top-stats-home').innerHTML = homeStatsHTML;
             document.getElementById('top-stats-away').innerHTML = awayStatsHTML;
@@ -916,7 +996,11 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             const modeParam = urlParams.get('mode');
-            if (modeParam) { document.getElementById('mode-selector').value = modeParam; changeMode(modeParam); }
+            if (modeParam) { 
+                const elMode = document.getElementById('mode-selector');
+                if (elMode) elMode.value = modeParam; 
+                changeMode(modeParam); 
+            }
             
             try {
                 const savedState = localStorage.getItem('obs_score_v2_' + (document.getElementById('input-room-code')?.value || 'liga-match-v2'));
