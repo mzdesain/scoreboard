@@ -371,7 +371,7 @@
                                 <option value="up">Count UP (0->Target)</option>
                                 <option value="down">Count DOWN</option>
                             </select>
-                            <input type="text" id="input-stoppage" value="" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="Custom Tag (+3')">
+                            <input type="text" id="input-stoppage" value="" oninput="window.appState.timer.stoppage = this.value; renderDOM(); syncState();" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="Label (e.g. ADD, EXTRA)">
                         </div>
                         
                         <div class="flex gap-2 mb-3">
@@ -451,7 +451,7 @@
             <div id="preview-scale-wrapper">
                 
                 <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
-                <div id="overlay-container-top" class="absolute top-6 left-6 w-auto flex flex-col items-start pointer-events-none z-30">
+                <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30">
                     <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex flex-col items-start justify-start">
                         
                         <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl">
@@ -477,8 +477,9 @@
 
                     <!-- Additional Time / Stoppage Time Badge (Below Scoreboard Bar: Left = Added Target, Right = Live Extra Clock) -->
                     <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
-                        <div class="stoppage-badge flex items-center gap-2 bg-slate-900/95 border border-amber-400/50 px-3 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider">
-                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm">+0'</span>
+                        <div class="stoppage-badge flex items-center bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider transition-all duration-300">
+                            <span class="stoppage-label-text text-white font-bold border-r border-slate-700 pr-2 text-[11px] uppercase hidden whitespace-nowrap tracking-widest"></span>
+                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm hidden whitespace-nowrap"></span>
                             <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
                                 <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
                                 <span class="stoppage-clock">00:00</span>
@@ -533,8 +534,9 @@
 
                     <!-- Additional Time / Stoppage Time Badge (Below Bottom Scoreboard Bar: Left = Added Target, Right = Live Extra Clock) -->
                     <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1">
-                        <div class="stoppage-badge flex items-center gap-2 bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider">
-                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm">+0'</span>
+                        <div class="stoppage-badge flex items-center bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider transition-all duration-300">
+                            <span class="stoppage-label-text text-white font-bold border-r border-slate-700 pr-2 text-[11px] uppercase hidden whitespace-nowrap tracking-widest"></span>
+                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm hidden whitespace-nowrap"></span>
                             <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
                                 <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
                                 <span class="stoppage-clock">00:00</span>
@@ -861,26 +863,51 @@
             
             document.querySelectorAll('.stoppage-badge').forEach(el => {
                 const t = state.timer;
+                const labelTextEl = el.querySelector('.stoppage-label-text');
                 const targetTextEl = el.querySelector('.stoppage-target-text');
                 const clockTextEl = el.querySelector('.stoppage-clock');
+                const timerTextEl = el.querySelector('.stoppage-timer-text');
 
-                let targetLabel = '';
-                if (t.stoppageTargetMins > 0) {
-                    targetLabel = `+${t.stoppageTargetMins}'`;
-                } else if (t.stoppage && t.stoppage.trim() !== '') {
-                    targetLabel = t.stoppage.startsWith('+') ? t.stoppage : `+${t.stoppage}`;
-                }
-
-                let isVisible = false;
-
-                if (targetLabel !== '' || t.stoppageSecs > 0) {
-                    isVisible = true;
-                    if (targetTextEl) targetTextEl.textContent = targetLabel || '+';
-                    if (clockTextEl) clockTextEl.textContent = formatTime(t.stoppageSecs);
-                }
+                let hasLabel = t.stoppage && t.stoppage.trim() !== '';
+                let hasTarget = t.stoppageTargetMins > 0;
+                let isVisible = hasLabel || hasTarget || t.stoppageSecs > 0;
 
                 if (isVisible) {
                     el.classList.remove('hidden');
+                    
+                    if (labelTextEl) {
+                        if (hasLabel) {
+                            labelTextEl.textContent = t.stoppage;
+                            labelTextEl.classList.remove('hidden');
+                        } else {
+                            labelTextEl.classList.add('hidden');
+                        }
+                    }
+
+                    if (targetTextEl) {
+                        if (hasTarget) {
+                            targetTextEl.textContent = `+${t.stoppageTargetMins}'`;
+                            targetTextEl.classList.remove('hidden');
+                            
+                            if (hasLabel) {
+                                targetTextEl.classList.add('pl-2');
+                            } else {
+                                targetTextEl.classList.remove('pl-2');
+                            }
+                        } else {
+                            targetTextEl.classList.add('hidden');
+                        }
+                    }
+                    
+                    if (timerTextEl) {
+                        if (hasLabel || hasTarget) {
+                            timerTextEl.classList.add('pl-2');
+                        } else {
+                            timerTextEl.classList.remove('pl-2');
+                        }
+                    }
+
+                    if (clockTextEl) clockTextEl.textContent = formatTime(t.stoppageSecs);
                 } else {
                     el.classList.add('hidden');
                 }
