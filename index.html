@@ -165,6 +165,22 @@
 
         #info-banner-overlay { transform: translateX(150%); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         #info-banner-overlay.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+        /* New Overlays: Lineup & Stats */
+        #lineup-overlay, #stats-overlay { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; pointer-events: none; }
+        .slide-in-left { transform: translateX(-150%); opacity: 0; }
+        .slide-in-left.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        .slide-in-bottom { transform: translateY(150%); opacity: 0; }
+        .slide-in-bottom.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        .pitch-bg { background: linear-gradient(0deg, rgba(2,13,38,0.98) 0%, rgba(13,33,79,0.98) 100%); border-right: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 50px rgba(0,0,0,0.6); }
+        .pitch-line-top { border-top: 2px solid rgba(255,255,255,0.15); }
+        .pitch-line-bottom { border-bottom: 2px solid rgba(255,255,255,0.15); }
+        .pitch-circle { border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; }
+        
+        .stat-bar-bg { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden; height: 10px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .stat-bar-fill-home { background: linear-gradient(90deg, #2563eb, #3b82f6); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
+        .stat-bar-fill-away { background: linear-gradient(90deg, #ef4444, #dc2626); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); float: right; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
     </style>
 </head>
 
@@ -515,6 +531,86 @@
                         </div>
                     </div>
 
+                    <!-- SECTION 10: Lineup & Formation -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-users text-indigo-500 mr-2.5 text-lg"></i> 9. Lineup & Formasi (Starting XI)</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start border-l-4 border-indigo-500 pl-4 bg-indigo-50/30 py-3 rounded-r-lg">
+                            <div class="lg:col-span-4 space-y-4">
+                                <div>
+                                    <label class="label-pro">Pilih Tim</label>
+                                    <select id="lineup-team" class="input-pro cursor-pointer font-bold text-indigo-700 bg-indigo-50 border-indigo-200">
+                                        <option value="home">Home Team</option>
+                                        <option value="away">Away Team</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="label-pro">Formasi</label>
+                                        <select id="lineup-formation" class="input-pro cursor-pointer">
+                                            <option value="4-4-2">4-4-2</option>
+                                            <option value="4-3-3">4-3-3</option>
+                                            <option value="4-2-3-1">4-2-3-1</option>
+                                            <option value="3-5-2">3-5-2</option>
+                                            <option value="3-4-3">3-4-3</option>
+                                            <option value="5-3-2">5-3-2</option>
+                                            <option value="4-1-4-1">4-1-4-1</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="label-pro">Nama Pelatih</label>
+                                        <input type="text" id="lineup-coach" class="input-pro" placeholder="Misal: C. Ancelotti">
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2 pt-2">
+                                    <button onclick="triggerLineup()" class="btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_10px_rgba(79,70,229,0.3)] border-none text-sm w-full py-2.5"><i class="fas fa-eye mr-1"></i> Tampilkan Grafis Lineup</button>
+                                    <button onclick="hideLineup()" class="btn-pro btn-outline text-slate-500 hover:text-red-600 hover:bg-red-50 w-full py-2" title="Sembunyikan"><i class="fas fa-eye-slash mr-1"></i> Hapus Lineup</button>
+                                </div>
+                                <div class="bg-blue-50 text-blue-800 text-[10px] p-2 rounded-md border border-blue-100 mt-2 leading-snug">
+                                    <i class="fas fa-info-circle mr-1"></i> <b>Format: "[Nomor] [Spasi] [Nama]"</b>. Baris pertama selalu jadi Kiper di lapangan, pemain lainnya mengikuti urutan baris formasi dari bawah ke atas.
+                                </div>
+                            </div>
+                            <div class="lg:col-span-4">
+                                <label class="label-pro text-indigo-700"><i class="fas fa-running mr-1"></i> Starting XI (11 Pemain)</label>
+                                <textarea id="lineup-players" class="input-pro text-xs h-56 resize-none font-mono leading-relaxed bg-white" placeholder="1 Courtois&#10;2 Carvajal&#10;3 Militao&#10;4 Alaba&#10;... (hingga 11 pemain)"></textarea>
+                            </div>
+                            <div class="lg:col-span-4">
+                                <label class="label-pro text-slate-600"><i class="fas fa-chair mr-1"></i> Cadangan (Pisah Baris)</label>
+                                <textarea id="lineup-subs" class="input-pro text-xs h-56 resize-none font-mono leading-relaxed bg-slate-50 text-slate-600" placeholder="13 Lunin&#10;17 Vazquez&#10;10 Modric&#10;..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 11: Match Statistics -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-chart-pie text-sky-500 mr-2.5 text-lg"></i> 10. Match Statistics Overview</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center mb-5 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                            <div class="lg:col-span-4 font-black text-center text-blue-600 text-sm tracking-widest bg-blue-100 py-1.5 rounded">HOME</div>
+                            <div class="lg:col-span-4 font-black text-center text-slate-400 tracking-widest text-[10px] uppercase">Indikator Statistik</div>
+                            <div class="lg:col-span-4 font-black text-center text-red-600 text-sm tracking-widest bg-red-100 py-1.5 rounded">AWAY</div>
+                            
+                            <!-- Stats Rows -->
+                            <div class="lg:col-span-4"><input type="number" id="stat-poss-h" class="input-pro text-center font-bold text-blue-700 text-lg" value="50" oninput="document.getElementById('stat-poss-a').value = 100 - this.value"></div>
+                            <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Possession (%)</div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-poss-a" class="input-pro text-center font-bold text-red-700 text-lg" value="50" oninput="document.getElementById('stat-poss-h').value = 100 - this.value"></div>
+
+                            <div class="lg:col-span-4"><input type="number" id="stat-shots-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Total Shots</div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-shots-a" class="input-pro text-center" value="0"></div>
+
+                            <div class="lg:col-span-4"><input type="number" id="stat-sot-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Shots on Target</div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-sot-a" class="input-pro text-center" value="0"></div>
+
+                            <div class="lg:col-span-4"><input type="number" id="stat-corn-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Corner Kicks</div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-corn-a" class="input-pro text-center" value="0"></div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="triggerStats()" class="flex-1 btn-pro btn-primary bg-sky-600 hover:bg-sky-700 shadow-[0_4px_12px_rgba(2,132,199,0.3)] border-none py-3 text-sm"><i class="fas fa-chart-bar mr-2"></i> Munculkan Graphic Statistik</button>
+                            <button onclick="hideStats()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus Graphic</button>
+                        </div>
+                    </div>
+
 <!-- SECTION 7: Support & Donation (QRIS Only) -->
                     <div class="ctrl-group text-center bg-blue-50/30">
                         <div class="flex justify-center items-center">
@@ -704,6 +800,98 @@
                     </div>
                 </div>
 
+                <!-- LINEUP & FORMATION OVERLAY -->
+                <div id="lineup-overlay" class="absolute left-16 top-16 bottom-16 w-[700px] slide-in-left z-40 flex">
+                    <div class="scoreboard-main shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col w-full h-full rounded-2xl overflow-hidden border-2 border-slate-600/50">
+                        <!-- Lineup Header -->
+                        <div class="bg-gradient-to-b from-slate-900 to-slate-800 border-b-2 border-slate-600/50 py-4 px-8 flex justify-between items-center z-10 shadow-lg relative overflow-hidden">
+                            <!-- Shine effect -->
+                            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] animate-[shine_3s_infinite]"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="text-amber-400 font-extrabold text-sm tracking-[0.2em] uppercase mb-0.5"><i class="fas fa-users mr-1"></i> Starting XI</div>
+                                <div id="lineup-team-name" class="custom-colored-text text-4xl font-black uppercase drop-shadow-md">TEAM NAME</div>
+                            </div>
+                            <div class="text-right relative z-10">
+                                <div class="text-slate-400 font-bold text-[10px] tracking-widest uppercase mb-1">Formation</div>
+                                <div id="lineup-formation-display" class="text-white text-3xl font-black bg-slate-950/80 px-4 py-1 rounded-lg border border-slate-700 shadow-inner tracking-widest">4-3-3</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lineup Content -->
+                        <div class="flex-1 flex bg-slate-950 relative overflow-hidden">
+                            <!-- Graphical Pitch Area -->
+                            <div class="flex-1 pitch-bg relative flex flex-col justify-between py-6 px-2">
+                                <!-- Abstract Pitch Lines (Visual Enhancement) -->
+                                <div class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-20">
+                                    <div class="w-[60%] h-32 border-2 border-white border-t-0 absolute top-0 rounded-b-md"></div>
+                                    <div class="w-[30%] h-12 border-2 border-white border-t-0 absolute top-0"></div>
+                                    <div class="w-full h-0 pitch-line-bottom absolute top-1/2"></div>
+                                    <div class="w-40 h-40 pitch-circle absolute top-1/2 -translate-y-1/2"></div>
+                                    <div class="w-2 h-2 bg-white rounded-full absolute top-1/2 -translate-y-1/2"></div>
+                                    <div class="w-[60%] h-32 border-2 border-white border-b-0 absolute bottom-0 rounded-t-md"></div>
+                                    <div class="w-[30%] h-12 border-2 border-white border-b-0 absolute bottom-0"></div>
+                                </div>
+                                
+                                <!-- Dynamic Pitch Players Container -->
+                                <div id="lineup-pitch-container" class="absolute inset-0 z-10 flex flex-col justify-end pb-8 pt-4 px-4 gap-2">
+                                    <!-- Player rows generated by JS -->
+                                </div>
+                            </div>
+                            
+                            <!-- Substitutes & Coach Panel -->
+                            <div class="w-[280px] bg-slate-900/90 backdrop-blur-md p-6 overflow-hidden flex flex-col shadow-[-10px_0_20px_rgba(0,0,0,0.5)] z-20">
+                                <div class="text-amber-400 font-extrabold text-sm tracking-[0.2em] uppercase mb-4 border-b border-slate-700/80 pb-2"><i class="fas fa-chair mr-2"></i> Substitutes</div>
+                                
+                                <!-- Subs List -->
+                                <div id="lineup-subs-container" class="flex-1 flex flex-col gap-2.5 overflow-hidden custom-colored-text font-bold text-lg mb-4 pr-2">
+                                    <!-- Subs injected by JS -->
+                                </div>
+                                
+                                <!-- Manager/Coach Info -->
+                                <div class="mt-auto pt-4 border-t border-slate-700/80 bg-slate-800/50 -mx-6 px-6 pb-2">
+                                    <div class="text-slate-400 font-bold text-[10px] tracking-widest uppercase mb-1">Head Coach / Manager</div>
+                                    <div id="lineup-manager-name" class="custom-colored-text font-black text-2xl uppercase truncate drop-shadow-md">Coach Name</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MATCH STATS OVERLAY -->
+                <div id="stats-overlay" class="absolute left-1/2 bottom-[15%] -translate-x-1/2 w-[850px] slide-in-bottom z-50">
+                    <div class="scoreboard-main shadow-[0_30px_70px_rgba(0,0,0,0.9)] flex flex-col w-full rounded-2xl overflow-hidden border border-slate-600/50 relative">
+                        <!-- Top Accent Line -->
+                        <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 via-amber-400 to-red-500 absolute top-0 left-0 z-20"></div>
+                        
+                        <!-- Header -->
+                        <div class="bg-gradient-to-b from-slate-900 to-slate-950 py-4 px-8 text-center border-b border-slate-800 shadow-lg relative z-10">
+                            <span class="text-white font-black text-3xl tracking-[0.25em] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"><i class="fas fa-chart-line text-amber-400 mr-3"></i>Match Statistics</span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="bg-slate-900/95 backdrop-blur-xl p-8 relative z-10">
+                            <!-- Teams Header inside Stats -->
+                            <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-800/60">
+                                <div class="flex-1 text-left">
+                                    <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">Home Team</div>
+                                    <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-home-name">HOME</div>
+                                </div>
+                                <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center font-black text-slate-500 text-xl border-4 border-slate-900 shadow-inner">VS</div>
+                                <div class="flex-1 text-right">
+                                    <div class="text-[10px] text-red-400 font-bold uppercase tracking-widest mb-1">Away Team</div>
+                                    <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-away-name">AWAY</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Dynamic Stats Rows -->
+                            <div id="stats-rows-container" class="space-y-6">
+                                <!-- JS Injected Rows -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -733,7 +921,15 @@
             bottomScorers: { home: '', away: '', visible: false },
             goalEvent: { active: false, team: null, timestamp: 0 },
             substitution: { active: false, team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
-            infoBanner: { active: false, title: '', subtitle: '' }
+            infoBanner: { active: false, title: '', subtitle: '' },
+            lineup: { active: false, team: 'home', formation: '4-3-3', players: '', subs: '', coach: '' },
+            matchStats: { 
+                active: false, 
+                possH: 50, possA: 50, 
+                shotsH: 0, shotsA: 0, 
+                sotH: 0, sotA: 0, 
+                cornH: 0, cornA: 0 
+            }
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -909,6 +1105,25 @@
                 if (newState.infoBanner) {
                     document.getElementById('banner-title').value = newState.infoBanner.title || '';
                     document.getElementById('banner-subtitle').value = newState.infoBanner.subtitle || '';
+                }
+
+                if (newState.lineup) {
+                    document.getElementById('lineup-team').value = newState.lineup.team || 'home';
+                    document.getElementById('lineup-formation').value = newState.lineup.formation || '4-3-3';
+                    document.getElementById('lineup-players').value = newState.lineup.players || '';
+                    document.getElementById('lineup-subs').value = newState.lineup.subs || '';
+                    document.getElementById('lineup-coach').value = newState.lineup.coach || '';
+                }
+
+                if (newState.matchStats) {
+                    document.getElementById('stat-poss-h').value = newState.matchStats.possH || 50;
+                    document.getElementById('stat-poss-a').value = newState.matchStats.possA || 50;
+                    document.getElementById('stat-shots-h').value = newState.matchStats.shotsH || 0;
+                    document.getElementById('stat-shots-a').value = newState.matchStats.shotsA || 0;
+                    document.getElementById('stat-sot-h').value = newState.matchStats.sotH || 0;
+                    document.getElementById('stat-sot-a').value = newState.matchStats.sotA || 0;
+                    document.getElementById('stat-corn-h').value = newState.matchStats.cornH || 0;
+                    document.getElementById('stat-corn-a').value = newState.matchStats.cornA || 0;
                 }
             }
 
@@ -1119,6 +1334,115 @@
             } else {
                 bannerOverlay.classList.remove('show');
             }
+
+            /* Lineup Render Logic */
+            const lineupOverlay = document.getElementById('lineup-overlay');
+            if (state.lineup?.active) {
+                lineupOverlay.classList.add('show');
+                const t = state.lineup.team;
+                document.getElementById('lineup-team-name').textContent = state.fullTeamNames?.[t] || state.teamNames[t];
+                document.getElementById('lineup-formation-display').textContent = state.lineup.formation;
+                document.getElementById('lineup-manager-name').textContent = state.lineup.coach || 'Head Coach';
+                
+                // Parse Players for Pitch
+                const playersList = (state.lineup.players || '').split('\n').map(p => p.trim()).filter(p => p);
+                const pitchContainer = document.getElementById('lineup-pitch-container');
+                pitchContainer.innerHTML = '';
+                
+                // Construct Rows (Kiper 1 + sisanya dari string formasi)
+                const rows = [1, ...state.lineup.formation.split('-').map(Number)];
+                let playerIndex = 0;
+                
+                // Build Pitch UI (Loop from bottom/GK to top/FWD)
+                rows.forEach(count => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'flex justify-around items-center w-full my-1.5 z-10';
+                    
+                    for(let i = 0; i < count; i++) {
+                        const pText = playersList[playerIndex] || '';
+                        let num = '-', name = pText || 'Player';
+                        const match = pText.match(/^(\d+)\s+(.+)$/);
+                        if(match) { num = match[1]; name = match[2]; }
+                        
+                        const pDiv = document.createElement('div');
+                        pDiv.className = 'flex flex-col items-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] w-24 transform transition-transform hover:scale-110';
+                        
+                        // Warna Berbeda untuk Kiper (Kuning/Emas)
+                        const colorClass = (playerIndex === 0 && count === 1) 
+                            ? 'bg-gradient-to-br from-amber-300 to-amber-600 text-slate-900' 
+                            : (t === 'home' ? 'bg-gradient-to-br from-blue-400 to-blue-700 text-white' : 'bg-gradient-to-br from-red-400 to-red-700 text-white');
+                        
+                        pDiv.innerHTML = `
+                            <div class="w-9 h-9 rounded-full ${colorClass} font-black text-lg flex items-center justify-center border-[3px] border-white shadow-[0_0_15px_rgba(0,0,0,0.5)] mb-1 leading-none z-20 relative">${num}</div>
+                            <div class="bg-slate-900/95 border border-slate-700 text-white text-[12px] font-bold px-2.5 py-1 rounded w-full text-center truncate shadow-lg uppercase relative z-10 custom-colored-text">${name}</div>
+                        `;
+                        rowDiv.appendChild(pDiv);
+                        playerIndex++;
+                    }
+                    pitchContainer.appendChild(rowDiv);
+                });
+                
+                // Build Subs List
+                const subsContainer = document.getElementById('lineup-subs-container');
+                subsContainer.innerHTML = '';
+                const subsList = (state.lineup.subs || '').split('\n').map(p => p.trim()).filter(p => p);
+                subsList.forEach(pText => {
+                    let num = '-', name = pText;
+                    const match = pText.match(/^(\d+)\s+(.+)$/);
+                    if(match) { num = match[1]; name = match[2]; }
+                    subsContainer.innerHTML += `
+                        <div class="flex items-center gap-4 bg-slate-800/40 py-1.5 px-3 rounded-lg border border-slate-700/50 shadow-sm">
+                            <span class="text-amber-400 font-black text-xl w-6 text-right">${num}</span>
+                            <span class="text-white uppercase truncate flex-1 text-xl drop-shadow-sm">${name}</span>
+                        </div>`;
+                });
+                
+            } else {
+                lineupOverlay.classList.remove('show');
+            }
+
+            /* Match Stats Render Logic */
+            const statsOverlay = document.getElementById('stats-overlay');
+            if (state.matchStats?.active) {
+                statsOverlay.classList.add('show');
+                document.getElementById('stats-home-name').textContent = state.fullTeamNames?.home || state.teamNames.home;
+                document.getElementById('stats-away-name').textContent = state.fullTeamNames?.away || state.teamNames.away;
+                
+                const statsContainer = document.getElementById('stats-rows-container');
+                statsContainer.innerHTML = '';
+                
+                const createStatRow = (label, valH, valA, isPercent = false) => {
+                    const numH = parseFloat(valH) || 0; const numA = parseFloat(valA) || 0;
+                    const total = numH + numA;
+                    const pctH = total === 0 ? 50 : (numH / total * 100);
+                    const pctA = total === 0 ? 50 : (numA / total * 100);
+                    
+                    const displayH = isPercent ? `${numH}%` : numH;
+                    const displayA = isPercent ? `${numA}%` : numA;
+                    
+                    return `
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between items-end px-2 text-white font-black text-3xl uppercase drop-shadow-md">
+                                <span class="w-24 text-left text-blue-400">${displayH}</span>
+                                <span class="text-slate-300 text-lg tracking-[0.15em] opacity-90 custom-colored-text">${label}</span>
+                                <span class="w-24 text-right text-red-400">${displayA}</span>
+                            </div>
+                            <div class="flex gap-1 h-3.5 w-full">
+                                <div class="stat-bar-bg flex justify-end rounded-r-none"><div class="stat-bar-fill-home" style="width: ${pctH}%"></div></div>
+                                <div class="stat-bar-bg rounded-l-none"><div class="stat-bar-fill-away" style="width: ${pctA}%"></div></div>
+                            </div>
+                        </div>
+                    `;
+                };
+                
+                statsContainer.innerHTML += createStatRow('Ball Possession', state.matchStats.possH, state.matchStats.possA, true);
+                statsContainer.innerHTML += createStatRow('Total Shots', state.matchStats.shotsH, state.matchStats.shotsA);
+                statsContainer.innerHTML += createStatRow('Shots on Target', state.matchStats.sotH, state.matchStats.sotA);
+                statsContainer.innerHTML += createStatRow('Corner Kicks', state.matchStats.cornH, state.matchStats.cornA);
+                
+            } else {
+                statsOverlay.classList.remove('show');
+            }
         }
 
         function updateStat(team, type, change) {
@@ -1228,6 +1552,45 @@
             const a = document.getElementById('input-scorers-away').value.trim();
             window.appState.bottomScorers = { home: h, away: a, visible: (h !== '' || a !== '') };
             if (window.appState.activeView === 'none') window.appState.activeView = 'bottom';
+            renderDOM(); syncState();
+        }
+
+        function triggerLineup() {
+            window.appState.lineup = {
+                active: true,
+                team: document.getElementById('lineup-team').value,
+                formation: document.getElementById('lineup-formation').value,
+                players: document.getElementById('lineup-players').value,
+                subs: document.getElementById('lineup-subs').value,
+                coach: document.getElementById('lineup-coach').value
+            };
+            window.appState.matchStats.active = false; // Hindari penumpukan overlay
+            renderDOM(); syncState();
+        }
+
+        function hideLineup() {
+            window.appState.lineup.active = false;
+            renderDOM(); syncState();
+        }
+
+        function triggerStats() {
+            window.appState.matchStats = {
+                active: true,
+                possH: document.getElementById('stat-poss-h').value,
+                possA: document.getElementById('stat-poss-a').value,
+                shotsH: document.getElementById('stat-shots-h').value,
+                shotsA: document.getElementById('stat-shots-a').value,
+                sotH: document.getElementById('stat-sot-h').value,
+                sotA: document.getElementById('stat-sot-a').value,
+                cornH: document.getElementById('stat-corn-h').value,
+                cornA: document.getElementById('stat-corn-a').value
+            };
+            window.appState.lineup.active = false; // Hindari penumpukan overlay
+            renderDOM(); syncState();
+        }
+
+        function hideStats() {
+            window.appState.matchStats.active = false;
             renderDOM(); syncState();
         }
 
