@@ -116,6 +116,14 @@
         .scorer-dropdown { transition: all 0.4s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; }
         .scorer-dropdown.show { max-height: 250px; opacity: 1; }
 
+        #event-banner-bottom-left {
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+            transform: translateX(-150%); opacity: 0;
+        }
+        #event-banner-bottom-left.show {
+            transform: translateX(0); opacity: 1;
+        }
+
         #main-layout { display: flex; width: 100vw; height: 100vh; overflow: hidden; background: #f8fafc; }
         .mode-overlay #main-layout { display: block; background: transparent !important; }
         .mode-overlay #controller-panel { display: none !important; }
@@ -451,7 +459,7 @@
             <div id="preview-scale-wrapper">
                 
                 <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
-                <div id="overlay-container-top" class="absolute top-6 left-6 w-auto flex flex-col items-start pointer-events-none z-30">
+                <div id="overlay-container-top" class="absolute top-10 left-12 w-auto flex flex-col items-start pointer-events-none z-30">
                     <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex flex-col items-start justify-start">
                         
                         <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl">
@@ -483,25 +491,25 @@
                                 <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
                                 <span class="stoppage-clock">00:00</span>
                             </span>
-                        </div>
-                    </div>
-
-                    <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
+                        <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
                         <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
                             <div id="top-stats-home" class="flex gap-1 items-center"></div>
                             <div id="top-stats-away" class="flex gap-1 items-center"></div>
                         </div>
 
-                        <!-- Single Goal Banner Dropdown -->
-                        <div id="scorer-info-top" class="scorer-dropdown w-full flex justify-center pointer-events-auto mt-1">
-                            <div class="bg-slate-900/90 backdrop-blur text-white px-6 py-1.5 rounded-b-lg border border-t-0 border-white/20 shadow-xl flex items-center gap-2">
-                                <i class="fas fa-futbol text-amber-400"></i>
-                                <span id="top-scorer-name" class="text-xl font-bold uppercase tracking-wide custom-colored-text">Player</span>
-                                <span class="text-slate-500 text-lg">|</span>
-                                <span id="top-scorer-time" class="text-lg font-bold text-amber-400">45'</span>
-                            </div>
-                        </div>
+                    </div>
+                </div>
 
+                <!-- SINGLE GOAL / EVENT BANNER (Bottom Left) -->
+                <div id="event-banner-bottom-left" class="absolute bottom-16 left-12 w-auto flex flex-col items-start pointer-events-none z-50">
+                    <div class="scoreboard-main flex items-stretch transition-all duration-300 pointer-events-auto relative shadow-2xl">
+                        <div class="team-panel text-center py-2 px-5 flex items-center justify-center relative min-w-[150px] gap-2">
+                            <i class="fas fa-futbol text-amber-400 text-xl animate-bounce z-10"></i>
+                            <span id="top-scorer-name" class="custom-colored-text text-2xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">Player</span>
+                        </div>
+                        <div class="score-panel flex items-center justify-center px-5 relative z-20">
+                            <span id="top-scorer-time" class="match-time-text custom-colored-text text-2xl font-bold tracking-wider leading-none">45'</span>
+                        </div>
                     </div>
                 </div>
 
@@ -865,17 +873,26 @@
                 const clockTextEl = el.querySelector('.stoppage-clock');
 
                 let targetLabel = '';
-                if (t.stoppageTargetMins > 0) {
+                let customText = (t.stoppage || '').trim();
+
+                if (customText !== '') {
+                    if (t.stoppageTargetMins > 0) {
+                        targetLabel = `${customText} +${t.stoppageTargetMins}'`;
+                    } else {
+                        targetLabel = customText;
+                    }
+                } else if (t.stoppageTargetMins > 0) {
                     targetLabel = `+${t.stoppageTargetMins}'`;
-                } else if (t.stoppage && t.stoppage.trim() !== '') {
-                    targetLabel = t.stoppage.startsWith('+') ? t.stoppage : `+${t.stoppage}`;
                 }
 
                 let isVisible = false;
 
                 if (targetLabel !== '' || t.stoppageSecs > 0) {
                     isVisible = true;
-                    if (targetTextEl) targetTextEl.textContent = targetLabel || '+';
+                    if (targetTextEl) {
+                        targetTextEl.textContent = targetLabel;
+                        targetTextEl.style.display = targetLabel === '' ? 'none' : 'block';
+                    }
                     if (clockTextEl) clockTextEl.textContent = formatTime(t.stoppageSecs);
                 }
 
@@ -888,10 +905,11 @@
 
             document.getElementById('top-scorer-name').textContent = state.topScorer.name;
             document.getElementById('top-scorer-time').textContent = state.topScorer.min;
-            if (state.activeView === 'top' && state.topScorer.visible) {
-                document.getElementById('scorer-info-top').classList.add('show');
+            const eventBanner = document.getElementById('event-banner-bottom-left');
+            if (state.topScorer.visible) {
+                eventBanner.classList.add('show');
             } else {
-                document.getElementById('scorer-info-top').classList.remove('show');
+                eventBanner.classList.remove('show');
             }
             
             document.getElementById('btm-scorers-home').innerText = state.bottomScorers?.home || '';
@@ -984,7 +1002,6 @@
             let minute = document.getElementById('input-top-scorer-min').value.trim();
             if (minute !== "" && !minute.includes("'")) minute += "'";
             window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute, visible: true };
-            if (window.appState.activeView === 'none') window.appState.activeView = 'top';
             renderDOM(); syncState();
             setTimeout(() => hideTopScorer(true), 8000);
         }
