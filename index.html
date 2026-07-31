@@ -87,13 +87,15 @@
         body[data-theme="epl"] .score-panel { background: #e90052; margin: 0; border-radius: 0; }
         body[data-theme="epl"] .score-text { color: #fff !important; }
         body[data-theme="epl"] .match-time-text { background: #00ff85; color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
-        body[data-theme="epl"] .stoppage-time-text { background: #3d195b; color: #00ff85; border-radius: 4px; }
+        body[data-theme="epl"] .stoppage-badge { background: #3d195b; border-color: #00ff85; }
+        body[data-theme="epl"] .stoppage-target-text { color: #00ff85; border-color: rgba(0,255,133,0.3); }
 
         /* UCL Style (Champions League) */
         body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #001235, #002366, #001235); border-top: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         body[data-theme="ucl"] .score-panel { background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); }
         body[data-theme="ucl"] .match-time-text { color: #fff; }
-        body[data-theme="ucl"] .stoppage-time-text { color: #cbd5e1; }
+        body[data-theme="ucl"] .stoppage-badge { background: rgba(0, 18, 53, 0.95); border-color: #38bdf8; }
+        body[data-theme="ucl"] .stoppage-target-text { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
 
         /* Broadcast Clean */
         body[data-theme="broadcast"] .scoreboard-main { background: #0f172a; border-left: 6px solid #2563eb; border-right: 6px solid #dc2626; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
@@ -468,17 +470,23 @@
                             </div>
 
                             <!-- Away Team -->
-                            <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
-                                <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
-                            </div>
+                        <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
+                            <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
                         </div>
+                    </div>
 
-                        <!-- Additional Time / Stoppage Time Badge (Below Scoreboard Bar) -->
-                        <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
-                            <span class="stoppage-time-text text-xs font-bold text-amber-300 bg-slate-900/90 border border-amber-400/40 px-3 py-0.5 rounded-full shadow hidden tracking-wider">+0</span>
+                    <!-- Additional Time / Stoppage Time Badge (Below Scoreboard Bar: Left = Added Target, Right = Live Extra Clock) -->
+                    <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
+                        <div class="stoppage-badge flex items-center gap-2 bg-slate-900/95 border border-amber-400/50 px-3 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider">
+                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm">+0'</span>
+                            <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
+                                <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
+                                <span class="stoppage-clock">00:00</span>
+                            </span>
                         </div>
+                    </div>
 
-                        <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
+                    <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
                         <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
                             <div id="top-stats-home" class="flex gap-1 items-center"></div>
                             <div id="top-stats-away" class="flex gap-1 items-center"></div>
@@ -518,17 +526,23 @@
                             </div>
 
                             <!-- Away Team Long -->
-                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
-                                <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
-                            </div>
+                        <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
+                            <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
                         </div>
+                    </div>
 
-                        <!-- Additional Time / Stoppage Time Badge (Below Bottom Scoreboard Bar) -->
-                        <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1">
-                            <span class="stoppage-time-text text-xs font-bold text-amber-300 bg-slate-900/90 border border-amber-400/40 px-3 py-0.5 rounded-full shadow hidden tracking-wider">+0</span>
+                    <!-- Additional Time / Stoppage Time Badge (Below Bottom Scoreboard Bar: Left = Added Target, Right = Live Extra Clock) -->
+                    <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1">
+                        <div class="stoppage-badge flex items-center gap-2 bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider">
+                            <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm">+0'</span>
+                            <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
+                                <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
+                                <span class="stoppage-clock">00:00</span>
+                            </span>
                         </div>
+                    </div>
 
-                        <!-- Cards & Fouls Bar (Below Bottom Scoreboard) -->
+                    <!-- Cards & Fouls Bar (Below Bottom Scoreboard) -->
                         <div class="w-full flex justify-between items-center px-8 mt-1 pointer-events-auto">
                             <div id="btm-stats-home" class="flex gap-1 items-center"></div>
                             <div id="btm-stats-away" class="flex gap-1 items-center"></div>
@@ -845,23 +859,27 @@
             
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
             
-            // Format Additional Time Badge (Live Ticking or Static)
-            document.querySelectorAll('.stoppage-time-text').forEach(el => {
+            document.querySelectorAll('.stoppage-badge').forEach(el => {
                 const t = state.timer;
-                let badgeText = '';
+                const targetTextEl = el.querySelector('.stoppage-target-text');
+                const clockTextEl = el.querySelector('.stoppage-clock');
 
-                if (t.stoppageSecs > 0) {
-                    badgeText = `+${formatTime(t.stoppageSecs)}`;
-                } else if (t.stoppageTargetMins > 0 && t.seconds >= (t.targetMins * 60)) {
-                    badgeText = `+00:00`;
-                } else if (t.stoppageTargetMins > 0) {
-                    badgeText = `+${t.stoppageTargetMins}'`;
+                let targetLabel = '';
+                if (t.stoppageTargetMins > 0) {
+                    targetLabel = `+${t.stoppageTargetMins}'`;
                 } else if (t.stoppage && t.stoppage.trim() !== '') {
-                    badgeText = t.stoppage;
+                    targetLabel = t.stoppage.startsWith('+') ? t.stoppage : `+${t.stoppage}`;
                 }
 
-                if (badgeText !== '') {
-                    el.textContent = badgeText;
+                let isVisible = false;
+
+                if (targetLabel !== '' || t.stoppageSecs > 0) {
+                    isVisible = true;
+                    if (targetTextEl) targetTextEl.textContent = targetLabel || '+';
+                    if (clockTextEl) clockTextEl.textContent = formatTime(t.stoppageSecs);
+                }
+
+                if (isVisible) {
                     el.classList.remove('hidden');
                 } else {
                     el.classList.add('hidden');
