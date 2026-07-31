@@ -130,7 +130,7 @@
         }
 
         #preview-scale-wrapper {
-            transform: scale(0.75); transform-origin: top left; width: 100%; height: 100%; position: absolute; inset: 0;
+            transform: scale(0.75); transform-origin: top center; width: 100%; height: 100%; position: absolute; inset: 0;
             pointer-events: none;
         }
         .mode-overlay #preview-scale-wrapper { transform: scale(1) !important; }
@@ -343,30 +343,43 @@
 
                     <!-- Match Clock -->
                     <div class="ctrl-group xl:col-span-4 flex flex-col !mb-0">
-                        <div class="ctrl-title"><i class="fas fa-clock mr-1"></i> Match Clock</div>
+                        <div class="ctrl-title"><i class="fas fa-clock mr-1"></i> Match Clock Settings</div>
                         
-                        <div class="flex justify-center items-center gap-1 mb-3 bg-slate-900 border border-slate-800 rounded-lg py-2 shadow-inner">
-                            <input type="number" id="input-mins" value="0" class="w-14 text-center text-2xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" placeholder="00">
-                            <span class="font-bold text-2xl text-blue-400">:</span>
-                            <input type="number" id="input-secs" value="0" class="w-14 text-center text-2xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" max="59" placeholder="00">
+                        <!-- Target Match Time & Extra Time Inputs -->
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <div>
+                                <label class="text-[10px] text-slate-500 font-bold block mb-0.5">TARGET TIME (MIN)</label>
+                                <input type="number" id="input-target-mins" value="15" min="1" class="input-pro text-xs text-center font-bold text-blue-600" placeholder="e.g. 15 or 45">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-500 font-bold block mb-0.5">EXTRA TIME (MIN)</label>
+                                <input type="number" id="input-stoppage-mins" value="0" min="0" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="e.g. 3">
+                            </div>
+                        </div>
+
+                        <!-- Current Time Input -->
+                        <div class="flex justify-center items-center gap-1 mb-2 bg-slate-900 border border-slate-800 rounded-lg py-1.5 shadow-inner">
+                            <input type="number" id="input-mins" value="0" class="w-12 text-center text-xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" placeholder="00">
+                            <span class="font-bold text-xl text-blue-400">:</span>
+                            <input type="number" id="input-secs" value="0" class="w-12 text-center text-xl font-bold font-mono bg-transparent border-none focus:outline-none text-white p-0" min="0" max="59" placeholder="00">
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div class="grid grid-cols-2 gap-2 mb-2">
                             <select id="timer-dir" class="input-pro text-xs text-center">
-                                <option value="up">Count UP (00->90)</option>
+                                <option value="up">Count UP (0->Target)</option>
                                 <option value="down">Count DOWN</option>
                             </select>
-                            <input type="text" id="input-stoppage" value="" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="+ Extra Time">
+                            <input type="text" id="input-stoppage" value="" class="input-pro text-xs text-center font-bold text-amber-600" placeholder="Custom Tag (+3')">
                         </div>
                         
                         <div class="flex gap-2 mb-3">
-                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-outline py-1.5"><i class="fas fa-check"></i> Apply Time</button>
-                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-outline py-1.5"><i class="fas fa-undo"></i> Reset</button>
+                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-outline py-1.5 text-xs"><i class="fas fa-check"></i> Apply Time</button>
+                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-outline py-1.5 text-xs"><i class="fas fa-undo"></i> Reset</button>
                         </div>
 
                         <div class="flex gap-2 mt-auto">
-                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-success py-2 text-sm"><i class="fas fa-play"></i> Start</button>
-                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-danger py-2 text-sm" disabled><i class="fas fa-pause"></i> Pause</button>
+                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-success py-2 text-xs"><i class="fas fa-play"></i> Start Clock</button>
+                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-danger py-2 text-xs" disabled><i class="fas fa-pause"></i> Pause Clock</button>
                         </div>
                     </div>
                 </div>
@@ -491,12 +504,12 @@
                         <!-- Main Bottom Scorebar -->
                         <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative shadow-2xl">
                             <!-- Home Team Long -->
-                            <div class="team-panel flex-1 text-center py-2.5 px-6 flex items-center justify-end relative">
-                                <span class="team-name-home-full custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right">Home Team FC</span>
+                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden">
+                                <span class="team-name-home-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right truncate">Home Team FC</span>
                             </div>
                             
                             <!-- Middle Scores & Clock -->
-                            <div class="score-panel flex items-stretch justify-center px-6 min-w-[220px] relative z-20">
+                            <div class="score-panel flex items-stretch justify-center px-6 min-w-[220px] relative z-20 flex-shrink-0">
                                 <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-4xl font-bold w-12 text-center block">0</span></div>
                                 <div class="flex flex-col items-center justify-center mx-4 my-1">
                                     <span class="match-time-text custom-colored-text text-2xl font-bold px-3 rounded tracking-wider leading-none">00:00</span>
@@ -505,8 +518,8 @@
                             </div>
 
                             <!-- Away Team Long -->
-                            <div class="team-panel flex-1 text-center py-2.5 px-6 flex items-center justify-start relative">
-                                <span class="team-name-away-full custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left">Away Team FC</span>
+                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
+                                <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
                             </div>
                         </div>
 
@@ -556,7 +569,15 @@
             font: 'font-teko',
             customColor: '#ffffff',
             animation: 'slide',
-            timer: { seconds: 0, isRunning: false, direction: 'up', stoppage: '' },
+            timer: { 
+                seconds: 0, 
+                targetMins: 15,
+                stoppageSecs: 0,
+                stoppageTargetMins: 0,
+                isRunning: false, 
+                direction: 'up', 
+                stoppage: '' 
+            },
             topScorer: { name: '', min: '', visible: false },
             bottomScorers: { home: '', away: '', visible: false },
             goalEvent: { active: false, team: null, timestamp: 0 }
@@ -716,8 +737,13 @@
                 }
                 const elStop = document.getElementById('input-stoppage');
                 const elDir = document.getElementById('timer-dir');
+                const elTarget = document.getElementById('input-target-mins');
+                const elStopMins = document.getElementById('input-stoppage-mins');
+
                 if (elStop) elStop.value = window.appState.timer.stoppage || '';
                 if (elDir) elDir.value = window.appState.timer.direction || 'up';
+                if (elTarget) elTarget.value = window.appState.timer.targetMins ?? 15;
+                if (elStopMins) elStopMins.value = window.appState.timer.stoppageTargetMins ?? 0;
             }
 
             renderDOM();
@@ -818,10 +844,28 @@
             document.querySelectorAll('.score-away').forEach(el => el.textContent = state.scores.away);
             
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
+            
+            // Format Additional Time Badge (Live Ticking or Static)
             document.querySelectorAll('.stoppage-time-text').forEach(el => {
-                if (state.timer.stoppage && state.timer.stoppage.trim() !== '') {
-                    el.textContent = state.timer.stoppage; el.classList.remove('hidden');
-                } else { el.classList.add('hidden'); }
+                const t = state.timer;
+                let badgeText = '';
+
+                if (t.stoppageSecs > 0) {
+                    badgeText = `+${formatTime(t.stoppageSecs)}`;
+                } else if (t.stoppageTargetMins > 0 && t.seconds >= (t.targetMins * 60)) {
+                    badgeText = `+00:00`;
+                } else if (t.stoppageTargetMins > 0) {
+                    badgeText = `+${t.stoppageTargetMins}'`;
+                } else if (t.stoppage && t.stoppage.trim() !== '') {
+                    badgeText = t.stoppage;
+                }
+
+                if (badgeText !== '') {
+                    el.textContent = badgeText;
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
             });
 
             document.getElementById('top-scorer-name').textContent = state.topScorer.name;
@@ -953,8 +997,36 @@
                 if (btnStop) btnStop.disabled = false;
                 if (!timerInterval) {
                     timerInterval = setInterval(() => {
-                        window.appState.timer.direction === 'up' ? window.appState.timer.seconds++ : window.appState.timer.seconds--;
-                        if (window.appState.timer.seconds <= 0) { window.appState.timer.seconds = 0; stopTimer(); }
+                        const t = window.appState.timer;
+                        const targetSecs = (t.targetMins || 15) * 60;
+                        const stoppageTargetSecs = (t.stoppageTargetMins || 0) * 60;
+
+                        if (t.direction === 'up') {
+                            if (t.seconds < targetSecs) {
+                                t.seconds++;
+                            } else {
+                                // Main time reached target!
+                                t.seconds = targetSecs;
+                                if (stoppageTargetSecs > 0) {
+                                    if (t.stoppageSecs < stoppageTargetSecs) {
+                                        t.stoppageSecs++;
+                                    } else {
+                                        t.stoppageSecs = stoppageTargetSecs;
+                                        stopTimer(); // Stoppage time completed!
+                                    }
+                                } else {
+                                    stopTimer(); // Main time target reached!
+                                }
+                            }
+                        } else {
+                            // Count Down
+                            if (t.seconds > 0) {
+                                t.seconds--;
+                            } else {
+                                t.seconds = 0;
+                                stopTimer();
+                            }
+                        }
                         renderDOM();
                     }, 1000);
                 }
@@ -967,15 +1039,22 @@
 
         function applyTimerSettings() {
             window.appState.timer.direction = document.getElementById('timer-dir').value;
+            window.appState.timer.targetMins = parseInt(document.getElementById('input-target-mins').value) || 15;
+            window.appState.timer.stoppageTargetMins = parseInt(document.getElementById('input-stoppage-mins').value) || 0;
             window.appState.timer.seconds = ((parseInt(document.getElementById('input-mins').value) || 0) * 60) + (parseInt(document.getElementById('input-secs').value) || 0);
+            window.appState.timer.stoppageSecs = 0;
             window.appState.timer.stoppage = document.getElementById('input-stoppage').value;
             renderDOM(); syncState();
         }
 
         function resetTimer() {
             stopTimer();
-            window.appState.timer.seconds = 0; window.appState.timer.stoppage = '';
-            document.getElementById('input-mins').value = 0; document.getElementById('input-secs').value = 0; document.getElementById('input-stoppage').value = '';
+            window.appState.timer.seconds = 0;
+            window.appState.timer.stoppageSecs = 0;
+            window.appState.timer.stoppage = '';
+            document.getElementById('input-mins').value = 0; 
+            document.getElementById('input-secs').value = 0; 
+            document.getElementById('input-stoppage').value = '';
             renderDOM(); syncState();
         }
 
@@ -983,6 +1062,8 @@
             if (!window.appState.timer.isRunning) {
                 window.appState.timer.isRunning = true;
                 window.appState.timer.direction = document.getElementById('timer-dir').value;
+                window.appState.timer.targetMins = parseInt(document.getElementById('input-target-mins').value) || 15;
+                window.appState.timer.stoppageTargetMins = parseInt(document.getElementById('input-stoppage-mins').value) || 0;
                 updateTimerRunningState(); syncState();
             }
         }
