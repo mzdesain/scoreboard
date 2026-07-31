@@ -167,93 +167,91 @@
         .hide-controller #controller-panel { display: none !important; }
         .hide-controller #preview-panel { width: 100vw; }
 
-        /* Controller Styling (Blue/White Sport 3D Theme) */
+        /* --- PROFESSIONAL DARK THEME CONTROLLER --- */
         #controller-panel {
             font-family: 'Inter', sans-serif;
-            background: #f1f5f9;
+            background: #0b0f19; /* Very dark blue/gray */
+            color: #e2e8f0;
         }
         #controller-panel::-webkit-scrollbar { width: 8px; }
-        #controller-panel::-webkit-scrollbar-track { background: #e2e8f0; border-left: 1px solid #cbd5e1; }
-        #controller-panel::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        #controller-panel::-webkit-scrollbar-track { background: #0b0f19; border-left: 1px solid #1e293b; }
+        #controller-panel::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        #controller-panel::-webkit-scrollbar-thumb:hover { background: #475569; }
         
         .ctrl-group { 
-            background: #ffffff; 
-            border-radius: 12px; 
-            padding: 18px; 
-            margin-bottom: 20px; 
-            border: 1px solid #e2e8f0; 
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.08), 0 2px 4px -1px rgba(37, 99, 235, 0.04); 
+            background: #111827; /* Gray 900 */
+            border-radius: 8px; 
+            padding: 16px; 
+            border: 1px solid #1f2937; /* Gray 800 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2); 
+            height: 100%;
         }
         .ctrl-title { 
-            font-size: 13px; 
+            font-size: 11px; 
             text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            color: #1e40af; 
+            letter-spacing: 1px; 
+            color: #9ca3af; /* Gray 400 */
             margin-bottom: 12px; 
-            font-weight: 900; 
+            font-weight: 700; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-bottom: 2px solid #eff6ff; 
+            border-bottom: 1px solid #1f2937; 
             padding-bottom: 8px; 
         }
         
-        .input-blue { 
-            background: #ffffff; 
-            border: 2px solid #bfdbfe; 
-            color: #0f172a; 
-            border-radius: 8px; 
-            padding: 10px 14px; 
+        .input-pro { 
+            background: #030712; /* Gray 950 */
+            border: 1px solid #374151; /* Gray 700 */
+            color: #f8fafc; 
+            border-radius: 6px; 
+            padding: 8px 12px; 
             width: 100%; 
             font-size: 13px; 
-            font-weight: 700; 
+            font-weight: 500; 
             transition: all 0.2s;
         }
-        .input-blue:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        .input-pro:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); }
+        .input-pro::placeholder { color: #4b5563; }
         
-        /* 3D Button Styles */
-        .btn-3d {
+        /* Pro Button Styles */
+        .btn-pro {
             position: relative;
-            border-radius: 8px;
-            font-weight: 800;
+            border-radius: 6px;
+            font-weight: 600;
             text-transform: uppercase;
-            transition: all 0.1s;
-            border: none;
+            letter-spacing: 0.5px;
+            transition: all 0.15s ease-in-out;
+            border: 1px solid transparent;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            padding: 8px 16px;
         }
-        .btn-3d:active { transform: translateY(3px); }
-        .btn-3d:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
+        .btn-pro:active:not(:disabled) { transform: scale(0.97); }
+        .btn-pro:disabled { opacity: 0.5; transform: none; cursor: not-allowed; filter: grayscale(100%); }
         
-        .btn-blue { background: #2563eb; color: #fff; box-shadow: 0 4px 0 #1e40af; }
-        .btn-blue:active:not(:disabled) { box-shadow: 0 1px 0 #1e40af; }
-        .btn-blue:hover:not(:disabled) { background: #1d4ed8; }
+        .btn-blue { background: #2563eb; color: #fff; border-color: #1d4ed8; }
+        .btn-blue:hover:not(:disabled) { background: #1d4ed8; border-color: #1e40af; }
         
-        .btn-emerald { background: #10b981; color: #fff; box-shadow: 0 4px 0 #047857; }
-        .btn-emerald:active:not(:disabled) { box-shadow: 0 1px 0 #047857; }
-        .btn-emerald:hover:not(:disabled) { background: #059669; }
+        .btn-emerald { background: #059669; color: #fff; border-color: #047857; }
+        .btn-emerald:hover:not(:disabled) { background: #047857; border-color: #065f46; }
         
-        .btn-red { background: #ef4444; color: #fff; box-shadow: 0 4px 0 #b91c1c; }
-        .btn-red:active:not(:disabled) { box-shadow: 0 1px 0 #b91c1c; }
-        .btn-red:hover:not(:disabled) { background: #dc2626; }
+        .btn-red { background: #dc2626; color: #fff; border-color: #b91c1c; }
+        .btn-red:hover:not(:disabled) { background: #b91c1c; border-color: #991b1b; }
         
-        .btn-amber { background: #f59e0b; color: #111; box-shadow: 0 4px 0 #b45309; }
-        .btn-amber:active:not(:disabled) { box-shadow: 0 1px 0 #b45309; }
-        .btn-amber:hover:not(:disabled) { background: #d97706; }
+        .btn-amber { background: #f59e0b; color: #000; border-color: #d97706; }
+        .btn-amber:hover:not(:disabled) { background: #d97706; border-color: #b45309; }
         
-        .btn-gray { background: #64748b; color: #fff; box-shadow: 0 4px 0 #334155; }
-        .btn-gray:active:not(:disabled) { box-shadow: 0 1px 0 #334155; }
-        .btn-gray:hover:not(:disabled) { background: #475569; }
+        .btn-gray { background: #374151; color: #fff; border-color: #1f2937; }
+        .btn-gray:hover:not(:disabled) { background: #4b5563; border-color: #374151; }
         
-        .btn-cyan { background: #0891b2; color: #fff; box-shadow: 0 4px 0 #155e75; }
-        .btn-cyan:active:not(:disabled) { box-shadow: 0 1px 0 #155e75; }
-        .btn-cyan:hover:not(:disabled) { background: #0e7490; }
+        .btn-cyan { background: #0891b2; color: #fff; border-color: #0e7490; }
+        .btn-cyan:hover:not(:disabled) { background: #0e7490; border-color: #155e75; }
 
-        .btn-indigo { background: #4f46e5; color: #fff; box-shadow: 0 4px 0 #3730a3; }
-        .btn-indigo:active:not(:disabled) { box-shadow: 0 1px 0 #3730a3; }
-        .btn-indigo:hover:not(:disabled) { background: #4338ca; }
+        .btn-indigo { background: #4f46e5; color: #fff; border-color: #4338ca; }
+        .btn-indigo:hover:not(:disabled) { background: #4338ca; border-color: #3730a3; }
 
         /* Sporty Background for Preview Panel */
         .bg-sporty {
@@ -271,69 +269,71 @@
     <div id="main-layout">
         
         <!-- ============================================== -->
-        <!-- LEFT PANEL: CONTROLLER UI (BLUE & WHITE 3D)  -->
+        <!-- LEFT PANEL: PROFESSIONAL DASHBOARD CONTROLLER  -->
         <!-- ============================================== -->
-        <div id="controller-panel" class="w-[450px] flex-shrink-0 h-full flex flex-col border-r-4 border-blue-600 shadow-[8px_0_25px_rgba(0,0,0,0.15)] z-50 overflow-y-auto">
+        <div id="controller-panel" class="w-[60%] xl:w-[65%] flex-shrink-0 h-full flex flex-col border-r border-slate-800 shadow-[10px_0_30px_rgba(0,0,0,0.8)] z-50 overflow-y-auto">
             
-            <div class="p-6 flex-grow font-sans">
-                <!-- Controller Header -->
-                <div class="flex justify-between items-center border-b-2 border-blue-200 pb-4 mb-5">
-                    <div>
-                        <h3 class="font-black text-[22px] text-blue-900 flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></span>
-                            OBS Scoreboard Pro
-                        </h3>
-                        <p class="text-[12px] text-blue-600 font-bold uppercase tracking-wider">Remote Sync & Broadcasting Suite</p>
-                    </div>
-                    <button onclick="toggleController()" class="text-xs btn-3d btn-red px-4 py-2">Hide UI</button>
+            <!-- Dashboard Header -->
+            <div class="px-6 py-4 bg-[#030712] border-b border-slate-800 flex justify-between items-center sticky top-0 z-20 shadow-md">
+                <div>
+                    <h3 class="font-black text-[20px] text-white flex items-center gap-2 font-sans tracking-tight">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]"></span>
+                        OBS Scoreboard Pro
+                    </h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 font-sans">Broadcast Control Center</p>
                 </div>
+                <div class="flex items-center gap-4 font-sans">
+                    <span id="sync-status" class="text-[10px] text-amber-400 font-mono bg-amber-400/10 px-3 py-1 rounded border border-amber-400/20">Connecting...</span>
+                    <button onclick="toggleController()" class="btn-pro btn-red px-3 py-1.5 text-[10px]">Hide UI</button>
+                </div>
+            </div>
 
-                <div class="ctrl-group">
-                    <div class="ctrl-title">
-                        <span>Sync & View Mode</span>
-                        <span id="sync-status" class="text-[11px] text-amber-600 font-mono bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 shadow-sm">Connecting...</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mb-3">
-                        <div>
-                            <label class="text-[11px] text-slate-500 font-bold block mb-1">View Mode</label>
-                            <select id="mode-selector" onchange="changeMode(this.value)" class="input-blue cursor-pointer">
-                                <option value="combined">Combined (UI & Preview)</option>
-                                <option value="overlay">OBS Overlay Only (Clean)</option>
-                                <option value="mobile">Mobile Remote Controller</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[11px] text-slate-500 font-bold block mb-1">Room Code (Sync)</label>
-                            <input type="text" id="input-room-code" value="liga-match1" onchange="updateRoomCode()" class="input-blue font-mono text-center text-[14px]" placeholder="e.g. room123">
-                        </div>
-                    </div>
+            <!-- Main Control Area -->
+            <div class="p-6 flex-grow font-sans space-y-6">
+                
+                <!-- ROW 1: Global Settings (Grid 2 Cols) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     
-                    <!-- OBS Link Generator -->
-                    <div class="mt-3 bg-blue-50/70 p-3 rounded-lg border border-blue-200 shadow-inner">
-                        <label class="text-[11px] text-blue-800 font-black block mb-2">🔗 Link Khusus OBS Browser Source:</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="obs-link-display" readonly class="input-blue text-[11px] text-slate-600 w-full bg-white" value="">
-                            <button onclick="copyOBSLink(event)" class="btn-3d btn-blue px-3 py-2 text-[11px] whitespace-nowrap">Copy</button>
-                            <button onclick="openOBSLink()" class="btn-3d btn-emerald px-3 py-2 text-[11px] whitespace-nowrap">Buka</button>
-                        </div>
-                    </div>
-                    <p class="text-[10.5px] text-slate-500 mt-2 leading-tight">💡 Link ini bekerja di manapun via public MQTT. Paste di OBS Browser Source, hasilnya realtime mengikuti Controller ini.</p>
-                </div>
-
-                <div class="ctrl-group">
-                    <div class="ctrl-title">Display Controls</div>
-                    <div class="flex flex-col gap-3">
-                        <!-- Toggles -->
-                        <div class="flex gap-2">
-                            <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-3d btn-emerald py-3 text-xs tracking-wider">SHOW TOP</button>
-                            <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-3d btn-gray py-3 text-xs tracking-wider">SHOW BOTTOM</button>
+                    <!-- Link & Connection -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title">Connection & Sync</div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-[11px] text-slate-400 font-bold block mb-1">View Mode</label>
+                                <select id="mode-selector" onchange="changeMode(this.value)" class="input-pro cursor-pointer text-xs">
+                                    <option value="combined">Dash + Preview</option>
+                                    <option value="overlay">OBS Overlay Only</option>
+                                    <option value="mobile">Mobile Remote</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-slate-400 font-bold block mb-1">Room Code (Sync)</label>
+                                <input type="text" id="input-room-code" value="liga-match1" onchange="updateRoomCode()" class="input-pro font-mono text-center text-xs text-emerald-400 bg-[#030712] border-slate-700" placeholder="e.g. room123">
+                            </div>
                         </div>
                         
-                        <!-- Theme & Font Selection -->
-                        <div class="grid grid-cols-2 gap-3 mt-2">
+                        <div class="bg-slate-800/50 p-3 rounded-md border border-slate-700/50">
+                            <label class="text-[10px] text-slate-300 font-bold block mb-2 uppercase tracking-wide">🔗 OBS Browser Source URL:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="obs-link-display" readonly class="input-pro text-[11px] text-slate-400 w-full bg-[#030712]" value="">
+                                <button onclick="copyOBSLink(event)" class="btn-pro btn-blue px-3 py-1 text-[10px] whitespace-nowrap">Copy</button>
+                                <button onclick="openOBSLink()" class="btn-pro btn-emerald px-3 py-1 text-[10px] whitespace-nowrap">Open</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Display & Theme -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title">Display & Styling</div>
+                        <div class="flex gap-3 mb-4">
+                            <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-emerald py-2 text-[11px]">SHOW TOP</button>
+                            <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-gray py-2 text-[11px]">SHOW BOTTOM</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-3">
                             <div>
-                                <label class="text-[11px] text-slate-500 font-bold block mb-1">Theme (11 Styles)</label>
-                                <select id="theme-selector" onchange="applyStyles()" class="input-blue cursor-pointer">
+                                <label class="text-[11px] text-slate-400 font-bold block mb-1">Theme Style</label>
+                                <select id="theme-selector" onchange="applyStyles()" class="input-pro cursor-pointer text-xs">
                                     <option value="standard">Standard Block</option>
                                     <option value="minimalist">Minimalist</option>
                                     <option value="pill">Pill / Rounded</option>
@@ -345,176 +345,211 @@
                                     <option value="glass">Frosted Glass</option>
                                     <option value="retro">Retro 8-Bit Pixel</option>
                                     <option value="tactical">Tactical Slate</option>
-                                    <option value="papercraft">✂️ Papercraft Style</option>
-                                    <option value="laliga">🇪🇸 La Liga Style</option>
-                                    <option value="epl">🇬🇧 Premier League Style</option>
-                                    <option value="ucl">⭐ UEFA Champions League</option>
-                                    <option value="bundesliga">🇩🇪 Bundesliga Style</option>
-                                    <option value="seriea">🇮🇹 Serie A Style</option>
+                                    <option value="papercraft">✂️ Papercraft</option>
+                                    <option value="laliga">🇪🇸 La Liga</option>
+                                    <option value="epl">🇬🇧 Premier League</option>
+                                    <option value="ucl">⭐ UCL</option>
+                                    <option value="bundesliga">🇩🇪 Bundesliga</option>
+                                    <option value="seriea">🇮🇹 Serie A</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[11px] text-slate-500 font-bold block mb-1">Font Family</label>
-                                <select id="font-selector" onchange="applyStyles()" class="input-blue cursor-pointer">
+                                <label class="text-[11px] text-slate-400 font-bold block mb-1">Typography</label>
+                                <select id="font-selector" onchange="applyStyles()" class="input-pro cursor-pointer text-xs">
                                     <option value="font-teko">Teko (Broadcaster)</option>
                                     <option value="font-bebas">Bebas Neue</option>
-                                    <option value="font-orbitron">Orbitron (Tech/Esports)</option>
+                                    <option value="font-orbitron">Orbitron (Tech)</option>
                                     <option value="font-oswald">Oswald</option>
-                                    <option value="font-pressstart">Press Start 2P (Retro)</option>
+                                    <option value="font-pressstart">Press Start 2P</option>
                                     <option value="font-rajdhani">Rajdhani</option>
                                 </select>
                             </div>
                         </div>
-
-                        <!-- Logo URL -->
-                        <div class="mt-2">
-                            <label class="text-[11px] text-slate-500 font-bold block mb-1">League Logo Image URL</label>
-                            <input type="text" id="input-logo-url" value="https://placehold.co/100x100/ffffff/000000?text=LIGA" onchange="updateLogo()" class="input-blue" placeholder="Paste Image URL here...">
+                        <div>
+                            <input type="text" id="input-logo-url" value="https://placehold.co/100x100/ffffff/000000?text=LIGA" onchange="updateLogo()" class="input-pro text-xs" placeholder="Paste League Logo URL here...">
                         </div>
                     </div>
                 </div>
 
-                <div class="ctrl-group">
-                    <div class="ctrl-title">Teams, Scores & Stats</div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <!-- Home -->
-                        <div class="bg-blue-50/50 p-4 rounded-xl border-2 border-blue-200 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-1.5 bg-blue-600"></div>
-                            <label class="text-[11px] text-blue-700 font-black block mb-2 text-center">HOME TEAM</label>
-                            <input type="text" id="input-home-name" value="HOME" onchange="updateNames()" class="input-blue mb-2 text-center font-black text-lg border-blue-300 focus:border-blue-600 focus:ring-blue-600" placeholder="Short Name">
-                            <input type="text" id="input-home-full" value="" onchange="updateNames()" class="input-blue mb-3 text-center text-[11px] border-blue-300" placeholder="Full Name (Btm)">
-                            
-                            <div class="flex gap-2 justify-center mb-4">
-                                <button onclick="updateScore('home', -1)" class="btn-3d btn-gray px-3 py-2 w-12 text-sm">-1</button>
-                                <button onclick="updateScore('home', 1)" class="btn-3d btn-blue px-3 py-2 flex-1 text-sm flex items-center justify-center gap-1">+1 ⚽</button>
-                            </div>
-                            <!-- Home Stats -->
-                            <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-blue-200 shadow-sm">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">Foul</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('home','fouls',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('home','fouls',1)" class="px-2 py-0.5 bg-slate-700 hover:bg-slate-800 text-white rounded font-bold shadow-md">+</button></div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">Y-Card</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('home','yellow',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('home','yellow',1)" class="px-2 py-0.5 bg-amber-400 hover:bg-amber-500 text-amber-900 rounded font-bold shadow-md">+</button></div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">R-Card</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('home','red',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('home','red',1)" class="px-2 py-0.5 bg-red-500 hover:bg-red-600 text-white rounded font-bold shadow-md">+</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Away -->
-                        <div class="bg-red-50/50 p-4 rounded-xl border-2 border-red-200 shadow-sm relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-1.5 bg-red-600"></div>
-                            <label class="text-[11px] text-red-700 font-black block mb-2 text-center">AWAY TEAM</label>
-                            <input type="text" id="input-away-name" value="AWAY" onchange="updateNames()" class="input-blue mb-2 text-center font-black text-lg border-red-300 focus:border-red-600 focus:ring-red-600" placeholder="Short Name">
-                            <input type="text" id="input-away-full" value="" onchange="updateNames()" class="input-blue mb-3 text-center text-[11px] border-red-300" placeholder="Full Name (Btm)">
-                            
-                            <div class="flex gap-2 justify-center mb-4">
-                                <button onclick="updateScore('away', -1)" class="btn-3d btn-gray px-3 py-2 w-12 text-sm">-1</button>
-                                <button onclick="updateScore('away', 1)" class="btn-3d btn-red px-3 py-2 flex-1 text-sm flex items-center justify-center gap-1">+1 ⚽</button>
-                            </div>
-                            <!-- Away Stats -->
-                            <div class="flex justify-between items-center bg-white p-2 rounded-lg border border-red-200 shadow-sm">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">Foul</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('away','fouls',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('away','fouls',1)" class="px-2 py-0.5 bg-slate-700 hover:bg-slate-800 text-white rounded font-bold shadow-md">+</button></div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">Y-Card</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('away','yellow',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('away','yellow',1)" class="px-2 py-0.5 bg-amber-400 hover:bg-amber-500 text-amber-900 rounded font-bold shadow-md">+</button></div>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[10px] text-slate-500 font-bold mb-1">R-Card</span>
-                                    <div class="flex gap-1"><button onclick="updateStat('away','red',-1)" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300 font-bold">-</button><button onclick="updateStat('away','red',1)" class="px-2 py-0.5 bg-red-500 hover:bg-red-600 text-white rounded font-bold shadow-md">+</button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ctrl-group">
-                    <div class="ctrl-title">Match Clock & Add Time</div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <input type="number" id="input-mins" value="0" class="input-blue w-16 text-center text-lg px-2" min="0" placeholder="Min">
-                        <span class="font-black text-xl text-slate-400">:</span>
-                        <input type="number" id="input-secs" value="0" class="input-blue w-16 text-center text-lg px-2" min="0" max="59" placeholder="Sec">
-                        
-                        <input type="text" id="input-stoppage" value="" class="input-blue w-20 text-center font-bold text-blue-700 ml-2" placeholder="+3, ET..">
-                        
-                        <select id="timer-dir" class="input-blue text-xs flex-1 cursor-pointer">
-                            <option value="up">Count UP</option>
-                            <option value="down">Count DOWN</option>
-                        </select>
-                    </div>
-                    <div class="flex gap-3 mb-3">
-                        <button onclick="applyTimerSettings()" class="flex-1 btn-3d btn-indigo text-xs py-2.5">Apply Time</button>
-                        <button onclick="resetTimer()" class="flex-1 btn-3d btn-gray text-xs py-2.5">Reset 00:00</button>
-                    </div>
-                    <div class="flex gap-3">
-                        <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-3d btn-emerald py-3 text-[13px] tracking-wide">START CLOCK</button>
-                        <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-3d btn-red py-3 text-[13px] tracking-wide" disabled>STOP CLOCK</button>
-                    </div>
-                </div>
-
-                <div class="ctrl-group mb-0 border-t-4 border-amber-400">
-                    <div class="ctrl-title text-amber-500">BIG GOAL ALERT</div>
+                <!-- ROW 2: Match Core (Teams & Timer) -->
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
                     
-                    <button onclick="triggerGoalAnimation()" class="w-full btn-3d btn-amber text-black font-black text-[15px] py-4 mb-5 flex items-center justify-center gap-2 shadow-lg">
-                        🔥 TRIGGER BIG GOAL BANNER!
-                    </button>
+                    <!-- Team Controls (Span 8) -->
+                    <div class="ctrl-group xl:col-span-8">
+                        <div class="ctrl-title text-white">Match Center: Teams & Scores</div>
+                        
+                        <div class="grid grid-cols-2 gap-5">
+                            <!-- Home Panel -->
+                            <div class="bg-[#0f172a] border border-blue-900/50 p-4 rounded-lg flex flex-col relative overflow-hidden shadow-inner shadow-blue-900/10">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
+                                <div class="text-[11px] text-blue-400 font-black mb-3 uppercase text-center tracking-widest">Home Team</div>
+                                <input type="text" id="input-home-name" value="HOME" onchange="updateNames()" class="input-pro mb-2 text-center font-bold text-xl text-white uppercase border-blue-900/50 focus:border-blue-500 bg-[#030712]" placeholder="Short">
+                                <input type="text" id="input-home-full" value="" onchange="updateNames()" class="input-pro mb-4 text-center text-[11px] border-slate-800" placeholder="Full Name (For Banner)">
+                                
+                                <div class="flex gap-2 justify-center mb-4">
+                                    <button onclick="updateScore('home', -1)" class="btn-pro btn-gray px-3 py-2 w-12 text-sm">-1</button>
+                                    <button onclick="updateScore('home', 1)" class="btn-pro btn-blue px-3 py-2 flex-1 text-sm tracking-wide">GOL +1 ⚽</button>
+                                </div>
+                                
+                                <!-- Home Stats -->
+                                <div class="grid grid-cols-3 gap-2 bg-[#030712] p-2 rounded-md border border-slate-800 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-slate-500 font-bold uppercase mb-1.5">Fouls</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('home','fouls',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('home','fouls',1)" class="text-slate-200 hover:bg-slate-600 hover:text-white px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-amber-500 font-bold uppercase mb-1.5">Y-Card</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('home','yellow',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('home','yellow',1)" class="text-amber-500 hover:bg-amber-500/20 px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-red-500 font-bold uppercase mb-1.5">R-Card</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('home','red',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('home','red',1)" class="text-red-500 hover:bg-red-500/20 px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="border-t-2 border-dashed border-slate-200 my-4"></div>
-
-                    <!-- FORM 1: TOP SCOREBOARD -->
-                    <div class="ctrl-title text-cyan-600">FORM 1: TOP SCOREBOARD (SATU GOL)</div>
-                    <label class="text-[11px] text-slate-500 mb-2 block">Tampil sbg banner drop-down di Top Scoreboard</label>
-                    <div class="flex gap-3 mb-3">
-                        <input type="text" id="input-top-scorer-name" placeholder="e.g. Lionel Messi" class="input-blue w-2/3">
-                        <input type="text" id="input-top-scorer-min" placeholder="e.g. 45'" class="input-blue w-1/3 text-center">
+                            <!-- Away Panel -->
+                            <div class="bg-[#0f172a] border border-red-900/50 p-4 rounded-lg flex flex-col relative overflow-hidden shadow-inner shadow-red-900/10">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
+                                <div class="text-[11px] text-red-400 font-black mb-3 uppercase text-center tracking-widest">Away Team</div>
+                                <input type="text" id="input-away-name" value="AWAY" onchange="updateNames()" class="input-pro mb-2 text-center font-bold text-xl text-white uppercase border-red-900/50 focus:border-red-500 bg-[#030712]" placeholder="Short">
+                                <input type="text" id="input-away-full" value="" onchange="updateNames()" class="input-pro mb-4 text-center text-[11px] border-slate-800" placeholder="Full Name (For Banner)">
+                                
+                                <div class="flex gap-2 justify-center mb-4">
+                                    <button onclick="updateScore('away', -1)" class="btn-pro btn-gray px-3 py-2 w-12 text-sm">-1</button>
+                                    <button onclick="updateScore('away', 1)" class="btn-pro btn-red px-3 py-2 flex-1 text-sm tracking-wide">GOL +1 ⚽</button>
+                                </div>
+                                
+                                <!-- Away Stats -->
+                                <div class="grid grid-cols-3 gap-2 bg-[#030712] p-2 rounded-md border border-slate-800 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-slate-500 font-bold uppercase mb-1.5">Fouls</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('away','fouls',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('away','fouls',1)" class="text-slate-200 hover:bg-slate-600 hover:text-white px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-amber-500 font-bold uppercase mb-1.5">Y-Card</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('away','yellow',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('away','yellow',1)" class="text-amber-500 hover:bg-amber-500/20 px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="text-[9px] text-red-500 font-bold uppercase mb-1.5">R-Card</div>
+                                        <div class="flex bg-slate-800 rounded overflow-hidden">
+                                            <button onclick="updateStat('away','red',-1)" class="text-slate-400 hover:bg-slate-700 hover:text-white px-2 py-1 transition-colors">-</button>
+                                            <button onclick="updateStat('away','red',1)" class="text-red-500 hover:bg-red-500/20 px-2 py-1 transition-colors border-l border-slate-700">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex gap-3 mb-4">
-                        <button onclick="triggerTopScorer()" class="flex-1 btn-3d btn-cyan py-2 text-xs">Show Top Scorer</button>
-                        <button onclick="hideTopScorer()" class="btn-3d btn-gray px-4 py-2 text-xs">Hide</button>
-                    </div>
 
-                    <div class="border-t-2 border-dashed border-slate-200 my-4"></div>
+                    <!-- Timer Controls (Span 4) -->
+                    <div class="ctrl-group xl:col-span-4 flex flex-col">
+                        <div class="ctrl-title text-white">Match Clock</div>
+                        
+                        <div class="flex justify-center items-center gap-2 mb-5 bg-[#030712] p-3 rounded-lg border border-slate-700 shadow-inner">
+                            <input type="number" id="input-mins" value="0" class="input-pro w-16 text-center text-2xl font-mono p-1 bg-transparent border-none focus:ring-0 text-white" min="0" placeholder="00">
+                            <span class="font-black text-2xl text-slate-600 pb-1">:</span>
+                            <input type="number" id="input-secs" value="0" class="input-pro w-16 text-center text-2xl font-mono p-1 bg-transparent border-none focus:ring-0 text-white" min="0" max="59" placeholder="00">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div>
+                                <label class="text-[10px] text-slate-400 font-bold block mb-1.5 uppercase">Direction</label>
+                                <select id="timer-dir" class="input-pro text-xs p-2">
+                                    <option value="up">Count UP</option>
+                                    <option value="down">Count DOWN</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400 font-bold block mb-1.5 uppercase">Added Time</label>
+                                <input type="text" id="input-stoppage" value="" class="input-pro text-xs p-2 text-center text-amber-400 font-bold bg-[#030712]" placeholder="e.g. +3">
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 mb-4">
+                            <button onclick="applyTimerSettings()" class="flex-1 btn-pro btn-indigo text-[11px] py-2">Apply Set</button>
+                            <button onclick="resetTimer()" class="flex-1 btn-pro btn-gray text-[11px] py-2">Reset 00</button>
+                        </div>
 
-                    <!-- FORM 2: BOTTOM SCOREBOARD -->
-                    <div class="ctrl-title text-indigo-600">FORM 2: BOTTOM SCOREBOARD (LIST GOL)</div>
-                    <label class="text-[11px] text-slate-500 mb-2 block">Tampil sbg list di bawah Bottom Scoreboard (Enter u/ baris baru)</label>
-                    <div class="flex gap-3 mb-3">
-                        <textarea id="input-scorers-home" class="input-blue text-xs h-20 w-1/2 leading-relaxed resize-none" placeholder="Home Scorers...&#10;Messi 45'&#10;Pedri 60'"></textarea>
-                        <textarea id="input-scorers-away" class="input-blue text-xs h-20 w-1/2 leading-relaxed resize-none" placeholder="Away Scorers...&#10;Ronaldo 12'"></textarea>
+                        <div class="flex gap-2 mt-auto">
+                            <button onclick="startTimer()" id="btn-timer-start" class="flex-1 btn-pro btn-emerald py-3 text-xs shadow-[0_0_15px_rgba(16,185,129,0.2)]">START</button>
+                            <button onclick="stopTimer()" id="btn-timer-stop" class="flex-1 btn-pro btn-red py-3 text-xs shadow-[0_0_15px_rgba(239,68,68,0.2)]" disabled>STOP</button>
+                        </div>
                     </div>
-                    <button onclick="updateBottomScorers()" class="w-full btn-3d btn-indigo py-2.5 text-xs">Apply List Gol ke Scoreboard Bawah</button>
                 </div>
+
+                <!-- ROW 3: Alerts & Extended Data -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- Big Alert & Top Scorer -->
+                    <div class="ctrl-group border-l-4 border-amber-500">
+                        <div class="ctrl-title text-amber-500">Events & Top Banner</div>
+                        
+                        <button onclick="triggerGoalAnimation()" class="w-full btn-pro btn-amber text-[#030712] font-black text-[13px] py-3.5 mb-5 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                            🔥 TRIGGER BIG GOAL BANNER
+                        </button>
+
+                        <div class="border-t border-dashed border-slate-700 my-4"></div>
+
+                        <label class="text-[10px] text-slate-400 mb-2 block uppercase font-bold tracking-wider">Top Scoreboard Dropdown (Single Event)</label>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="input-top-scorer-name" placeholder="Player Name" class="input-pro w-2/3 text-xs">
+                            <input type="text" id="input-top-scorer-min" placeholder="Min (45')" class="input-pro w-1/3 text-center text-xs">
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-cyan py-2 text-[11px]">Show Dropdown</button>
+                            <button onclick="hideTopScorer()" class="btn-pro btn-gray px-4 py-2 text-[11px]">Hide</button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Scorers List -->
+                    <div class="ctrl-group border-l-4 border-indigo-500">
+                        <div class="ctrl-title text-indigo-400">Bottom Scoreboard Line-up</div>
+                        <label class="text-[10px] text-slate-400 mb-2 block uppercase font-bold tracking-wider">Multi-line Scorers List (Enter for new line)</label>
+                        <div class="flex gap-3 mb-4 h-24">
+                            <textarea id="input-scorers-home" class="input-pro text-xs h-full w-1/2 leading-relaxed resize-none font-mono bg-[#030712] border-slate-700" placeholder="Home Scorers...&#10;Messi 45'&#10;Pedri 60'"></textarea>
+                            <textarea id="input-scorers-away" class="input-pro text-xs h-full w-1/2 leading-relaxed resize-none font-mono bg-[#030712] border-slate-700 text-right" placeholder="Away Scorers...&#10;Ronaldo 12'"></textarea>
+                        </div>
+                        <button onclick="updateBottomScorers()" class="w-full btn-pro btn-indigo py-2.5 text-[11px] mt-auto">Update Bottom Scorers List</button>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="bg-gradient-to-b from-blue-900 to-black text-white p-6 text-center mt-auto border-t-4 border-blue-600">
-                <p class="font-bold text-[13px] mb-4 text-blue-200 tracking-wide">Created by <span class="text-white">Muzanni</span></p>
+            <!-- Dashboard Footer -->
+            <div class="bg-[#030712] border-t border-slate-800 p-4 mt-auto flex justify-between items-center font-sans">
+                <p class="font-medium text-[11px] text-slate-500 tracking-wide">Created by <span class="text-slate-200">Muzanni</span></p>
                 
-                <div class="flex justify-center gap-5 mb-5">
-                    <a href="#" class="text-blue-300 hover:text-pink-500 transition-colors transform hover:scale-110">
-                        <!-- Instagram -->
-                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-500 hover:text-pink-500 transition-colors transform hover:scale-110">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
-                    <a href="#" class="text-blue-300 hover:text-white transition-colors transform hover:scale-110">
-                        <!-- TikTok -->
-                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.69 3.9-2.02 5.25-1.35 1.34-3.28 2.06-5.18 2.04-1.92 0-3.83-.75-5.16-2.13-1.33-1.39-2.02-3.32-2-5.26.02-1.94.75-3.83 2.13-5.16 1.39-1.33 3.32-2.02 5.26-2h.06V14c-1.2-.02-2.39.4-3.28 1.25-.87.87-1.34 2.1-1.3 3.33.05 1.23.59 2.42 1.48 3.25.89.81 2.11 1.22 3.33 1.18 1.19-.05 2.33-.55 3.16-1.41.83-.87 1.27-2.06 1.25-3.27v-14.3z"/></svg>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors transform hover:scale-110">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v7.2c0 1.96-.69 3.9-2.02 5.25-1.35 1.34-3.28 2.06-5.18 2.04-1.92 0-3.83-.75-5.16-2.13-1.33-1.39-2.02-3.32-2-5.26.02-1.94.75-3.83 2.13-5.16 1.39-1.33 3.32-2.02 5.26-2h.06V14c-1.2-.02-2.39.4-3.28 1.25-.87.87-1.34 2.1-1.3 3.33.05 1.23.59 2.42 1.48 3.25.89.81 2.11 1.22 3.33 1.18 1.19-.05 2.33-.55 3.16-1.41.83-.87 1.27-2.06 1.25-3.27v-14.3z"/></svg>
                     </a>
-                    <a href="#" class="text-blue-300 hover:text-red-500 transition-colors transform hover:scale-110">
-                        <!-- YouTube -->
-                        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M21.582 6.186c-.23-1.226-1.03-2.026-2.256-2.256C17.34 3.5 12 3.5 12 3.5s-5.34 0-7.326.43c-1.226.23-2.026 1.03-2.256 2.256C2 8.172 2 12 2 12s0 3.828.418 5.814c.23 1.226 1.03 2.026 2.256 2.256 1.986.43 7.326.43 7.326.43s5.34 0 7.326-.43c1.226-.23 2.026-1.03 2.256-2.256C22 15.828 22 12 22 12s0-3.828-.418-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <a href="#" class="text-slate-500 hover:text-red-500 transition-colors transform hover:scale-110">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M21.582 6.186c-.23-1.226-1.03-2.026-2.256-2.256C17.34 3.5 12 3.5 12 3.5s-5.34 0-7.326.43c-1.226.23-2.026 1.03-2.256 2.256C2 8.172 2 12 2 12s0 3.828.418 5.814c.23 1.226 1.03 2.026 2.256 2.256 1.986.43 7.326.43 7.326.43s5.34 0 7.326-.43c1.226-.23 2.026-1.03 2.256-2.256C22 15.828 22 12 22 12s0-3.828-.418-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
                 </div>
                 
-                <a href="https://wa.me/6285251675143" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white text-[13px] font-bold py-2.5 px-5 rounded-full shadow-[0_4px_10px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-1 active:scale-95 w-full">
-                    <!-- WhatsApp -->
-                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.245 3.481 5.226 3.48 8.411-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.657zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.89-4.443 9.891-9.891.001-5.447-4.443-9.89-9.89-9.89-5.448 0-9.889 4.443-9.889 9.89 0 1.96.486 3.791 1.42 5.432l-1.041 3.805 3.917-1.038zm9.055-7.397c-.496-.25-2.934-1.45-3.388-1.616-.454-.167-.785-.25-1.116.25-.332.5-1.282 1.616-1.572 1.95-.29.333-.58.375-1.076.125-.496-.25-2.094-.773-3.989-2.469-1.477-1.319-2.473-2.948-2.763-3.448-.29-.5-.031-.77.218-1.018.232-.231.496-.58.744-.872.249-.292.332-.496.497-.83.166-.333.083-.625-.041-.875-.125-.25-1.116-2.695-1.53-3.692-.403-.972-.812-.84-1.116-.856-.29-.016-.625-.016-.957-.016-.332 0-.871.125-1.326.625s-1.74 1.701-1.74 4.148 1.782 4.815 2.03 5.148c.249.333 3.513 5.362 8.514 7.519 1.192.515 2.122.822 2.845 1.052 1.196.381 2.285.326 3.142.197.954-.144 2.934-1.198 3.347-2.355.413-1.157.413-2.148.29-2.355-.124-.207-.454-.332-.951-.582z"/></svg>
-                    Kritik & Saran
+                <a href="https://wa.me/6285251675143" target="_blank" class="inline-flex items-center gap-1.5 bg-[#128C7E] hover:bg-[#075E54] text-white text-[11px] font-bold py-1.5 px-3 rounded shadow transition-colors">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.245 3.481 5.226 3.48 8.411-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.657zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.89-4.443 9.891-9.891.001-5.447-4.443-9.89-9.89-9.89-5.448 0-9.889 4.443-9.889 9.89 0 1.96.486 3.791 1.42 5.432l-1.041 3.805 3.917-1.038zm9.055-7.397c-.496-.25-2.934-1.45-3.388-1.616-.454-.167-.785-.25-1.116.25-.332.5-1.282 1.616-1.572 1.95-.29.333-.58.375-1.076.125-.496-.25-2.094-.773-3.989-2.469-1.477-1.319-2.473-2.948-2.763-3.448-.29-.5-.031-.77.218-1.018.232-.231.496-.58.744-.872.249-.292.332-.496.497-.83.166-.333.083-.625-.041-.875-.125-.25-1.116-2.695-1.53-3.692-.403-.972-.812-.84-1.116-.856-.29-.016-.625-.016-.957-.016-.332 0-.871.125-1.326.625s-1.74 1.701-1.74 4.148 1.782 4.815 2.03 5.148c.249.333 3.513 5.362 8.514 7.519 1.192.515 2.122.822 2.845 1.052 1.196.381 2.285.326 3.142.197.954-.144 2.934-1.198 3.347-2.355.413-1.157.413-2.148.29-2.355-.124-.207-.454-.332-.951-.582z"/></svg>
+                    Support
                 </a>
             </div>
         </div>
