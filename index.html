@@ -159,6 +159,12 @@
 
         /* Huge Goal Alert */
         .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 9999; text-shadow: 0px 10px 30px rgba(0,0,0,0.8); pointer-events: none; }
+
+        #substitution-overlay { transform: translateX(-150%); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        #substitution-overlay.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+        #info-banner-overlay { transform: translateX(150%); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        #info-banner-overlay.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
     </style>
 </head>
 
@@ -458,23 +464,71 @@
                         <button onclick="updateBottomScorers()" class="w-full btn-pro bg-slate-800 text-white hover:bg-slate-900 py-3 shadow-[0_2px_8px_rgba(15,23,42,0.3)]"><i class="fas fa-cloud-upload-alt mr-2"></i> Update Multiline Scorer List Display</button>
                     </div>
 
-                    <!-- SECTION 7: Support & Donation -->
-                    <div class="ctrl-group flex flex-col md:flex-row items-center justify-between gap-6 py-6 px-8 bg-blue-50/50 border-blue-100">
-                        <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm max-w-sm w-full md:w-auto">
-                            <div class="w-16 h-16 bg-slate-50 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 text-slate-400">
-                                <i class="fas fa-qrcode text-2xl"></i>
+                    <!-- SECTION 8: Substitutions -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-exchange-alt text-green-500 mr-2.5 text-lg"></i> 7. Substitutions (Pergantian Pemain)</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+                            <div class="lg:col-span-3">
+                                <label class="label-pro">Tim</label>
+                                <select id="sub-team" class="input-pro cursor-pointer">
+                                    <option value="home">Home Team</option>
+                                    <option value="away">Away Team</option>
+                                </select>
                             </div>
-                            <div class="text-left flex-1">
-                                <span class="text-sm font-extrabold text-slate-800 block mb-0.5">Support & Donation</span>
-                                <span class="text-xs text-slate-500 block leading-tight">Scan this QR Code to support continuous updates.</span>
+                            <div class="lg:col-span-4">
+                                <label class="label-pro text-red-600"><i class="fas fa-arrow-down mr-1"></i> Player OUT (Keluar)</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="sub-out-number" placeholder="#" class="input-pro w-16 text-center text-red-600 font-bold bg-red-50 border-red-200">
+                                    <input type="text" id="sub-out-name" placeholder="Nama Pemain" class="input-pro flex-1">
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-right flex-1">
-                            <p class="text-sm text-slate-600 italic">Your support helps keep this tool free and regularly updated with new features.</p>
+                            <div class="lg:col-span-5">
+                                <label class="label-pro text-green-600"><i class="fas fa-arrow-up mr-1"></i> Player IN (Masuk)</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="sub-in-number" placeholder="#" class="input-pro w-16 text-center text-green-600 font-bold bg-green-50 border-green-200">
+                                    <input type="text" id="sub-in-name" placeholder="Nama Pemain" class="input-pro flex-1">
+                                </div>
+                            </div>
+                            <div class="lg:col-span-12 flex gap-2 mt-2">
+                                <button onclick="triggerSub()" class="flex-1 btn-pro btn-success shadow-[0_2px_10px_rgba(16,185,129,0.3)] border-none text-sm"><i class="fas fa-play"></i> Tampilkan Grafis Substitusi</button>
+                                <button onclick="hideSub()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- SECTION 8: Footer -->
+                    <!-- SECTION 9: Custom Info Banner (Lower Third) -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-bullhorn text-purple-500 mr-2.5 text-lg"></i> 8. Custom Info Banner (Lower Third)</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+                            <div class="lg:col-span-4">
+                                <label class="label-pro">Judul (Misal: MAN OF THE MATCH)</label>
+                                <input type="text" id="banner-title" placeholder="Ketik Judul..." class="input-pro font-bold text-purple-700 bg-purple-50 border-purple-200">
+                            </div>
+                            <div class="lg:col-span-5">
+                                <label class="label-pro">Sub-Teks / Deskripsi</label>
+                                <input type="text" id="banner-subtitle" placeholder="Ketik deskripsi..." class="input-pro">
+                            </div>
+                            <div class="lg:col-span-3 flex gap-2">
+                                <button onclick="triggerBanner()" class="flex-1 btn-pro btn-primary bg-purple-600 hover:bg-purple-700 shadow-[0_2px_8px_rgba(147,51,234,0.3)] border-none"><i class="fas fa-eye"></i> Show</button>
+                                <button onclick="hideBanner()" class="btn-pro btn-outline px-5 text-slate-400 hover:text-red-500 hover:bg-red-50" title="Hide"><i class="fas fa-eye-slash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+<!-- SECTION 7: Support & Donation (QRIS Only) -->
+                    <div class="ctrl-group text-center bg-blue-50/30">
+                        <div class="flex justify-center items-center">
+                            <div class="relative group cursor-pointer">
+                                <!-- Ganti src url di bawah ini dengan link gambar QRIS Anda -->
+                                <img src="https://placehold.co/400x400/ffffff/0f172a?text=TARUH+GAMBAR+QRIS\nDI+SINI" alt="QRIS Donation" class="w-64 h-64 object-cover rounded-2xl border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300">
+                                <div class="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                    <span class="text-white font-bold text-sm bg-blue-600 px-4 py-2 rounded-full">Ubah Gambar di Kode</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 10: Footer -->
                     <div class="text-center py-6 px-8 mt-4 border-t border-slate-200">
                         <h4 class="font-extrabold text-slate-800 text-base mb-1">OBS Scoreboard Pro V2</h4>
                         <p class="text-sm text-slate-500">Created meticulously by <span class="font-bold text-slate-700">Muzanni</span></p>
@@ -616,6 +670,40 @@
                     <h1 class="text-[12rem] font-black text-white uppercase italic leading-none drop-shadow-2xl">GOAL<span class="text-amber-400">!</span></h1>
                 </div>
 
+                <!-- SUBSTITUTION OVERLAY -->
+                <div id="substitution-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start pointer-events-none z-50">
+                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[400px] border-2 border-slate-700">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-2 px-5 font-extrabold text-xl uppercase tracking-widest flex items-center gap-3 border-b border-slate-700">
+                            <i class="fas fa-exchange-alt text-amber-400"></i> <span id="sub-team-name" class="custom-colored-text">TEAM NAME</span>
+                        </div>
+                        <!-- Out Player -->
+                        <div class="flex items-stretch bg-slate-900/95 backdrop-blur border-b border-slate-800">
+                            <div class="w-14 bg-red-600 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-down"></i></div>
+                            <div class="w-16 flex items-center justify-center font-bold text-3xl text-red-500 border-r border-slate-700/50" id="sub-out-num-display">10</div>
+                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-out-name-display">PLAYER OUT</div>
+                        </div>
+                        <!-- In Player -->
+                        <div class="flex items-stretch bg-slate-900/95 backdrop-blur">
+                            <div class="w-14 bg-emerald-500 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-up"></i></div>
+                            <div class="w-16 flex items-center justify-center font-bold text-3xl text-emerald-400 border-r border-slate-700/50" id="sub-in-num-display">11</div>
+                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-in-name-display">PLAYER IN</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INFO BANNER OVERLAY -->
+                <div id="info-banner-overlay" class="absolute bottom-16 right-16 w-auto flex flex-col items-end pointer-events-none z-50">
+                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[350px] max-w-[600px] text-right border-l-4 border-l-purple-500">
+                        <div class="bg-purple-600 text-white py-1.5 px-5 font-black text-lg uppercase tracking-widest" id="banner-title-display">
+                            TITLE
+                        </div>
+                        <div class="bg-slate-900/95 backdrop-blur text-white py-4 px-6 font-bold text-3xl custom-colored-text uppercase truncate shadow-inner" id="banner-subtitle-display">
+                            SUBTITLE
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -643,7 +731,9 @@
             },
             topScorer: { name: '', min: '', visible: false },
             bottomScorers: { home: '', away: '', visible: false },
-            goalEvent: { active: false, team: null, timestamp: 0 }
+            goalEvent: { active: false, team: null, timestamp: 0 },
+            substitution: { active: false, team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
+            infoBanner: { active: false, title: '', subtitle: '' }
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -807,6 +897,19 @@
                 if (elDir) elDir.value = window.appState.timer.direction || 'up';
                 if (elTarget) elTarget.value = window.appState.timer.targetMins ?? 15;
                 if (elStopMins) elStopMins.value = window.appState.timer.stoppageTargetMins ?? 0;
+
+                if (newState.substitution) {
+                    document.getElementById('sub-team').value = newState.substitution.team || 'home';
+                    document.getElementById('sub-out-number').value = newState.substitution.outNumber || '';
+                    document.getElementById('sub-out-name').value = newState.substitution.outName || '';
+                    document.getElementById('sub-in-number').value = newState.substitution.inNumber || '';
+                    document.getElementById('sub-in-name').value = newState.substitution.inName || '';
+                }
+                
+                if (newState.infoBanner) {
+                    document.getElementById('banner-title').value = newState.infoBanner.title || '';
+                    document.getElementById('banner-subtitle').value = newState.infoBanner.subtitle || '';
+                }
             }
 
             renderDOM();
@@ -994,6 +1097,28 @@
             document.getElementById('top-stats-away').innerHTML = awayStatsHTML;
             document.getElementById('btm-stats-home').innerHTML = homeStatsHTML;
             document.getElementById('btm-stats-away').innerHTML = awayStatsHTML;
+
+            const subOverlay = document.getElementById('substitution-overlay');
+            if (state.substitution?.active) {
+                subOverlay.classList.add('show');
+                const tName = state.substitution.team === 'home' ? (state.fullTeamNames?.home || state.teamNames.home) : (state.fullTeamNames?.away || state.teamNames.away);
+                document.getElementById('sub-team-name').textContent = tName;
+                document.getElementById('sub-out-num-display').textContent = state.substitution.outNumber;
+                document.getElementById('sub-out-name-display').textContent = state.substitution.outName;
+                document.getElementById('sub-in-num-display').textContent = state.substitution.inNumber;
+                document.getElementById('sub-in-name-display').textContent = state.substitution.inName;
+            } else {
+                subOverlay.classList.remove('show');
+            }
+
+            const bannerOverlay = document.getElementById('info-banner-overlay');
+            if (state.infoBanner?.active) {
+                bannerOverlay.classList.add('show');
+                document.getElementById('banner-title-display').textContent = state.infoBanner.title;
+                document.getElementById('banner-subtitle-display').textContent = state.infoBanner.subtitle;
+            } else {
+                bannerOverlay.classList.remove('show');
+            }
         }
 
         function updateStat(team, type, change) {
@@ -1065,6 +1190,37 @@
 
         function hideTopScorer(doSync = true) {
             window.appState.topScorer.visible = false; renderDOM(); if (doSync) syncState();
+        }
+
+        function triggerSub() {
+            window.appState.substitution = {
+                active: true,
+                team: document.getElementById('sub-team').value,
+                inName: document.getElementById('sub-in-name').value,
+                inNumber: document.getElementById('sub-in-number').value,
+                outName: document.getElementById('sub-out-name').value,
+                outNumber: document.getElementById('sub-out-number').value
+            };
+            renderDOM(); syncState();
+        }
+
+        function hideSub() {
+            window.appState.substitution.active = false;
+            renderDOM(); syncState();
+        }
+
+        function triggerBanner() {
+            window.appState.infoBanner = {
+                active: true,
+                title: document.getElementById('banner-title').value || 'INFO',
+                subtitle: document.getElementById('banner-subtitle').value
+            };
+            renderDOM(); syncState();
+        }
+
+        function hideBanner() {
+            window.appState.infoBanner.active = false;
+            renderDOM(); syncState();
         }
 
         function updateBottomScorers() {
