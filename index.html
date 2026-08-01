@@ -719,7 +719,6 @@
                                 <!-- Home Team -->
                                 <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
                                     <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
-                                    <span class="pen-score-home hidden text-amber-400 font-black text-2xl ml-3 drop-shadow-md">(0)</span>
                                 </div>
                                 
                                 <!-- Score & Timer Middle Bar -->
@@ -733,7 +732,6 @@
 
                                 <!-- Away Team -->
                                 <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
-                                    <span class="pen-score-away hidden text-amber-400 font-black text-2xl mr-3 drop-shadow-md">(0)</span>
                                     <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
                                 </div>
                             </div>
@@ -741,6 +739,13 @@
                             <!-- PENALTY SHOOTOUT BAR TOP -->
                             <div id="top-penalties-wrapper" class="w-full flex justify-between mt-1 px-2 hidden pointer-events-auto z-10">
                                 <div id="penalties-home-top" class="flex gap-1.5 items-center bg-black/40 px-3 py-1.5 rounded-b shadow-lg border border-white/10 border-t-0"></div>
+                                <div class="flex-1 flex items-start justify-center">
+                                    <div class="bg-amber-400 text-slate-900 font-black px-3 py-0.5 rounded-b text-sm flex items-center gap-2 shadow-lg -mt-1 border border-amber-500 border-t-0">
+                                        <span class="pen-score-home-val text-base">0</span>
+                                        <span class="text-[10px] uppercase tracking-widest opacity-80">PEN</span>
+                                        <span class="pen-score-away-val text-base">0</span>
+                                    </div>
+                                </div>
                                 <div id="penalties-away-top" class="flex gap-1.5 items-center bg-black/40 px-3 py-1.5 rounded-b shadow-lg border border-white/10 border-t-0"></div>
                             </div>
 
@@ -777,7 +782,6 @@
                             <!-- Home Team Long -->
                             <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden">
                                 <span class="team-name-home-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right truncate">Home Team FC</span>
-                                <span class="pen-score-home hidden text-amber-400 font-black text-2xl xl:text-3xl ml-3 drop-shadow-md">(0)</span>
                             </div>
                             
                             <!-- Middle Scores & Clock -->
@@ -791,7 +795,6 @@
 
                             <!-- Away Team Long -->
                             <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
-                                <span class="pen-score-away hidden text-amber-400 font-black text-2xl xl:text-3xl mr-3 drop-shadow-md">(0)</span>
                                 <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
                             </div>
                         </div>
@@ -799,7 +802,13 @@
                         <!-- PENALTY SHOOTOUT BAR BOTTOM -->
                         <div id="btm-penalties-wrapper" class="w-full flex justify-between px-8 hidden pointer-events-auto z-10 -mt-1">
                             <div id="penalties-home-btm" class="flex gap-2 items-center bg-black/60 px-5 py-2.5 rounded-b-lg shadow-xl border border-white/10 border-t-0"></div>
-                            <div class="min-w-[220px]"></div>
+                            <div class="min-w-[220px] flex items-start justify-center">
+                                <div class="bg-amber-400 text-slate-900 font-black px-4 py-1 rounded-b-lg text-lg flex items-center gap-3 shadow-xl border border-amber-500 border-t-0">
+                                    <span class="pen-score-home-val text-2xl">0</span>
+                                    <span class="text-xs uppercase tracking-[0.2em] opacity-80">PEN</span>
+                                    <span class="pen-score-away-val text-2xl">0</span>
+                                </div>
+                            </div>
                             <div id="penalties-away-btm" class="flex gap-2 items-center bg-black/60 px-5 py-2.5 rounded-b-lg shadow-xl border border-white/10 border-t-0"></div>
                         </div>
 
@@ -1391,18 +1400,11 @@
 
                 const hPenScore = state.penalties.home.filter(r => r === 'scored').length;
                 const aPenScore = state.penalties.away.filter(r => r === 'scored').length;
-                document.querySelectorAll('.pen-score-home').forEach(el => {
-                    el.textContent = `(${hPenScore})`;
-                    el.classList.remove('hidden');
-                });
-                document.querySelectorAll('.pen-score-away').forEach(el => {
-                    el.textContent = `(${aPenScore})`;
-                    el.classList.remove('hidden');
-                });
+                document.querySelectorAll('.pen-score-home-val').forEach(el => el.textContent = hPenScore);
+                document.querySelectorAll('.pen-score-away-val').forEach(el => el.textContent = aPenScore);
             } else {
                 penTopWrapper.classList.add('hidden');
                 penBtmWrapper.classList.add('hidden');
-                document.querySelectorAll('.pen-score-home, .pen-score-away').forEach(el => el.classList.add('hidden'));
             }
 
             if (!window.isHomeGoalAnimating) {
