@@ -919,7 +919,9 @@
     </div>
 
     <script>
-        let hasProcessedFirstState = false;
+        // Mencegah animasi goal berjalan otomatis saat web pertama kali dimuat
+        window.preventAnimOnLoad = true;
+        setTimeout(() => { window.preventAnimOnLoad = false; }, 2000);
 
         /* State management */
         window.appState = {
@@ -1174,22 +1176,16 @@
                     document.getElementById('stat-sot-a').value = newState.matchStats.sotA || 0;
                     document.getElementById('stat-corn-h').value = newState.matchStats.cornH || 0;
                     document.getElementById('stat-corn-a').value = newState.matchStats.cornA || 0;
+                    document.getElementById('stat-offside-h').value = newState.matchStats.offsideH || 0;
+                    document.getElementById('stat-offside-a').value = newState.matchStats.offsideA || 0;
                 }
             }
 
             renderDOM();
             updateTimerRunningState();
 
-            const incomingGoalTimestamp = newState.goalEvent?.timestamp || 0;
-
-            // Blokir animasi pada saat menerima data pertama kali (initial sync) saat web baru terbuka
-            if (!hasProcessedFirstState) {
-                hasProcessedFirstState = true;
-                return; 
-            }
-
-            // Jika ini bukan data pertama, dan ada timestamp gol baru, barulah mainkan animasi!
-            if (incomingGoalTimestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
+            // Tambahkan kondisi !window.preventAnimOnLoad agar animasi diblokir di detik-detik awal
+            if (!window.preventAnimOnLoad && newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
                 triggerGoalEffects(newState.goalEvent.team);
             }
         }
