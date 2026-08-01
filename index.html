@@ -434,11 +434,11 @@
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
                             <div class="lg:col-span-5">
                                 <label class="label-pro">Event Player Name</label>
-                                <input type="text" id="input-top-scorer-name" oninput="window.appState.topScorer.name = this.value; renderDOM(); syncState();" placeholder="e.g. L. Messi" class="input-pro">
+                                <input type="text" id="input-top-scorer-name" placeholder="e.g. L. Messi" class="input-pro">
                             </div>
                             <div class="lg:col-span-2">
                                 <label class="label-pro">Min</label>
-                                <input type="text" id="input-top-scorer-min" oninput="window.appState.topScorer.min = this.value; renderDOM(); syncState();" placeholder="45'" class="input-pro text-center">
+                                <input type="text" id="input-top-scorer-min" placeholder="45'" class="input-pro text-center">
                             </div>
                             <div class="lg:col-span-5 flex gap-2">
                                 <button onclick="triggerOverlay('topScorer')" class="flex-1 btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_8px_rgba(79,70,229,0.3)] border-none"><i class="fas fa-eye"></i> Show Banner</button>
@@ -1239,14 +1239,6 @@
                     if(document.getElementById('stat-offs-h')) document.getElementById('stat-offs-h').value = newState.matchStats.offsH || 0;
                     if(document.getElementById('stat-offs-a')) document.getElementById('stat-offs-a').value = newState.matchStats.offsA || 0;
                 }
-                
-                // Update top scorer input fields if applicable
-                if (newState.topScorer) {
-                    const topScorerNameInput = document.getElementById('input-top-scorer-name');
-                    const topScorerMinInput = document.getElementById('input-top-scorer-min');
-                    if (topScorerNameInput) topScorerNameInput.value = newState.topScorer.name || '';
-                    if (topScorerMinInput) topScorerMinInput.value = newState.topScorer.min || '';
-                }
             }
 
             renderDOM();
@@ -1541,8 +1533,8 @@
             });
 
             /* Setup contents for specific overlays even if hidden */
-            if(document.getElementById('single-goal-name')) document.getElementById('single-goal-name').textContent = state.topScorer.name || 'PLAYER';
-            if(document.getElementById('single-goal-time')) document.getElementById('single-goal-time').textContent = state.topScorer.min || '';
+            if(document.getElementById('single-goal-name')) document.getElementById('single-goal-name').textContent = state.topScorer.name;
+            if(document.getElementById('single-goal-time')) document.getElementById('single-goal-time').textContent = state.topScorer.min;
             
             const elScH = document.getElementById('btm-scorers-home');
             const elScA = document.getElementById('btm-scorers-away');
@@ -1808,6 +1800,28 @@
             window.appState.font = document.getElementById('font-selector').value;
             window.appState.customColor = document.getElementById('input-text-color').value;
             window.appState.animation = document.getElementById('anim-selector').value;
+            renderDOM(); syncState();
+        }
+
+        function triggerTopScorer() {
+            let minute = document.getElementById('input-top-scorer-min').value.trim();
+            if (minute !== "" && !minute.includes("'")) minute += "'";
+            window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute };
+            
+            triggerOverlay('topScorer');
+        }
+
+        function hideTopScorer() {
+            if (window.appState.activeOverlay === 'topScorer') {
+                triggerOverlay('none');
+            }
+        }
+
+        function updateBottomScorers() {
+            const h = document.getElementById('input-scorers-home').value.trim();
+            const a = document.getElementById('input-scorers-away').value.trim();
+            window.appState.bottomScorers = { home: h, away: a, visible: (h !== '' || a !== '') };
+            if (window.appState.activeView === 'none') window.appState.activeView = 'bottom';
             renderDOM(); syncState();
         }
 
