@@ -434,11 +434,13 @@
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
                             <div class="lg:col-span-5">
                                 <label class="label-pro">Event Player Name</label>
-                                <input type="text" id="input-top-scorer-name" placeholder="e.g. L. Messi" class="input-pro">
+                                <!-- Perintah oninput ditambahkan di sini agar otomatis sinkron ke tampilan banner -->
+                                <input type="text" id="input-top-scorer-name" oninput="let el = document.getElementById('single-goal-name'); if(el) el.innerText = this.value;" placeholder="e.g. L. Messi" class="input-pro">
                             </div>
                             <div class="lg:col-span-2">
                                 <label class="label-pro">Min</label>
-                                <input type="text" id="input-top-scorer-min" placeholder="45'" class="input-pro text-center">
+                                <!-- Perintah oninput ditambahkan di sini agar otomatis sinkron ke tampilan banner -->
+                                <input type="text" id="input-top-scorer-min" oninput="let el = document.getElementById('single-goal-time'); if(el) el.innerText = this.value;" placeholder="45'" class="input-pro text-center">
                             </div>
                             <div class="lg:col-span-5 flex gap-2">
                                 <button onclick="triggerOverlay('topScorer')" class="flex-1 btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_8px_rgba(79,70,229,0.3)] border-none"><i class="fas fa-eye"></i> Show Banner</button>
@@ -1954,5 +1956,17 @@
             if(btnBtm) btnBtm.className = window.appState.activeView === 'bottom' ? 'flex-1 btn-pro btn-primary' : 'flex-1 btn-pro btn-outline';
         });
     </script>
+    <script>
+function syncSingleGoal() {
+    const playerName = document.getElementById('input-goal-name').value;
+    const playerMin = document.getElementById('input-goal-min').value;
+
+    const overlayName = document.getElementById('single-goal-name');
+    const overlayTime = document.getElementById('single-goal-time');
+
+    if (overlayName) overlayName.innerText = playerName;
+    if (overlayTime) overlayTime.innerText = playerMin;
+}
+</script>
 </body>
 </html>
