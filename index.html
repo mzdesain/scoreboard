@@ -64,15 +64,6 @@
         @keyframes teamGoalFlash { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; color: #fbbf24; } 75% { opacity: 0; } 100% { opacity: 1; } }
         .anim-team-goal { animation: teamGoalFlash 1.5s ease-in-out infinite alternate; }
 
-        @keyframes goalPop {
-            0% { transform: translate(-50%, -50%) scale(0.2) skewX(-10deg); opacity: 0; }
-            15% { transform: translate(-50%, -50%) scale(1.2) skewX(-10deg); opacity: 1; text-shadow: 0 0 30px #facc15; }
-            25% { transform: translate(-50%, -50%) scale(1) skewX(-10deg); opacity: 1; }
-            85% { transform: translate(-50%, -50%) scale(1.05) skewX(-10deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(0.8) skewX(-10deg); opacity: 0; }
-        }
-        .animate-goal { animation: goalPop 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-
         /* UNIVERSAL THEMES (Applies to all scoreboard-main and score-panel elements) */
         .panel-text { color: #ffffff; }
 
@@ -162,25 +153,39 @@
         .btn-success { background: #10b981; color: #ffffff; box-shadow: 0 2px 4px rgba(16,185,129,0.1); }
         .btn-success:hover:not(:disabled) { background: #059669; box-shadow: 0 4px 6px rgba(16,185,129,0.2); }
 
-        /* Huge Goal Alert */
-        .goal-alert { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 9999; text-shadow: 0px 10px 30px rgba(0,0,0,0.8); pointer-events: none; }
+        /* Huge Goal Alert - Kick Animation */
+        .goal-alert { position: absolute; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; overflow: hidden; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); transition: opacity 0.3s; }
+        .animate-goal { animation: goalSceneShow 4s ease-in-out forwards; }
+        @keyframes goalSceneShow { 0% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* New Overlays Transition Classes */
-        .slide-in-left { transform: translateX(-150%); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+        .goal-net-icon { position: absolute; right: 5%; bottom: 15%; width: 25vw; max-width: 300px; height: 40vh; border-right: 15px solid white; border-top: 15px solid white; border-top-right-radius: 20px; background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.3) 49%, rgba(255,255,255,0.3) 51%, transparent 52%), linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.3) 49%, rgba(255,255,255,0.3) 51%, transparent 52%); background-size: 30px 30px; opacity: 0; transform: skewX(-15deg); box-shadow: inset -10px 10px 30px rgba(0,0,0,0.5); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .animate-goal .goal-net-icon { animation: netAppear 4s forwards; }
+        @keyframes netAppear { 0%, 5% { opacity: 0; transform: scale(0.8) skewX(-15deg); } 10% { opacity: 1; transform: scale(1) skewX(-15deg); } 24% { transform: scale(1) skewX(-15deg); } 26% { transform: scale(1.05) skewX(-5deg); filter: drop-shadow(0 0 30px #facc15); } 30% { transform: scale(1) skewX(-15deg); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); } 80% { opacity: 1; transform: scale(1) skewX(-15deg); } 100% { opacity: 0; } }
+
+        .goal-player-icon { position: absolute; left: 15%; bottom: 15%; font-size: 15vh; color: white; opacity: 0; transform: translateX(-100px); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8)); }
+        .animate-goal .goal-player-icon { animation: playerKick 4s forwards cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes playerKick { 0% { opacity: 0; transform: translateX(-30vw) skewX(-15deg); } 12% { opacity: 1; transform: translateX(0) skewX(0); } 16% { transform: rotate(-25deg) translate(2vw, -2vh); } 80% { opacity: 1; transform: rotate(-25deg) translate(2vw, -2vh); } 100% { opacity: 0; transform: translateX(-5vw); } }
+
+        .goal-ball-icon { position: absolute; left: 20%; bottom: 15%; font-size: 6vh; color: #facc15; opacity: 0; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .animate-goal .goal-ball-icon { animation: ballShoot 4s forwards; }
+        @keyframes ballShoot { 0%, 14% { opacity: 0; transform: translate(0, 0) rotate(0); } 15% { opacity: 1; transform: translate(0, 0) rotate(0); } 25% { opacity: 1; transform: translate(55vw, -15vh) rotate(1000deg) scale(1.5); filter: drop-shadow(0 0 20px #facc15); } 80% { opacity: 1; transform: translate(56vw, -5vh) rotate(1200deg) scale(1.5); filter: drop-shadow(0 0 20px #facc15); } 100% { opacity: 0; transform: translate(56vw, 20vh) rotate(1500deg); } }
+
+        .goal-text-overlay { position: absolute; z-index: 10; opacity: 0; }
+        .animate-goal .goal-text-overlay { animation: goalTextPop 4s forwards; }
+        @keyframes goalTextPop { 0%, 25% { transform: scale(0.2) skewX(-10deg); opacity: 0; } 30% { transform: scale(1.2) skewX(-10deg); opacity: 1; filter: drop-shadow(0 0 50px #facc15); } 35% { transform: scale(1) skewX(-10deg); opacity: 1; } 85% { transform: scale(1.05) skewX(-10deg); opacity: 1; } 100% { transform: scale(0.8) skewX(-10deg); opacity: 0; } }
+
+        /* Overlays General Transitions */
+        #single-goal-overlay, #substitution-overlay, #info-banner-overlay, #lineup-overlay, #stats-overlay { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; pointer-events: none; }
+        
+        .slide-in-left { transform: translateX(-150%); opacity: 0; }
         .slide-in-left.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
         
-        .slide-in-right { transform: translateX(150%); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+        .slide-in-right { transform: translateX(150%); opacity: 0; }
         .slide-in-right.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
         
-        .slide-in-bottom { transform: translateY(150%) scale(0.95); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
-        .slide-in-bottom.show { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-        
-        .fade-scale { transform: scale(0.8); opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); pointer-events: none; }
+        .fade-scale { transform: scale(0.8); opacity: 0; }
         .fade-scale.show { transform: scale(1); opacity: 1; pointer-events: auto; }
 
-        /* Pitch Lines for Lineup */
-        .pitch-line-bottom { border-bottom: 2px solid rgba(255,255,255,0.15); }
-        .pitch-circle { border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; }
     </style>
 </head>
 
@@ -760,9 +765,14 @@
                     </div>
                 </div>
 
-                <!-- HUGE GOAL ALERT OVERLAY -->
+                <!-- HUGE GOAL ALERT OVERLAY WITH CINEMATIC SCENE -->
                 <div id="goal-alert" class="goal-alert">
-                    <h1 class="text-[12rem] font-black text-white uppercase italic leading-none drop-shadow-2xl">GOAL<span class="text-amber-400">!</span></h1>
+                    <div class="goal-net-icon"></div>
+                    <div class="goal-player-icon"><i class="fas fa-running"></i></div>
+                    <div class="goal-ball-icon"><i class="fas fa-futbol"></i></div>
+                    <div class="goal-text-overlay">
+                        <h1 class="text-[10rem] xl:text-[14rem] font-black text-white uppercase italic leading-none drop-shadow-[0_10px_30px_rgba(0,0,0,1)]">GOAL<span class="text-amber-400">!</span></h1>
+                    </div>
                 </div>
 
                 <!-- SINGLE GOAL EVENT (BOTTOM LEFT) -->
@@ -950,7 +960,7 @@
         let mqttClient = null;
         let isMQTTActive = false;
         let bc = null;
-        let initializationTime = Date.now(); // Flag penanda agar animasi gol tidak terpanggil saat muat awal
+        let isFirstSync = true; // Penanda untuk mencegah efek latah saat awal buka web
 
         function inIframe() {
             try { return window.self !== window.top; } catch (e) { return true; }
@@ -1062,7 +1072,7 @@
         };
 
         function applyRemoteState(newState) {
-            // Evaluasi aman sintaks lawas tanpa '?.'
+            // Evaluasi aman sintaks lawas tanpa '?.' untuk kompatibilitas OBS lama
             let oldGoalTimestamp = 0;
             if (window.appState.goalEvent && window.appState.goalEvent.timestamp) {
                 oldGoalTimestamp = window.appState.goalEvent.timestamp;
@@ -1152,12 +1162,15 @@
             renderDOM();
             updateTimerRunningState();
 
-            // Memastikan Goal Animation tidak berjalan otomatis saat buka web
-            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp) {
-                if (newState.goalEvent.timestamp > initializationTime) {
+            // Cegah animasi GOAL meriam kalau web baru dimuat
+            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
+                if (!isFirstSync) {
                     triggerGoalEffects(newState.goalEvent.team);
                 }
             }
+            
+            // Matikan flag FirstSync setelah proses sync pertama selesai
+            if (isFirstSync) isFirstSync = false;
         }
 
         window.generateOBSLink = function() {
@@ -1188,7 +1201,7 @@
             if (mode === 'mobile') document.body.classList.add('mode-mobile');
         }
 
-        // Mutual Exclusivity Logic
+        // Fungsi Master untuk Mutual Exclusivity
         function clearAllOverlays() {
             window.appState.lineup.active = false;
             window.appState.matchStats.active = false;
