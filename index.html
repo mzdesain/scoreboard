@@ -919,10 +919,6 @@
     </div>
 
     <script>
-        // Mencegah animasi goal berjalan otomatis saat web pertama kali dimuat
-        window.preventAnimOnLoad = true;
-        setTimeout(() => { window.preventAnimOnLoad = false; }, 2000);
-
         /* State management */
         window.appState = {
             scores: { home: 0, away: 0 },
@@ -966,139 +962,114 @@
         let isMQTTActive = false;
         let bc = null;
 
-        function initSync() {
-            // Setup BroadcastChannel (Local Sync)
-            bc = new BroadcastChannel('obs_score_v2_' + roomCode);
-            bc.onmessage = (event) => {
-                if (event.data.type === 'STATE_UPDATE') {
-                    applyRemoteState(event.data.state);
-                } else if (event.data.type === 'REQUEST_SYNC') {
-                    if (!document.body.classList.contains('mode-overlay')) {
-                        syncState(); // Send current state to the requester
-                    }
-                }
-            };
-
-            // Setup MQTT (Public broker for remote control across devices)
-            const clientId = 'obs_client_' + Math.random().toString(16).substr(2, 8);
-            const host = 'wss://broker.emqx.io:8083/mqtt'; 
-            
-            try {
-                mqttClient = mqtt.connect(host, { clientId: clientId });
-                
-                mqttClient.on('connect', () => {
-                    isMQTTActive = true;
-                    const statusEl = document.getElementById('sync-status');
-                    if (statusEl) statusEl.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Synced';
-                    mqttClient.subscribe('obs_score_v2/' + roomCode);
-                });
-
-                mqttClient.on('message', (topic, message) => {
-                    if (topic === 'obs_score_v2/' + roomCode) {
-                        try {
-                            const data = JSON.parse(message.toString());
-                            // Prevent echo loops
-                            if (data.clientId !== clientId && data.type === 'STATE_UPDATE') {
-                                applyRemoteState(data.state);
-                            } else if (data.clientId !== clientId && data.type === 'REQUEST_SYNC') {
-                                if (!document.body.classList.contains('mode-overlay')) {
-                                    syncState(); 
-                                }
-                            }
-                        } catch (e) {
-                            console.error("MQTT Message Error:", e);
-                        }
-                    }
-                });
-
-                mqttClient.on('error', () => {
-                    const statusEl = document.getElementById('sync-status');
-                    if (statusEl) statusEl.innerHTML = '<i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i> Local Only';
-                });
-                
-                mqttClient.on('offline', () => {
-                    isMQTTActive = false;
-                    const statusEl = document.getElementById('sync-status');
-                    if (statusEl) statusEl.innerHTML = '<i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i> Local Only';
-                });
-            } catch(e) {
-                const statusEl = document.getElementById('sync-status');
-                if (statusEl) statusEl.innerHTML = '<i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i> Local Only';
-            }
-        }
-
-        function syncState(triggerTeamGoal = null) {
-            if (triggerTeamGoal) {
-                window.appState.goalEvent = {
-                    active: true,
-                    team: triggerTeamGoal,
-                    timestamp: Date.now()
-                };
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('obs_score_v2_' + roomCode, JSON.stringify(window.appState));
-
-            const payload = {
-                type: 'STATE_UPDATE',
-                state: window.appState,
-                clientId: mqttClient?.options?.clientId
-            };
-
-            // Send via BroadcastChannel
-            if (bc) bc.postMessage(payload);
-
-            // Send via MQTT
-            if (isMQTTActive && mqttClient) {
-                mqttClient.publish('obs_score_v2/' + roomCode, JSON.stringify(payload));
-            }
-        }
-
-        function requestForceSync() {
-            const payload = {
-                type: 'REQUEST_SYNC',
-                clientId: mqttClient?.options?.clientId
-            };
-            
-            if (bc) bc.postMessage(payload);
-            if (isMQTTActive && mqttClient) {
-                mqttClient.publish('obs_score_v2/' + roomCode, JSON.stringify(payload));
-            }
-            
-            // UI feedback
-            const btn = document.querySelector('button[onclick="requestForceSync()"]');
-            if (btn) {
-                const oldHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Synced!';
-                setTimeout(() => { btn.innerHTML = oldHTML; }, 2000);
-            }
-        }
-
-        function updateRoomCode() {
-            const newCode = document.getElementById('input-room-code').value.trim() || 'liga-match-v2';
-            if (newCode !== roomCode) {
-                // Cleanup old connections
-                if (bc) bc.close();
-                if (isMQTTActive && mqttClient) {
-                    mqttClient.unsubscribe('obs_score_v2/' + roomCode);
-                }
-                
-                roomCode = newCode;
-                
-                // Update URL parameter
-                const url = new URL(window.location.href);
-                url.searchParams.set('room', roomCode);
-                window.history.replaceState({}, '', url);
-                window.generateOBSLink();
-                
-                // Re-init sync with new room code
-                initSync();
-            }
-        }
-
         function inIframe() {
             try { return window.self !== window.top; } catch (e) { return true; }
         }
+
+        function initSync() {
+            try {
+                bc = new BroadcastChannel('obs_score_channel_' + roomCode);
+                bc.onmessage = (event) => {
+                    if (event.data.type === 'state') {
+                        applyRemoteState(event.data.payload);
+                    } else if (event.data.type === 'request') {
+                        if (!document.body.classList.contains('mode-overlay')) {
+                            bc.postMessage({ type: 'state', payload: window.appState });
+                        }
+                    }
+                };
+                if (document.body.classList.contains('mode-overlay')) {
+                    bc.postMessage({ type: 'request' });
+                }
+            } catch (e) { console.warn("BroadcastChannel warning", e); }
+
+            if (!inIframe()) {
+                initMQTT();
+            } else {
+                const statusEl = document.getElementById('sync-status');
+                if (statusEl) statusEl.innerHTML = '<i class="fas fa-satellite-dish text-amber-500 mr-1"></i> Local Sync (Preview)';
+            }
+        }
+
+        function initMQTT() {
+            try {
+                mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
+                mqttClient.on('connect', () => {
+                    isMQTTActive = true;
+                    const statusEl = document.getElementById('sync-status');
+                    if (statusEl) statusEl.innerHTML = '<i class="fas fa-check-circle text-emerald-500 mr-1"></i> Online';
+                    
+                    mqttClient.subscribe('obs-score-v2/state/' + roomCode);
+                    
+                    const isOverlay = document.body.classList.contains('mode-overlay');
+                    if (isOverlay) {
+                        mqttClient.publish('obs-score-v2/request/' + roomCode, 'sync_me');
+                    } else {
+                        mqttClient.subscribe('obs-score-v2/request/' + roomCode);
+                        syncState();
+                    }
+                });
+
+                mqttClient.on('message', (topic, message) => {
+                    const msgStr = message.toString();
+                    if (topic.includes('/request/')) {
+                        if (!document.body.classList.contains('mode-overlay')) {
+                            syncState();
+                        }
+                    } else if (topic.includes('/state/')) {
+                        try {
+                            const newState = JSON.parse(msgStr);
+                            applyRemoteState(newState);
+                        } catch(e) {}
+                    }
+                });
+            } catch (err) {
+                console.error("MQTT Error", err);
+            }
+        }
+
+        window.updateRoomCode = function() {
+            const oldRoom = roomCode;
+            roomCode = document.getElementById('input-room-code').value.trim() || 'liga-match-v2';
+            window.generateOBSLink();
+            
+            if (bc) {
+                bc.close();
+                initSync();
+            } else {
+                initSync();
+            }
+
+            if (isMQTTActive && mqttClient) {
+                mqttClient.unsubscribe('obs-score-v2/state/' + oldRoom);
+                mqttClient.unsubscribe('obs-score-v2/request/' + oldRoom);
+                
+                mqttClient.subscribe('obs-score-v2/state/' + roomCode);
+                if (!document.body.classList.contains('mode-overlay')) {
+                    mqttClient.subscribe('obs-score-v2/request/' + roomCode);
+                }
+                syncState();
+            }
+        };
+
+        window.requestForceSync = function() {
+            syncState(null, true);
+        };
+
+        window.syncState = function(triggerGoalForTeam = null, force = false) {
+            if (document.body.classList.contains('mode-overlay')) return;
+            if (triggerGoalForTeam) window.appState.goalEvent = { active: true, team: triggerGoalForTeam, timestamp: Date.now() };
+            
+            try { localStorage.setItem('obs_score_v2_' + roomCode, JSON.stringify(window.appState)); } catch(e) {}
+            
+            if (bc) {
+                bc.postMessage({ type: 'state', payload: window.appState });
+            }
+
+            if (isMQTTActive && mqttClient) {
+                mqttClient.publish('obs-score-v2/state/' + roomCode, JSON.stringify(window.appState), { retain: true, qos: 1 });
+            }
+        };
 
         function applyRemoteState(newState) {
             const oldGoalTimestamp = window.appState.goalEvent?.timestamp || 0;
@@ -1184,8 +1155,7 @@
             renderDOM();
             updateTimerRunningState();
 
-            // Tambahkan kondisi !window.preventAnimOnLoad agar animasi diblokir di detik-detik awal
-            if (!window.preventAnimOnLoad && newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
+            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
                 triggerGoalEffects(newState.goalEvent.team);
             }
         }
@@ -1755,7 +1725,6 @@
                 const savedState = localStorage.getItem('obs_score_v2_' + (document.getElementById('input-room-code')?.value || 'liga-match-v2'));
                 if (savedState) {
                     const parsed = JSON.parse(savedState);
-                    delete parsed.goalEvent; // Hapus riwayat trigger animasi dari memory browser
                     window.appState = { ...window.appState, ...parsed };
                 }
             } catch(e) {}
