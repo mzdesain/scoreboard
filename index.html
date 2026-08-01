@@ -37,18 +37,22 @@
         .font-rajdhani { font-family: 'Rajdhani', sans-serif !important; }
         .font-syne { font-family: 'Syne', sans-serif !important; }
 
-        /* General Overlay Transitions */
-        .overlay-layer { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; will-change: transform, opacity; }
+        #scoreboard-top-wrapper, #scoreboard-bottom-wrapper {
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+            will-change: transform, opacity;
+        }
         
-        /* Animation Types */
+        /* Animation Type: Slide */
         .anim-type-slide.scoreboard-hidden-top { transform: translateY(-150%); opacity: 0; pointer-events: none; }
         .anim-type-slide.scoreboard-hidden-bottom { transform: translateY(150%); opacity: 0; pointer-events: none; }
-        .anim-type-slide.scoreboard-hidden-left { transform: translateX(-150%); opacity: 0; pointer-events: none; }
-        .anim-type-slide.scoreboard-hidden-right { transform: translateX(150%); opacity: 0; pointer-events: none; }
         
-        .anim-type-fade.scoreboard-hidden-top, .anim-type-fade.scoreboard-hidden-bottom, .anim-type-fade.scoreboard-hidden-left, .anim-type-fade.scoreboard-hidden-right { opacity: 0; transform: translate(0); pointer-events: none; }
+        /* Animation Type: Fade */
+        .anim-type-fade.scoreboard-hidden-top, .anim-type-fade.scoreboard-hidden-bottom { opacity: 0; transform: translateY(0); pointer-events: none; }
         
-        .anim-type-scale.scoreboard-hidden-top, .anim-type-scale.scoreboard-hidden-bottom, .anim-type-scale.scoreboard-hidden-left, .anim-type-scale.scoreboard-hidden-right { transform: scale(0.8); opacity: 0; pointer-events: none; }
+        /* Animation Type: Scale */
+        .anim-type-scale.scoreboard-hidden-top, .anim-type-scale.scoreboard-hidden-bottom { transform: scale(0.8); opacity: 0; pointer-events: none; }
+        .anim-type-scale.scoreboard-hidden-center { transform: translate(-50%, -50%) scale(0.8) !important; opacity: 0; pointer-events: none; }
+        .anim-type-scale.show-center { transform: translate(-50%, -50%) scale(1) !important; opacity: 1 !important; pointer-events: auto; }
 
         /* Visible State */
         .scoreboard-visible { transform: translate(0) scale(1) !important; opacity: 1 !important; pointer-events: auto; }
@@ -63,62 +67,110 @@
         .anim-team-goal { animation: teamGoalFlash 1.5s ease-in-out infinite alternate; }
 
         /* Huge Goal Alert - Cinematic Kick Animation */
-        .goal-alert { position: absolute; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; overflow: hidden; background: transparent; transition: opacity 0.3s; }
-        .animate-goal { animation: goalSceneShow 4s ease-in-out forwards; }
-        @keyframes goalSceneShow { 0% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
-
-        .goal-net-icon { position: absolute; right: 5%; bottom: 15%; width: 25vw; max-width: 300px; height: 40vh; border-right: 15px solid white; border-top: 15px solid white; border-top-right-radius: 20px; background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.3) 49%, rgba(255,255,255,0.3) 51%, transparent 52%), linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.3) 49%, rgba(255,255,255,0.3) 51%, transparent 52%); background-size: 30px 30px; opacity: 0; transform: skewX(-15deg); box-shadow: inset -10px 10px 30px rgba(0,0,0,0.5); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
-        .animate-goal .goal-net-icon { animation: netAppear 4s forwards; }
-        @keyframes netAppear { 0%, 5% { opacity: 0; transform: scale(0.8) skewX(-15deg); } 10% { opacity: 1; transform: scale(1) skewX(-15deg); } 24% { transform: scale(1) skewX(-15deg); } 26% { transform: scale(1.05) skewX(-5deg); filter: drop-shadow(0 0 30px #facc15); } 30% { transform: scale(1) skewX(-15deg); filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); } 80% { opacity: 1; transform: scale(1) skewX(-15deg); } 100% { opacity: 0; } }
-
-        .goal-player-icon { position: absolute; left: 15%; bottom: 15%; font-size: 15vh; color: white; opacity: 0; transform: translateX(-100px); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8)); }
-        .animate-goal .goal-player-icon { animation: playerKick 4s forwards cubic-bezier(0.2, 0.8, 0.2, 1); }
-        @keyframes playerKick { 0% { opacity: 0; transform: translateX(-30vw) skewX(-15deg); } 12% { opacity: 1; transform: translateX(0) skewX(0); } 16% { transform: rotate(-25deg) translate(2vw, -2vh); } 80% { opacity: 1; transform: rotate(-25deg) translate(2vw, -2vh); } 100% { opacity: 0; transform: translateX(-5vw); } }
-
-        .goal-ball-icon { position: absolute; left: 20%; bottom: 15%; font-size: 6vh; color: #facc15; opacity: 0; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        .animate-goal .goal-ball-icon { animation: ballShoot 4s forwards; }
-        @keyframes ballShoot { 0%, 14% { opacity: 0; transform: translate(0, 0) rotate(0); } 15% { opacity: 1; transform: translate(0, 0) rotate(0); } 25% { opacity: 1; transform: translate(55vw, -15vh) rotate(1000deg) scale(1.5); filter: drop-shadow(0 0 20px #facc15); } 80% { opacity: 1; transform: translate(56vw, -5vh) rotate(1200deg) scale(1.5); filter: drop-shadow(0 0 20px #facc15); } 100% { opacity: 0; transform: translate(56vw, 20vh) rotate(1500deg); } }
-
-        .goal-text-overlay { position: absolute; z-index: 10; opacity: 0; }
-        .animate-goal .goal-text-overlay { animation: goalTextPop 4s forwards; }
-        @keyframes goalTextPop { 0%, 25% { transform: scale(0.2) skewX(-10deg); opacity: 0; } 30% { transform: scale(1.2) skewX(-10deg); opacity: 1; filter: drop-shadow(0 0 50px #facc15); } 35% { transform: scale(1) skewX(-10deg); opacity: 1; } 85% { transform: scale(1.05) skewX(-10deg); opacity: 1; } 100% { transform: scale(0.8) skewX(-10deg); opacity: 0; } }
-
-        /* THEME VARIABLES (For Universal Overlay Sync) */
-        body[data-theme="standard"] { --theme-bg-gradient: linear-gradient(180deg, rgba(31,41,55,0.95), rgba(17,24,39,0.95)); --theme-border: #374151; --theme-score-bg: rgba(0,0,0,0.8); --theme-accent: #3b82f6; --theme-text: #ffffff; }
-        body[data-theme="minimalist"] { --theme-bg-gradient: rgba(15, 23, 42, 0.92); --theme-border: rgba(255,255,255,0.1); --theme-score-bg: rgba(0,0,0,0.4); --theme-accent: #3b82f6; --theme-text: #ffffff; border-bottom-color: #3b82f6; }
-        body[data-theme="epl"] { --theme-bg-gradient: rgba(61, 25, 91, 0.98); --theme-border: rgba(255,255,255,0.2); --theme-score-bg: #e90052; --theme-accent: #00ff85; --theme-text: #ffffff; }
-        body[data-theme="ucl"] { --theme-bg-gradient: linear-gradient(to right, rgba(0,18,53,0.95), rgba(0,35,102,0.95), rgba(0,18,53,0.95)); --theme-border: #cbd5e1; --theme-score-bg: rgba(255,255,255,0.15); --theme-accent: #38bdf8; --theme-text: #ffffff; }
-        body[data-theme="broadcast"] { --theme-bg-gradient: rgba(15, 23, 42, 0.98); --theme-border: #2563eb; --theme-score-bg: linear-gradient(180deg, #1e293b, #020617); --theme-accent: #dc2626; --theme-text: #ffffff; }
-        body[data-theme="worldcup"] { --theme-bg-gradient: rgba(90, 0, 38, 0.98); --theme-border: #cfb268; --theme-score-bg: #cfb268; --theme-accent: #ffffff; --theme-text: #ffffff; }
-        body[data-theme="worldcup"] .score-text { color: #5a0026 !important; }
-        body[data-theme="sportscenter"] { --theme-bg-gradient: rgba(17, 24, 39, 0.98); --theme-border: #dc2626; --theme-score-bg: #1f2937; --theme-accent: #ef4444; --theme-text: #ffffff; }
-
-        /* UNIVERSAL THEMES APPLICATION */
-        .scoreboard-main { background: var(--theme-bg-gradient); border: 2px solid var(--theme-border); }
-        .score-panel { background: var(--theme-score-bg); }
-        .theme-text-accent { color: var(--theme-accent); }
-        .theme-bg-accent { background-color: var(--theme-accent); }
-        .theme-border-accent { border-color: var(--theme-accent); }
-        .panel-text { color: var(--theme-text); }
+        @keyframes goalCinematic {
+            0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+            10% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; text-shadow: 0 0 50px rgba(250, 204, 21, 0.8); }
+            15% { transform: translate(-50%, -50%) scale(0.9); opacity: 1; }
+            20% { transform: translate(-50%, -50%) scale(1.05) skewX(-5deg); opacity: 1; }
+            85% { transform: translate(-50%, -50%) scale(1) skewX(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; filter: blur(10px); }
+        }
+        @keyframes ballFlight {
+            0% { transform: translate(-200px, 150px) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { transform: translate(-100px, 50px) scale(1.2) rotate(360deg); opacity: 1; }
+            20% { transform: translate(0px, 0px) scale(1) rotate(720deg); opacity: 1; }
+            100% { transform: translate(0px, 0px) scale(1) rotate(720deg); opacity: 1; }
+        }
+        @keyframes netShake {
+            0% { transform: scale(1); }
+            15% { transform: scale(1); }
+            20% { transform: scale(1.05) translateX(10px); }
+            25% { transform: scale(0.98) translateX(-10px); }
+            30% { transform: scale(1.02) translateX(5px); }
+            35% { transform: scale(1) translateX(0); }
+            100% { transform: scale(1); }
+        }
         
-        /* Specialized theme overrides */
-        body[data-theme="standard"] .scoreboard-main { border-radius: 8px; }
-        body[data-theme="minimalist"] .scoreboard-main { border-width: 0 0 4px 0; border-color: var(--theme-accent); border-radius: 6px; }
-        body[data-theme="epl"] .scoreboard-main { border-radius: 10px; border: none; }
-        body[data-theme="ucl"] .scoreboard-main { border-radius: 24px; border-width: 2px; }
-        body[data-theme="broadcast"] .scoreboard-main { border-radius: 6px; border-width: 0 6px; border-color: var(--theme-accent); border-left-color: var(--theme-border); }
-        body[data-theme="worldcup"] .scoreboard-main { border-radius: 8px; }
-        body[data-theme="sportscenter"] .scoreboard-main { border-radius: 6px; border-width: 0 0 5px 0; }
+        .goal-alert-container { position: absolute; inset: 0; pointer-events: none; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; background: transparent; }
+        .goal-alert-container.animate-goal { animation: goalCinematic 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .goal-alert-net { position: absolute; font-size: 25rem; color: rgba(255,255,255,0.1); }
+        .goal-alert-container.animate-goal .goal-alert-net { animation: netShake 5s ease-out forwards; }
+        .goal-alert-ball { position: absolute; font-size: 8rem; color: #facc15; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .goal-alert-container.animate-goal .goal-alert-ball { animation: ballFlight 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .goal-alert-text { position: relative; z-index: 10; font-size: 14rem; font-weight: 900; color: white; text-transform: uppercase; font-style: italic; letter-spacing: -5px; line-height: 1; text-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.3); }
 
-        body[data-theme="epl"] .match-time-text { background: var(--theme-accent); color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
-        body[data-theme="worldcup"] .match-time-text { color: var(--theme-border); }
-        body[data-theme="sportscenter"] .match-time-text { color: var(--theme-accent); }
+        /* Universal Theming for Popups (Lineup, Stats, Subs, Banner) */
+        body[data-theme="standard"] .theme-popup { background-color: rgba(31, 41, 55, 0.95); border: 2px solid #374151; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        body[data-theme="standard"] .theme-popup-header { background: #111827; border-bottom: 2px solid #374151; color: white; }
+        body[data-theme="standard"] .theme-popup-accent { background: #3b82f6; }
+        
+        body[data-theme="minimalist"] .theme-popup { background-color: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); border-bottom: 4px solid #3b82f6; }
+        body[data-theme="minimalist"] .theme-popup-header { background: transparent; border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
+        body[data-theme="minimalist"] .theme-popup-accent { background: #3b82f6; }
+
+        body[data-theme="epl"] .theme-popup { background-color: rgba(61, 25, 91, 0.95); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        body[data-theme="epl"] .theme-popup-header { background: #e90052; color: white; }
+        body[data-theme="epl"] .theme-popup-accent { background: #00ff85; color: #3d195b; }
+
+        body[data-theme="ucl"] .theme-popup { background: linear-gradient(to bottom, rgba(0, 18, 53, 0.95), rgba(0, 35, 102, 0.95)); border: 2px solid #cbd5e1; border-radius: 20px; }
+        body[data-theme="ucl"] .theme-popup-header { background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); color: white; border-bottom: 1px solid rgba(255,255,255,0.2); }
+        body[data-theme="ucl"] .theme-popup-accent { background: #38bdf8; }
+
+        body[data-theme="broadcast"] .theme-popup { background: rgba(15, 23, 42, 0.95); border-left: 6px solid #2563eb; border-right: 6px solid #dc2626; border-radius: 6px; }
+        body[data-theme="broadcast"] .theme-popup-header { background: #1e293b; color: white; border-bottom: 2px solid #0f172a; }
+        body[data-theme="broadcast"] .theme-popup-accent { background: #2563eb; }
+
+        body[data-theme="worldcup"] .theme-popup { background: rgba(90, 0, 38, 0.95); border: 2px solid #cfb268; border-radius: 8px; }
+        body[data-theme="worldcup"] .theme-popup-header { background: #cfb268; color: #5a0026; }
+        body[data-theme="worldcup"] .theme-popup-accent { background: #cfb268; color: #5a0026; }
+
+        body[data-theme="sportscenter"] .theme-popup { background: rgba(17, 24, 39, 0.95); border-bottom: 5px solid #dc2626; border-radius: 6px; }
+        body[data-theme="sportscenter"] .theme-popup-header { background: #1f2937; border-bottom: 2px solid #374151; color: white; }
+        body[data-theme="sportscenter"] .theme-popup-accent { background: #ef4444; }
+
+        /* Standard Scoreboard */
+        body[data-theme="standard"] .scoreboard-main { background: linear-gradient(180deg, #1f2937, #111827); border: 1px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-radius: 8px; }
+        body[data-theme="standard"] .score-panel { background: #000; border-left: 2px solid #374151; border-right: 2px solid #374151; }
+        body[data-theme="standard"] .team-panel { background: transparent; }
+        
+        /* Minimalist */
+        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); border-bottom: 4px solid #3b82f6; border-radius: 4px; }
+        body[data-theme="minimalist"] .score-panel { border-left: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
+        
+        /* EPL Style (Premier League) */
+        body[data-theme="epl"] .scoreboard-main { background: #3d195b; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+        body[data-theme="epl"] .score-panel { background: #e90052; margin: 0; border-radius: 0; }
+        body[data-theme="epl"] .score-text { color: #fff !important; }
+        body[data-theme="epl"] .match-time-text { background: #00ff85; color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
+        body[data-theme="epl"] .stoppage-badge { background: #3d195b; border-color: #00ff85; }
+        body[data-theme="epl"] .stoppage-target-text { color: #00ff85; border-color: rgba(0,255,133,0.3); }
+
+        /* UCL Style (Champions League) */
+        body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #001235, #002366, #001235); border-top: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body[data-theme="ucl"] .score-panel { background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); }
+        body[data-theme="ucl"] .match-time-text { color: #fff; }
+        body[data-theme="ucl"] .stoppage-badge { background: rgba(0, 18, 53, 0.95); border-color: #38bdf8; }
+        body[data-theme="ucl"] .stoppage-target-text { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
+
+        /* Broadcast Clean */
+        body[data-theme="broadcast"] .scoreboard-main { background: #0f172a; border-left: 6px solid #2563eb; border-right: 6px solid #dc2626; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        body[data-theme="broadcast"] .score-panel { background: linear-gradient(180deg, #1e293b, #020617); }
+
+        /* World Cup */
+        body[data-theme="worldcup"] .scoreboard-main { background: #5a0026; border: 2px solid #cfb268; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        body[data-theme="worldcup"] .score-panel { background: #cfb268; margin: 4px; border-radius: 4px; }
+        body[data-theme="worldcup"] .score-text { color: #5a0026 !important; }
+        body[data-theme="worldcup"] .match-time-text { color: #cfb268; }
+
+        /* Sports Red */
+        body[data-theme="sportscenter"] .scoreboard-main { background: #111827; border-bottom: 5px solid #dc2626; border-radius: 6px; }
+        body[data-theme="sportscenter"] .score-panel { background: #1f2937; border-left: 2px solid #374151; border-right: 2px solid #374151; }
+        body[data-theme="sportscenter"] .match-time-text { color: #ef4444; }
 
         /* Sub-panels / Scorer Dropdowns */
         .scorer-dropdown { transition: all 0.4s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; }
         .scorer-dropdown.show { max-height: 250px; opacity: 1; }
 
-        /* Layout & Controller */
         #main-layout { display: flex; width: 100vw; height: 100vh; overflow: hidden; background: #f8fafc; }
         .mode-overlay #main-layout { display: block; background: transparent !important; }
         .mode-overlay #controller-panel { display: none !important; }
@@ -127,10 +179,20 @@
         .mode-mobile #controller-panel { width: 100% !important; max-width: 100%; border: none; }
         .mode-mobile #preview-panel { display: none !important; }
 
-        .bg-transparent-grid { background-color: #cbd5e1; background-image: linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8), linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8); background-size: 20px 20px; background-position: 0 0, 10px 10px; }
-        #preview-scale-wrapper { transform: scale(0.75); transform-origin: top center; width: 100%; height: 100%; position: absolute; inset: 0; pointer-events: none; }
+        /* Preview Grid Checkerboard */
+        .bg-transparent-grid {
+            background-color: #cbd5e1;
+            background-image: linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8), linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8);
+            background-size: 20px 20px; background-position: 0 0, 10px 10px;
+        }
+
+        #preview-scale-wrapper {
+            transform: scale(0.75); transform-origin: top center; width: 100%; height: 100%; position: absolute; inset: 0;
+            pointer-events: none;
+        }
         .mode-overlay #preview-scale-wrapper { transform: scale(1) !important; }
 
+        /* Controller Controls (Pro Dashboard Theme) */
         #controller-panel { background: #f1f5f9; color: #1e293b; scrollbar-width: thin; scrollbar-color: #cbd5e1 #f1f5f9; }
         .ctrl-group { background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -2px rgba(0,0,0,0.02); transition: all 0.2s; }
         .ctrl-title { font-size: 15px; text-transform: capitalize; letter-spacing: 0.5px; color: #334155; margin-bottom: 24px; font-weight: 800; border-bottom: 2px solid #f8fafc; padding-bottom: 16px; display: flex; align-items: center; }
@@ -150,16 +212,22 @@
         .btn-success { background: #10b981; color: #ffffff; box-shadow: 0 2px 4px rgba(16,185,129,0.1); }
         .btn-success:hover:not(:disabled) { background: #059669; box-shadow: 0 4px 6px rgba(16,185,129,0.2); }
 
-        /* Pitch for LineUp */
-        .pitch-bg { background: linear-gradient(0deg, rgba(2,13,38,0.8) 0%, rgba(13,33,79,0.8) 100%); border-right: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 50px rgba(0,0,0,0.6); }
+        #substitution-overlay, #info-banner-overlay, #single-goal-overlay { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; pointer-events: none; }
+        .slide-in-left { transform: translateX(-150%); opacity: 0; }
+        .slide-in-left.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        .slide-in-right { transform: translateX(150%); opacity: 0; }
+        .slide-in-right.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        .slide-in-bottom { transform: translateY(150%); opacity: 0; }
+        .slide-in-bottom.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        .pitch-bg { background: linear-gradient(0deg, rgba(2,13,38,0.4) 0%, rgba(13,33,79,0.4) 100%); border-right: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 50px rgba(0,0,0,0.6); }
         .pitch-line-top { border-top: 2px solid rgba(255,255,255,0.15); }
         .pitch-line-bottom { border-bottom: 2px solid rgba(255,255,255,0.15); }
         .pitch-circle { border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; }
         
-        /* Stat Bars */
-        .stat-bar-bg { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; height: 10px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-        .stat-bar-fill-home { background: linear-gradient(90deg, #3b82f6, #60a5fa); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
-        .stat-bar-fill-away { background: linear-gradient(90deg, #f87171, #ef4444); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); float: right; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
+        .stat-bar-bg { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.05); overflow: hidden; height: 10px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .stat-bar-fill-home { background: linear-gradient(90deg, #2563eb, #3b82f6); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
+        .stat-bar-fill-away { background: linear-gradient(90deg, #ef4444, #dc2626); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); float: right; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
     </style>
 </head>
 
@@ -170,6 +238,7 @@
         <!-- Controller Panel -->
         <div id="controller-panel" class="w-[55%] xl:w-[50%] flex-shrink-0 h-full flex flex-col border-r border-[#e2e8f0] z-50 overflow-y-auto relative">
             
+            <!-- Top Header -->
             <div class="px-8 py-5 bg-white border-b border-[#e2e8f0] flex justify-between items-center sticky top-0 z-20 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
                 <h1 class="font-bold text-xl text-slate-800 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-broadcast-tower"></i></div> 
@@ -182,6 +251,7 @@
                 </div>
             </div>
 
+            <!-- Main Scrollable Content -->
             <div class="p-8 flex-grow overflow-y-auto bg-slate-50">
                 <div class="max-w-4xl mx-auto space-y-6 w-full pb-10">
                     
@@ -223,6 +293,7 @@
                                 <div class="flex gap-2 h-[42px]">
                                     <button onclick="toggleView('top')" id="btn-show-top" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-maximize"></i> Top Bar</button>
                                     <button onclick="toggleView('bottom')" id="btn-show-bottom" class="flex-1 btn-pro btn-outline"><i class="fas fa-window-minimize"></i> Bottom Bar</button>
+                                    <button onclick="toggleView('none')" id="btn-show-none" class="btn-pro btn-outline px-3" title="Hide All"><i class="fas fa-eye-slash"></i></button>
                                 </div>
                             </div>
                             <div>
@@ -256,19 +327,14 @@
                                     <option value="scale">Scale</option>
                                 </select>
                             </div>
-                            <div class="lg:col-span-5 pt-2 border-t border-slate-100 flex items-center justify-between">
-                                <label class="label-pro !mb-0 text-slate-500">Custom Text Color Overlay</label>
-                                <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-24 h-8 cursor-pointer rounded border border-slate-300 bg-white p-0.5">
-                            </div>
-                            
-                            <!-- League Logo Add-on -->
-                            <div class="lg:col-span-5 pt-4 border-t border-slate-100 grid grid-cols-12 gap-4 items-end">
-                                <div class="col-span-8">
-                                    <label class="label-pro">Logo Liga (URL Gambar / Kosongkan jika tidak ada)</label>
-                                    <input type="text" id="input-logo-url" value="" placeholder="https://contoh.com/logo.png" class="input-pro">
+                            <div class="lg:col-span-5 pt-2 border-t border-slate-100 flex items-center gap-4">
+                                <div>
+                                    <label class="label-pro !mb-0 text-slate-500">Custom Text Color</label>
+                                    <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-16 h-8 cursor-pointer rounded border border-slate-300 bg-white p-0.5 mt-1">
                                 </div>
-                                <div class="col-span-4">
-                                    <button onclick="toggleLogo()" class="w-full btn-pro btn-outline text-indigo-600"><i class="fas fa-image"></i> Tampilkan Logo</button>
+                                <div class="flex-1">
+                                    <label class="label-pro text-slate-500">Logo URL (Kosongkan jika tidak ada)</label>
+                                    <input type="text" id="input-logo-url" onchange="applyStyles()" class="input-pro" placeholder="https://example.com/logo.png">
                                 </div>
                             </div>
                         </div>
@@ -289,7 +355,7 @@
                                     </div>
                                     <div class="flex gap-3 mb-4">
                                         <div class="w-1/3">
-                                            <label class="label-pro">Short Name</label>
+                                            <label class="label-pro">Short</label>
                                             <input type="text" id="input-home-name" value="HOM" onchange="updateNames()" class="input-pro font-bold uppercase text-center text-blue-800" placeholder="HOM">
                                         </div>
                                         <div class="w-2/3">
@@ -341,7 +407,7 @@
                                             <input type="text" id="input-away-full" value="Away Team FC" onchange="updateNames()" class="input-pro" placeholder="Full Long Name">
                                         </div>
                                         <div class="w-1/3">
-                                            <label class="label-pro">Short Name</label>
+                                            <label class="label-pro">Short</label>
                                             <input type="text" id="input-away-name" value="AWY" onchange="updateNames()" class="input-pro font-bold uppercase text-center text-red-800" placeholder="AWY">
                                         </div>
                                     </div>
@@ -378,11 +444,41 @@
                         </div>
                     </div>
 
+                    <!-- SECTION: Penalty Shootout -->
+                    <div class="ctrl-group">
+                        <div class="ctrl-title"><i class="fas fa-dot-circle text-orange-500 mr-2.5 text-lg"></i> Penalty Shootout</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                            <div class="lg:col-span-12 flex gap-3 mb-2">
+                                <button onclick="togglePenalty()" id="btn-pen-toggle" class="btn-pro btn-outline w-full"><i class="fas fa-power-off"></i> Enable Penalty Mode</button>
+                                <button onclick="resetPenalty()" class="btn-pro btn-outline text-red-500 hover:bg-red-50"><i class="fas fa-trash"></i> Reset</button>
+                            </div>
+                            
+                            <div class="lg:col-span-6 bg-blue-50 p-3 rounded-lg border border-blue-100">
+                                <div class="text-xs font-bold text-blue-800 mb-2 text-center uppercase">Home Penalty</div>
+                                <div class="flex gap-2 justify-center">
+                                    <button onclick="addPenalty('home', 1)" class="btn-pro btn-success px-4 py-2" title="Goal"><i class="fas fa-check"></i> Goal</button>
+                                    <button onclick="addPenalty('home', 0)" class="btn-pro btn-danger px-4 py-2" title="Miss"><i class="fas fa-times"></i> Miss</button>
+                                    <button onclick="undoPenalty('home')" class="btn-pro btn-outline px-3 py-2 text-slate-500" title="Undo"><i class="fas fa-undo"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="lg:col-span-6 bg-red-50 p-3 rounded-lg border border-red-100">
+                                <div class="text-xs font-bold text-red-800 mb-2 text-center uppercase">Away Penalty</div>
+                                <div class="flex gap-2 justify-center">
+                                    <button onclick="addPenalty('away', 1)" class="btn-pro btn-success px-4 py-2" title="Goal"><i class="fas fa-check"></i> Goal</button>
+                                    <button onclick="addPenalty('away', 0)" class="btn-pro btn-danger px-4 py-2" title="Miss"><i class="fas fa-times"></i> Miss</button>
+                                    <button onclick="undoPenalty('away')" class="btn-pro btn-outline px-3 py-2 text-slate-500" title="Undo"><i class="fas fa-undo"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- SECTION 4: Match Clock -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-stopwatch text-amber-500 mr-2.5 text-lg"></i> 4. Match Clock Controls</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                             
+                            <!-- Settings -->
                             <div class="lg:col-span-4 space-y-4">
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
@@ -410,6 +506,7 @@
                                 <button onclick="applyTimerSettings()" class="btn-pro btn-outline w-full hover:bg-slate-100 text-slate-600 border-slate-300"><i class="fas fa-check text-green-500"></i> Apply Clock Settings</button>
                             </div>
 
+                            <!-- Big Clock -->
                             <div class="lg:col-span-4 flex flex-col items-center justify-center bg-slate-900 rounded-xl p-5 shadow-inner border border-slate-700 h-full">
                                 <div class="flex items-center gap-1.5 mb-2">
                                     <input type="number" id="input-mins" value="0" class="w-16 text-center text-5xl font-black font-mono bg-transparent border-none focus:outline-none text-white p-0 leading-none" min="0" placeholder="00">
@@ -419,6 +516,7 @@
                                 <div class="text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase bg-slate-800 px-3 py-1 rounded-full border border-slate-600 shadow-sm mt-1">Live Display Timer</div>
                             </div>
 
+                            <!-- Controls -->
                             <div class="lg:col-span-4 space-y-3 h-full flex flex-col justify-center">
                                 <button onclick="startTimer()" id="btn-timer-start" class="btn-pro btn-success w-full py-3.5 text-[15px]"><i class="fas fa-play"></i> Start Clock</button>
                                 <button onclick="stopTimer()" id="btn-timer-stop" class="btn-pro btn-danger w-full py-3.5 text-[15px]" disabled><i class="fas fa-pause"></i> Pause Clock</button>
@@ -430,7 +528,7 @@
 
                     <!-- SECTION 5: Single Goal Banner -->
                     <div class="ctrl-group">
-                        <div class="ctrl-title"><i class="fas fa-bullhorn text-rose-500 mr-2.5 text-lg"></i> 5. Single Goal Event Banner</div>
+                        <div class="ctrl-title"><i class="fas fa-bullhorn text-rose-500 mr-2.5 text-lg"></i> 5. Single Goal Event (Pojok Kiri Bawah)</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
                             <div class="lg:col-span-5">
                                 <label class="label-pro">Event Player Name</label>
@@ -442,7 +540,7 @@
                             </div>
                             <div class="lg:col-span-5 flex gap-2">
                                 <button onclick="triggerTopScorer()" class="flex-1 btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_8px_rgba(79,70,229,0.3)] border-none"><i class="fas fa-eye"></i> Show Banner</button>
-                                <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-4 text-slate-400 hover:text-red-500" title="Hide"><i class="fas fa-eye-slash"></i></button>
+                                <button onclick="hideTopScorer()" class="btn-pro btn-outline px-4 text-slate-400 hover:text-red-500" title="Hide"><i class="fas fa-eye-slash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -462,10 +560,13 @@
                                 <textarea id="input-scorers-away" class="input-pro text-sm h-24 resize-none text-right leading-relaxed" placeholder="e.g. Mbappe 88'"></textarea>
                             </div>
                         </div>
-                        <button onclick="updateBottomScorers()" class="w-full btn-pro bg-slate-800 text-white hover:bg-slate-900 py-3 shadow-[0_2px_8px_rgba(15,23,42,0.3)]"><i class="fas fa-cloud-upload-alt mr-2"></i> Update Multiline Scorer List Display</button>
+                        <div class="flex gap-2">
+                            <button onclick="updateBottomScorers()" class="flex-1 btn-pro bg-slate-800 text-white hover:bg-slate-900 py-3 shadow-[0_2px_8px_rgba(15,23,42,0.3)]"><i class="fas fa-eye mr-2"></i> Munculkan List</button>
+                            <button onclick="hideBottomScorers()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
+                        </div>
                     </div>
 
-                    <!-- SECTION 7: Substitutions -->
+                    <!-- SECTION 8: Substitutions -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-exchange-alt text-green-500 mr-2.5 text-lg"></i> 7. Substitutions (Pergantian Pemain)</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
@@ -491,13 +592,13 @@
                                 </div>
                             </div>
                             <div class="lg:col-span-12 flex gap-2 mt-2">
-                                <button onclick="triggerOverlay('substitution')" class="flex-1 btn-pro btn-success shadow-[0_2px_10px_rgba(16,185,129,0.3)] border-none text-sm"><i class="fas fa-play"></i> Tampilkan Grafis Substitusi</button>
-                                <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
+                                <button onclick="triggerSub()" class="flex-1 btn-pro btn-success shadow-[0_2px_10px_rgba(16,185,129,0.3)] border-none text-sm"><i class="fas fa-play"></i> Tampilkan Grafis Substitusi</button>
+                                <button onclick="hideSub()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SECTION 8: Custom Info Banner (Lower Third) -->
+                    <!-- SECTION 9: Custom Info Banner (Lower Third) -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-bullhorn text-purple-500 mr-2.5 text-lg"></i> 8. Custom Info Banner (Lower Third)</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
@@ -510,13 +611,13 @@
                                 <input type="text" id="banner-subtitle" placeholder="Ketik deskripsi..." class="input-pro">
                             </div>
                             <div class="lg:col-span-3 flex gap-2">
-                                <button onclick="triggerOverlay('infoBanner')" class="flex-1 btn-pro btn-primary bg-purple-600 hover:bg-purple-700 shadow-[0_2px_8px_rgba(147,51,234,0.3)] border-none"><i class="fas fa-eye"></i> Show</button>
-                                <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-5 text-slate-400 hover:text-red-500 hover:bg-red-50" title="Hide"><i class="fas fa-eye-slash"></i></button>
+                                <button onclick="triggerBanner()" class="flex-1 btn-pro btn-primary bg-purple-600 hover:bg-purple-700 shadow-[0_2px_8px_rgba(147,51,234,0.3)] border-none"><i class="fas fa-eye"></i> Show</button>
+                                <button onclick="hideBanner()" class="btn-pro btn-outline px-5 text-slate-400 hover:text-red-500 hover:bg-red-50" title="Hide"><i class="fas fa-eye-slash"></i></button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SECTION 9: Lineup & Formation -->
+                    <!-- SECTION 10: Lineup & Formation -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-users text-indigo-500 mr-2.5 text-lg"></i> 9. Lineup & Formasi (Starting XI)</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start border-l-4 border-indigo-500 pl-4 bg-indigo-50/30 py-3 rounded-r-lg">
@@ -532,18 +633,20 @@
                                     <div>
                                         <label class="label-pro">Formasi</label>
                                         <select id="lineup-formation" class="input-pro cursor-pointer">
-                                            <option value="4-4-2">4-4-2</option>
-                                            <option value="4-3-3">4-3-3</option>
-                                            <option value="4-2-3-1">4-2-3-1</option>
-                                            <option value="3-5-2">3-5-2</option>
-                                            <option value="3-4-3">3-4-3</option>
-                                            <option value="5-3-2">5-3-2</option>
-                                            <option value="4-1-4-1">4-1-4-1</option>
-                                            <optgroup label="Futsal / Minisoccer">
-                                                <option value="1-2-1">1-2-1</option>
-                                                <option value="2-2">2-2</option>
-                                                <option value="3-1">3-1</option>
-                                                <option value="1-3">1-3</option>
+                                            <optgroup label="Sepak Bola">
+                                                <option value="4-4-2">4-4-2</option>
+                                                <option value="4-3-3">4-3-3</option>
+                                                <option value="4-2-3-1">4-2-3-1</option>
+                                                <option value="3-5-2">3-5-2</option>
+                                                <option value="3-4-3">3-4-3</option>
+                                                <option value="5-3-2">5-3-2</option>
+                                                <option value="4-1-4-1">4-1-4-1</option>
+                                            </optgroup>
+                                            <optgroup label="Futsal (5 Pemain)">
+                                                <option value="1-2-1">1-2-1 (Diamond)</option>
+                                                <option value="2-2">2-2 (Square)</option>
+                                                <option value="3-1">3-1 (Pyramid)</option>
+                                                <option value="1-3">1-3 (Y)</option>
                                             </optgroup>
                                         </select>
                                     </div>
@@ -553,16 +656,16 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-2 pt-2">
-                                    <button onclick="triggerOverlay('lineup')" class="btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_10px_rgba(79,70,229,0.3)] border-none text-sm w-full py-2.5"><i class="fas fa-eye mr-1"></i> Tampilkan Grafis Lineup</button>
-                                    <button onclick="triggerOverlay('none')" class="btn-pro btn-outline text-slate-500 hover:text-red-600 hover:bg-red-50 w-full py-2" title="Sembunyikan"><i class="fas fa-eye-slash mr-1"></i> Hapus Lineup</button>
+                                    <button onclick="triggerLineup()" class="btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_10px_rgba(79,70,229,0.3)] border-none text-sm w-full py-2.5"><i class="fas fa-eye mr-1"></i> Tampilkan Grafis Lineup</button>
+                                    <button onclick="hideLineup()" class="btn-pro btn-outline text-slate-500 hover:text-red-600 hover:bg-red-50 w-full py-2" title="Sembunyikan"><i class="fas fa-eye-slash mr-1"></i> Hapus Lineup</button>
                                 </div>
                                 <div class="bg-blue-50 text-blue-800 text-[10px] p-2 rounded-md border border-blue-100 mt-2 leading-snug">
-                                    <i class="fas fa-info-circle mr-1"></i> <b>Format: "[Nomor] [Spasi] [Nama]"</b>. Baris pertama selalu jadi Kiper di lapangan, pemain lainnya mengikuti urutan baris formasi dari bawah ke atas.
+                                    <i class="fas fa-info-circle mr-1"></i> <b>Format: "[Nomor] [Spasi] [Nama]"</b>. Baris pertama selalu jadi Kiper di lapangan, pemain lainnya mengikuti urutan baris formasi dari belakang ke depan.
                                 </div>
                             </div>
                             <div class="lg:col-span-4">
-                                <label class="label-pro text-indigo-700"><i class="fas fa-running mr-1"></i> Starting XI (11 Pemain)</label>
-                                <textarea id="lineup-players" class="input-pro text-xs h-56 resize-none font-mono leading-relaxed bg-white" placeholder="1 Courtois&#10;2 Carvajal&#10;3 Militao&#10;4 Alaba&#10;... (hingga 11 pemain)"></textarea>
+                                <label class="label-pro text-indigo-700"><i class="fas fa-running mr-1"></i> Starting Pemain</label>
+                                <textarea id="lineup-players" class="input-pro text-xs h-56 resize-none font-mono leading-relaxed bg-white" placeholder="1 Courtois&#10;2 Carvajal&#10;3 Militao&#10;4 Alaba&#10;..."></textarea>
                             </div>
                             <div class="lg:col-span-4">
                                 <label class="label-pro text-slate-600"><i class="fas fa-chair mr-1"></i> Cadangan (Pisah Baris)</label>
@@ -571,7 +674,7 @@
                         </div>
                     </div>
 
-                    <!-- SECTION 10: Match Statistics -->
+                    <!-- SECTION 11: Match Statistics -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-chart-pie text-sky-500 mr-2.5 text-lg"></i> 10. Match Statistics Overview</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center mb-5 bg-slate-50 p-5 rounded-xl border border-slate-200">
@@ -579,89 +682,30 @@
                             <div class="lg:col-span-4 font-black text-center text-slate-400 tracking-widest text-[10px] uppercase">Indikator Statistik</div>
                             <div class="lg:col-span-4 font-black text-center text-red-600 text-sm tracking-widest bg-red-100 py-1.5 rounded">AWAY</div>
                             
-                            <!-- Stats Rows -->
-                            <div class="lg:col-span-4"><input type="number" id="stat-poss-h" class="input-pro text-center font-bold text-blue-700 text-lg" value="50" oninput="document.getElementById('stat-poss-a').value = 100 - this.value"></div>
+                            <!-- Stats Rows with live update -->
+                            <div class="lg:col-span-4"><input type="number" id="stat-poss-h" class="input-pro text-center font-bold text-blue-700 text-lg" value="50" oninput="document.getElementById('stat-poss-a').value = 100 - this.value; updateLiveStats()"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Possession (%)</div>
-                            <div class="lg:col-span-4"><input type="number" id="stat-poss-a" class="input-pro text-center font-bold text-red-700 text-lg" value="50" oninput="document.getElementById('stat-poss-h').value = 100 - this.value"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-poss-a" class="input-pro text-center font-bold text-red-700 text-lg" value="50" oninput="document.getElementById('stat-poss-h').value = 100 - this.value; updateLiveStats()"></div>
 
-                            <div class="lg:col-span-4"><input type="number" id="stat-shots-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-shots-h" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Total Shots</div>
-                            <div class="lg:col-span-4"><input type="number" id="stat-shots-a" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-shots-a" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
 
-                            <div class="lg:col-span-4"><input type="number" id="stat-sot-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-sot-h" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Shots on Target</div>
-                            <div class="lg:col-span-4"><input type="number" id="stat-sot-a" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-sot-a" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
 
-                            <div class="lg:col-span-4"><input type="number" id="stat-corn-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-corn-h" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Corner Kicks</div>
-                            <div class="lg:col-span-4"><input type="number" id="stat-corn-a" class="input-pro text-center" value="0"></div>
-
-                            <div class="lg:col-span-4"><input type="number" id="stat-offs-h" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-corn-a" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
+                            
+                            <div class="lg:col-span-4"><input type="number" id="stat-offs-h" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Offsides</div>
-                            <div class="lg:col-span-4"><input type="number" id="stat-offs-a" class="input-pro text-center" value="0"></div>
+                            <div class="lg:col-span-4"><input type="number" id="stat-offs-a" class="input-pro text-center" value="0" oninput="updateLiveStats()"></div>
                         </div>
                         <div class="flex gap-3">
-                            <button onclick="triggerOverlay('matchStats')" class="flex-1 btn-pro btn-primary bg-sky-600 hover:bg-sky-700 shadow-[0_4px_12px_rgba(2,132,199,0.3)] border-none py-3 text-sm"><i class="fas fa-chart-bar mr-2"></i> Munculkan Graphic Statistik</button>
-                            <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus Graphic</button>
-                        </div>
-                    </div>
-
-                    <!-- SECTION 11: PENALTY SHOOTOUT -->
-                    <div class="ctrl-group">
-                        <div class="ctrl-title"><i class="fas fa-dot-circle text-orange-500 mr-2.5 text-lg"></i> 11. Adu Penalti (Penalty Shootout)</div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            
-                            <!-- Home Penalty -->
-                            <div class="p-4 border border-blue-100 rounded-xl bg-slate-50">
-                                <div class="text-xs font-black text-blue-700 mb-3 uppercase tracking-widest text-center">Home Penalties</div>
-                                <div class="flex gap-2">
-                                    <button onclick="addPenalty('home', 'scored')" class="btn-pro btn-success flex-1 text-xs py-2 shadow-sm"><i class="fas fa-check"></i> Goal</button>
-                                    <button onclick="addPenalty('home', 'missed')" class="btn-pro btn-danger flex-1 text-xs py-2 shadow-sm"><i class="fas fa-times"></i> Miss</button>
-                                    <button onclick="undoPenalty('home')" class="btn-pro btn-outline px-3" title="Hapus Terakhir"><i class="fas fa-undo"></i></button>
-                                </div>
-                            </div>
-
-                            <!-- Away Penalty -->
-                            <div class="p-4 border border-red-100 rounded-xl bg-slate-50">
-                                <div class="text-xs font-black text-red-600 mb-3 uppercase tracking-widest text-center">Away Penalties</div>
-                                <div class="flex gap-2">
-                                    <button onclick="addPenalty('away', 'scored')" class="btn-pro btn-success flex-1 text-xs py-2 shadow-sm"><i class="fas fa-check"></i> Goal</button>
-                                    <button onclick="addPenalty('away', 'missed')" class="btn-pro btn-danger flex-1 text-xs py-2 shadow-sm"><i class="fas fa-times"></i> Miss</button>
-                                    <button onclick="undoPenalty('away')" class="btn-pro btn-outline px-3" title="Hapus Terakhir"><i class="fas fa-undo"></i></button>
-                                </div>
-                            </div>
-                            
-                            <div class="lg:col-span-2 flex gap-3 mt-2">
-                                <button onclick="togglePenalties()" class="flex-1 btn-pro bg-slate-800 text-white hover:bg-slate-900 shadow-md py-3 text-sm"><i class="fas fa-bullseye mr-2"></i> Tampilkan / Sembunyikan Panel Penalti</button>
-                                <button onclick="resetPenalties()" class="btn-pro btn-outline px-6 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Reset Semua"><i class="fas fa-trash"></i> Reset Data</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SECTION 12: Support & Donation -->
-                    <div class="ctrl-group text-center bg-blue-50/30">
-                        <div class="flex justify-center items-center">
-                            <div class="relative group cursor-pointer">
-                                <!-- Ganti src url di bawah ini dengan link gambar QRIS Anda -->
-                                <img src="https://placehold.co/400x400/ffffff/0f172a?text=TARUH+GAMBAR+QRIS\nDI+SINI" alt="QRIS Donation" class="w-64 h-64 object-cover rounded-2xl border-4 border-white shadow-xl group-hover:scale-105 transition-transform duration-300">
-                                <div class="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                    <span class="text-white font-bold text-sm bg-blue-600 px-4 py-2 rounded-full">Ubah Gambar di Kode</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SECTION 13: Footer -->
-                    <div class="text-center py-6 px-8 mt-4 border-t border-slate-200">
-                        <h4 class="font-extrabold text-slate-800 text-base mb-1">OBS Scoreboard Pro V2</h4>
-                        <p class="text-sm text-slate-500">Created meticulously by <span class="font-bold text-slate-700">Muzanni</span></p>
-                        <div class="flex justify-center gap-4 mt-4 text-slate-500 text-lg">
-                            <a href="https://instagram.com" target="_blank" class="hover:text-pink-600 transition-colors"><i class="fab fa-instagram"></i></a>
-                            <a href="https://tiktok.com" target="_blank" class="hover:text-black transition-colors"><i class="fab fa-tiktok"></i></a>
-                            <a href="https://youtube.com" target="_blank" class="hover:text-red-600 transition-colors"><i class="fab fa-youtube"></i></a>
-                            <a href="https://wa.me/6285251675143" target="_blank" class="hover:text-green-600 transition-colors font-semibold text-sm flex items-center gap-1.5 ml-2 bg-white px-3 py-1 rounded-full border border-slate-300 shadow-sm">
-                                <i class="fab fa-whatsapp text-green-500"></i> 085251675143
-                            </a>
+                            <button onclick="triggerStats()" class="flex-1 btn-pro btn-primary bg-sky-600 hover:bg-sky-700 shadow-[0_4px_12px_rgba(2,132,199,0.3)] border-none py-3 text-sm"><i class="fas fa-chart-bar mr-2"></i> Munculkan Graphic Statistik</button>
+                            <button onclick="hideStats()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus Graphic</button>
                         </div>
                     </div>
 
@@ -674,84 +718,76 @@
             
             <div id="preview-scale-wrapper">
                 
-                <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
-                <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30 overlay-layer anim-type-slide scoreboard-hidden-top scoreboard-main-wrapper">
-                    
-                    <div class="flex items-center justify-start gap-0 relative">
-                        <div class="flex flex-col items-start justify-start relative">
-                            <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative z-20">
-                                
-                                <!-- LEAGUE LOGO TOP (Menyatu dengan shape putih) -->
-                                <div id="logo-container-top" class="hidden items-center justify-center bg-white px-4 py-1 relative z-30 border-r border-slate-300/50" style="border-top-left-radius: inherit; border-bottom-left-radius: inherit;">
-                                    <img id="logo-img-top" class="h-12 w-auto max-w-[70px] object-contain drop-shadow-sm transition-all" src="" />
-                                </div>
+                <!-- TOP SCOREBOARD -->
+                <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30">
+                    <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex flex-col items-start justify-start relative">
+                        
+                        <!-- Logo Top Scoreboard (with white background shape) -->
+                        <div id="top-logo-container" class="absolute -left-12 top-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border-[3px] border-white z-30 hidden overflow-hidden">
+                            <img id="top-logo-img" src="" class="w-[90%] h-[90%] object-contain" onerror="this.parentElement.classList.add('hidden')">
+                        </div>
 
-                                <!-- Home Team -->
-                                <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
-                                    <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
+                        <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl z-20">
+                            <!-- Home Team -->
+                            <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px] pl-10">
+                                <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
+                            </div>
+                            
+                            <!-- Score & Timer Middle Bar -->
+                            <div class="score-panel flex items-stretch justify-center px-4 min-w-[180px] relative z-20">
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-4xl font-bold w-10 text-center block">0</span></div>
+                                <div class="flex flex-col items-center justify-center mx-3 my-1">
+                                    <span class="match-time-text custom-colored-text text-2xl font-bold px-2 rounded tracking-wider leading-none">00:00</span>
                                 </div>
-                                
-                                <!-- Score & Timer Middle Bar -->
-                                <div class="score-panel flex items-stretch justify-center px-4 min-w-[180px] relative z-20">
-                                    <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-home text-4xl font-bold w-10 text-center block">0</span></div>
-                                    <div class="flex flex-col items-center justify-center mx-3 my-1">
-                                        <span class="match-time-text custom-colored-text text-2xl font-bold px-2 rounded tracking-wider leading-none">00:00</span>
-                                    </div>
-                                    <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-4xl font-bold w-10 text-center block">0</span></div>
-                                </div>
-
-                                <!-- Away Team -->
-                                <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
-                                    <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
-                                </div>
+                                <div class="flex items-center justify-center"><span class="score-text custom-colored-text score-away text-4xl font-bold w-10 text-center block">0</span></div>
                             </div>
 
-                            <!-- PENALTY SHOOTOUT BAR TOP -->
-                            <div id="top-penalties-wrapper" class="w-full flex justify-center hidden pointer-events-auto z-10 relative">
-                                <div class="absolute left-2 flex gap-1.5 items-center px-3 py-1.5 bg-black/60 rounded-b shadow-md border border-white/10 border-t-0" id="penalties-home-top"></div>
-                                <div class="flex items-start justify-center">
-                                    <div class="bg-amber-400 text-slate-900 font-black px-3 py-0.5 rounded-b text-sm flex items-center gap-2 shadow-lg -mt-[2px] border-x border-b border-amber-500">
-                                        <span class="pen-score-home-val text-base">0</span>
-                                        <span class="text-[10px] uppercase tracking-widest opacity-80">PEN</span>
-                                        <span class="pen-score-away-val text-base">0</span>
-                                    </div>
-                                </div>
-                                <div class="absolute right-2 flex gap-1.5 items-center px-3 py-1.5 bg-black/60 rounded-b shadow-md border border-white/10 border-t-0" id="penalties-away-top"></div>
+                            <!-- Away Team -->
+                            <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
+                                <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
                             </div>
+                        </div>
 
-                            <!-- Additional Time / Stoppage Time Badge -->
-                            <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
-                                <div class="stoppage-badge flex items-center bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider transition-all duration-300">
-                                    <span class="stoppage-label-text text-white font-bold border-r border-slate-700 pr-2 text-[11px] uppercase hidden whitespace-nowrap tracking-widest"></span>
-                                    <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm hidden whitespace-nowrap"></span>
-                                    <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
-                                        <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
-                                        <span class="stoppage-clock">00:00</span>
-                                    </span>
-                                </div>
-                            </div>
+                        <!-- Top Penalty Container -->
+                        <div id="top-penalty-wrapper" class="w-full flex justify-between mt-1 px-4 hidden">
+                            <div id="top-penalty-home" class="flex gap-1.5"></div>
+                            <div class="w-20"></div>
+                            <div id="top-penalty-away" class="flex gap-1.5 flex-row-reverse"></div>
+                        </div>
 
-                            <!-- Cards & Fouls Bar -->
-                            <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
-                                <div id="top-stats-home" class="flex gap-1 items-center"></div>
-                                <div id="top-stats-away" class="flex gap-1 items-center"></div>
+                        <!-- Additional Time Badge -->
+                        <div id="top-stoppage-wrapper" class="w-full flex justify-center mt-1">
+                            <div class="stoppage-badge flex items-center bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider transition-all duration-300">
+                                <span class="stoppage-label-text text-white font-bold border-r border-slate-700 pr-2 text-[11px] uppercase hidden whitespace-nowrap tracking-widest"></span>
+                                <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm hidden whitespace-nowrap"></span>
+                                <span class="stoppage-timer-text text-white font-mono text-xs flex items-center gap-1">
+                                    <i class="fas fa-stopwatch text-amber-400 text-[10px]"></i>
+                                    <span class="stoppage-clock">00:00</span>
+                                </span>
                             </div>
+                        </div>
+
+                        <!-- Cards & Fouls Bar -->
+                        <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
+                            <div id="top-stats-home" class="flex gap-1 items-center"></div>
+                            <div id="top-stats-away" class="flex gap-1 items-center"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- BOTTOM SCOREBOARD -->
-                <div id="overlay-container-bottom" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-40 overlay-layer anim-type-slide scoreboard-hidden-bottom scoreboard-main-wrapper">
-                    
-                    <div class="w-[90%] max-w-6xl flex flex-col items-center justify-center relative">
+                <div id="overlay-container-bottom" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-40">
+                    <div id="scoreboard-bottom-wrapper" class="scoreboard-hidden-bottom anim-type-slide w-[90%] max-w-6xl flex flex-col items-center justify-center">
                         
-                        <!-- LEAGUE LOGO BOTTOM (Berdiri Bebas) -->
-                        <img id="logo-img-bottom" class="h-[120px] w-auto max-w-[120px] object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.9)] hidden transition-all z-30 mb-2" src="" />
-                        
+                        <!-- Logo Bottom Scoreboard (No background shape, directly above) -->
+                        <div id="btm-logo-container" class="mb-2 z-30 hidden drop-shadow-[0_10px_8px_rgba(0,0,0,0.6)]">
+                            <img id="btm-logo-img" src="" class="w-24 h-24 object-contain" onerror="this.parentElement.classList.add('hidden')">
+                        </div>
+
                         <!-- Main Bottom Scorebar -->
-                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative z-20">
+                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative shadow-2xl z-20">
                             <!-- Home Team Long -->
-                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden">
+                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden gap-3">
                                 <span class="team-name-home-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right truncate">Home Team FC</span>
                             </div>
                             
@@ -765,26 +801,23 @@
                             </div>
 
                             <!-- Away Team Long -->
-                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
+                            <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden gap-3">
                                 <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
                             </div>
                         </div>
 
-                        <!-- PENALTY SHOOTOUT BAR BOTTOM -->
-                        <div id="btm-penalties-wrapper" class="w-full flex justify-center hidden pointer-events-auto z-10 relative">
-                            <div class="absolute left-8 flex gap-2 items-center px-5 py-2.5 bg-black/60 rounded-b-lg shadow-xl border border-white/10 border-t-0" id="penalties-home-btm"></div>
-                            <div class="min-w-[220px] flex items-start justify-center">
-                                <div class="bg-amber-400 text-slate-900 font-black px-4 py-1 rounded-b-lg text-lg flex items-center gap-3 shadow-xl border-x border-b border-amber-500 -mt-[2px]">
-                                    <span class="pen-score-home-val text-2xl">0</span>
-                                    <span class="text-xs uppercase tracking-[0.2em] opacity-80">PEN</span>
-                                    <span class="pen-score-away-val text-2xl">0</span>
-                                </div>
-                            </div>
-                            <div class="absolute right-8 flex gap-2 items-center px-5 py-2.5 bg-black/60 rounded-b-lg shadow-xl border border-white/10 border-t-0" id="penalties-away-btm"></div>
+                        <!-- Bottom Penalty Container -->
+                        <div id="btm-penalty-wrapper" class="w-full flex justify-between mt-2 px-10 hidden">
+                            <div id="btm-penalty-home" class="flex gap-2"></div>
+                            
+                            <!-- Penalty Badge hanging in middle -->
+                            <div class="bg-amber-400 text-slate-900 font-black text-[10px] px-3 py-0.5 rounded shadow-md tracking-widest uppercase mt-[-10px]">PEN</div>
+                            
+                            <div id="btm-penalty-away" class="flex gap-2 flex-row-reverse"></div>
                         </div>
 
-                        <!-- Additional Time / Stoppage Time Badge -->
-                        <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1 z-10">
+                        <!-- Additional Time Badge -->
+                        <div id="btm-stoppage-wrapper" class="w-full flex justify-center mt-1">
                             <div class="stoppage-badge flex items-center bg-slate-900/95 border border-amber-400/50 px-3.5 py-1 rounded-full shadow-lg hidden font-bold text-xs tracking-wider transition-all duration-300">
                                 <span class="stoppage-label-text text-white font-bold border-r border-slate-700 pr-2 text-[11px] uppercase hidden whitespace-nowrap tracking-widest"></span>
                                 <span class="stoppage-target-text text-amber-400 font-extrabold border-r border-slate-700 pr-2 text-sm hidden whitespace-nowrap"></span>
@@ -804,190 +837,163 @@
                         <!-- Bottom Multiline Scorers List -->
                         <div id="btm-scorers-panel" class="scorer-dropdown w-full flex justify-between pointer-events-auto mt-2">
                             <div class="flex-1 flex justify-end pr-2">
-                                <div id="btm-scorers-home" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-l-4 theme-border-accent rounded-bl-lg shadow-xl whitespace-pre-line text-right empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-home" class="custom-colored-text text-base bg-slate-900/90 backdrop-blur px-5 py-2.5 border-l-4 border-blue-500 rounded-bl-lg shadow-xl whitespace-pre-line text-right empty:hidden leading-snug"></div>
                             </div>
                             <div class="min-w-[220px]"></div> 
                             <div class="flex-1 flex justify-start pl-2">
-                                <div id="btm-scorers-away" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-r-4 theme-border-accent rounded-br-lg shadow-xl whitespace-pre-line text-left empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-away" class="custom-colored-text text-base bg-slate-900/90 backdrop-blur px-5 py-2.5 border-r-4 border-red-500 rounded-br-lg shadow-xl whitespace-pre-line text-left empty:hidden leading-snug"></div>
                             </div>
                         </div>
                         
                     </div>
                 </div>
 
-                <!-- HUGE GOAL ALERT OVERLAY -->
-                <div id="goal-alert" class="goal-alert">
-                    <div class="goal-net-icon"></div>
-                    <div class="goal-player-icon"><i class="fas fa-running"></i></div>
-                    <div class="goal-ball-icon"><i class="fas fa-futbol"></i></div>
-                    <div class="goal-text-overlay">
-                        <h1 class="text-[10rem] xl:text-[14rem] font-black text-white uppercase italic leading-none drop-shadow-[0_10px_30px_rgba(0,0,0,1)]">GOAL<span class="text-amber-400">!</span></h1>
-                    </div>
+                <!-- HUGE GOAL ALERT OVERLAY (CINEMATIC) -->
+                <div id="goal-alert" class="goal-alert-container">
+                    <div class="goal-alert-net"><i class="fas fa-border-all"></i></div>
+                    <div class="goal-alert-ball"><i class="fas fa-futbol"></i></div>
+                    <h1 class="goal-alert-text">GOAL<span class="text-amber-400">!</span></h1>
                 </div>
 
-                <!-- SINGLE GOAL EVENT (BOTTOM LEFT) -->
-                <div id="single-goal-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start pointer-events-none z-50">
-                    <!-- Wrapper animasi khusus (tidak nabrak flex) -->
-                    <div class="scoreboard-main shadow-2xl flex items-center overflow-hidden relative overlay-layer anim-type-slide scoreboard-hidden-left">
-                        <div class="score-panel panel-text px-5 py-2.5 font-extrabold text-2xl flex items-center gap-3">
-                            <i class="fas fa-futbol theme-text-accent"></i> GOAL
+                <!-- SINGLE GOAL EVENT (POJOK KIRI BAWAH) -->
+                <div id="single-goal-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start pointer-events-none z-50 slide-in-left">
+                    <div class="theme-popup shadow-2xl flex flex-col overflow-hidden min-w-[300px]">
+                        <div class="theme-popup-header py-1.5 px-4 font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                            <i class="fas fa-futbol"></i> GOAL
                         </div>
-                        <div class="px-6 py-2.5 flex items-center gap-4 bg-black/40 backdrop-blur-sm">
-                            <span id="single-goal-name" class="custom-colored-text text-2xl font-bold uppercase tracking-wide">PLAYER</span>
-                            <span id="single-goal-time" class="text-2xl font-black theme-text-accent">45'</span>
+                        <div class="flex items-stretch backdrop-blur">
+                            <div class="theme-popup-accent w-16 flex items-center justify-center font-bold text-2xl" id="top-scorer-time-display">45'</div>
+                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-3xl custom-colored-text uppercase truncate" id="top-scorer-name-display">PLAYER</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SUBSTITUTION OVERLAY (BOTTOM LEFT) -->
-                <div id="substitution-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start pointer-events-none z-50">
-                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[400px] relative overlay-layer anim-type-slide scoreboard-hidden-left">
-                        <!-- Header -->
-                        <div class="score-panel panel-text py-2 px-5 font-extrabold text-xl uppercase tracking-widest flex items-center gap-3">
-                            <i class="fas fa-exchange-alt theme-text-accent"></i> <span id="sub-team-name">TEAM NAME</span>
+                <!-- SUBSTITUTION OVERLAY -->
+                <div id="substitution-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start pointer-events-none z-50 slide-in-left">
+                    <div class="theme-popup shadow-2xl flex flex-col overflow-hidden min-w-[400px]">
+                        <div class="theme-popup-header py-2 px-5 font-extrabold text-xl uppercase tracking-widest flex items-center gap-3">
+                            <i class="fas fa-exchange-alt"></i> <span id="sub-team-name">TEAM NAME</span>
                         </div>
-                        <!-- Out Player -->
-                        <div class="flex items-stretch bg-black/40 backdrop-blur-sm border-b border-white/10">
-                            <div class="w-14 bg-red-600 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-down"></i></div>
-                            <div class="w-16 flex items-center justify-center font-bold text-3xl text-red-400 border-r border-white/10" id="sub-out-num-display">10</div>
-                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-out-name-display">PLAYER OUT</div>
+                        <div class="flex items-stretch backdrop-blur border-b border-white/10">
+                            <div class="w-14 bg-red-600 flex items-center justify-center font-bold text-2xl text-white"><i class="fas fa-caret-down"></i></div>
+                            <div class="w-16 flex items-center justify-center font-bold text-3xl text-red-500 border-r border-white/10" id="sub-out-num-display">10</div>
+                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl custom-colored-text uppercase truncate" id="sub-out-name-display">PLAYER OUT</div>
                         </div>
-                        <!-- In Player -->
-                        <div class="flex items-stretch bg-black/40 backdrop-blur-sm">
-                            <div class="w-14 bg-emerald-500 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-up"></i></div>
+                        <div class="flex items-stretch backdrop-blur">
+                            <div class="w-14 bg-emerald-500 flex items-center justify-center font-bold text-2xl text-white"><i class="fas fa-caret-up"></i></div>
                             <div class="w-16 flex items-center justify-center font-bold text-3xl text-emerald-400 border-r border-white/10" id="sub-in-num-display">11</div>
-                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-in-name-display">PLAYER IN</div>
+                            <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl custom-colored-text uppercase truncate" id="sub-in-name-display">PLAYER IN</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- INFO BANNER OVERLAY (BOTTOM RIGHT) -->
-                <div id="info-banner-overlay" class="absolute bottom-16 right-16 w-auto flex flex-col items-end pointer-events-none z-50">
-                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[350px] max-w-[600px] text-right relative overlay-layer anim-type-slide scoreboard-hidden-right">
-                        <div class="score-panel panel-text py-2 px-6 font-black text-xl uppercase tracking-widest" id="banner-title-display">
+                <!-- INFO BANNER OVERLAY -->
+                <div id="info-banner-overlay" class="absolute bottom-16 right-16 w-auto flex flex-col items-end pointer-events-none z-50 slide-in-right">
+                    <div class="theme-popup shadow-2xl flex flex-col overflow-hidden min-w-[350px] max-w-[600px] text-right">
+                        <div class="theme-popup-header py-1.5 px-5 font-black text-lg uppercase tracking-widest" id="banner-title-display">
                             TITLE
                         </div>
-                        <div class="bg-black/40 backdrop-blur-sm py-4 px-6 font-bold text-3xl custom-colored-text uppercase truncate shadow-inner" id="banner-subtitle-display">
+                        <div class="backdrop-blur py-4 px-6 font-bold text-3xl custom-colored-text uppercase truncate" id="banner-subtitle-display">
                             SUBTITLE
                         </div>
                     </div>
                 </div>
 
-                <!-- LINEUP & FORMATION OVERLAY (FULLSCREEN CENTER) -->
-                <div id="lineup-overlay" class="absolute inset-0 pointer-events-none z-40">
-                    <!-- WRAPPER PENENGAH MUTLAK (Tidak boleh dianimasikan) -->
-                    <div class="absolute top-[50%] left-[50%] w-[95%] max-w-[1000px] h-[95vh] max-h-[650px] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                        
-                        <!-- KONTEN ANIMASI MURNI -->
-                        <div class="scoreboard-main w-full h-full shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col rounded-2xl overflow-hidden relative overlay-layer anim-type-scale scoreboard-hidden-top transition-all duration-500 pointer-events-auto">
-                            <!-- Top Accent Line -->
-                            <div class="h-1.5 w-full theme-bg-accent absolute top-0 left-0 z-20"></div>
-                            
+                <!-- LINEUP & FORMATION OVERLAY (CENTERED WRAPPER) -->
+                <div class="absolute inset-0 flex items-center justify-center z-40 pointer-events-none">
+                    <div id="lineup-overlay" class="w-[95%] max-w-[850px] h-[75%] max-h-[600px] flex anim-type-scale scoreboard-hidden-center">
+                        <div class="theme-popup shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col w-full h-full overflow-hidden">
                             <!-- Lineup Header -->
-                            <div class="score-panel panel-text py-3 md:py-4 px-4 md:px-8 flex justify-between items-center z-10 shadow-lg relative border-b border-white/10">
-                                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] animate-[shine_3s_infinite]"></div>
-                                
-                                <div class="relative z-10">
-                                    <div class="theme-text-accent font-extrabold text-[8px] md:text-[10px] tracking-[0.2em] uppercase mb-0.5"><i class="fas fa-users mr-1"></i> Starting Lineup</div>
-                                    <div id="lineup-team-name" class="text-3xl md:text-5xl font-black uppercase drop-shadow-md">TEAM NAME</div>
+                            <div class="theme-popup-header py-4 px-8 flex justify-between items-center z-10 shadow-lg relative overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] animate-[shine_3s_infinite]"></div>
+                                <div class="relative z-10 text-left">
+                                    <div class="font-extrabold text-sm tracking-[0.2em] uppercase mb-0.5 opacity-80"><i class="fas fa-users mr-1"></i> Starting XI</div>
+                                    <div id="lineup-team-name" class="text-4xl font-black uppercase drop-shadow-md">TEAM NAME</div>
                                 </div>
                                 <div class="text-right relative z-10">
-                                    <div class="font-bold text-[8px] md:text-[10px] tracking-widest uppercase opacity-80 mb-1 panel-text">Formation</div>
-                                    <div id="lineup-formation-display" class="panel-text text-xl md:text-3xl font-black bg-black/40 px-3 md:px-4 py-1 rounded-lg border border-white/10 shadow-inner tracking-widest">4-3-3</div>
+                                    <div class="font-bold text-[10px] tracking-widest uppercase mb-1 opacity-80">Formation</div>
+                                    <div id="lineup-formation-display" class="theme-popup-accent px-4 py-1 rounded-lg border border-white/20 shadow-inner tracking-widest font-black text-3xl">4-3-3</div>
                                 </div>
                             </div>
                             
                             <!-- Lineup Content -->
-                            <div class="flex-1 flex bg-black/40 backdrop-blur-md relative overflow-hidden">
+                            <div class="flex-1 flex relative overflow-hidden">
                                 <!-- Graphical Pitch Area -->
-                                <div class="flex-1 pitch-bg relative flex flex-col justify-between py-4 md:py-8 px-2 md:px-4 border-r border-white/10">
-                                    <!-- Abstract Pitch Lines -->
-                                    <div class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-20">
-                                        <div class="w-[60%] h-20 md:h-32 border-2 border-white border-t-0 absolute top-0 rounded-b-md"></div>
-                                        <div class="w-[30%] h-8 md:h-12 border-2 border-white border-t-0 absolute top-0"></div>
+                                <div class="flex-1 pitch-bg relative flex flex-col justify-between py-8 px-4">
+                                    <div class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-30">
+                                        <div class="w-[60%] h-32 border-2 border-white border-t-0 absolute top-0 rounded-b-md"></div>
+                                        <div class="w-[30%] h-12 border-2 border-white border-t-0 absolute top-0"></div>
                                         <div class="w-full h-0 pitch-line-bottom absolute top-1/2"></div>
-                                        <div class="w-24 h-24 md:w-40 md:h-40 pitch-circle absolute top-1/2 -translate-y-1/2"></div>
-                                        <div class="w-1.5 h-1.5 md:w-2 md:h-2 bg-white rounded-full absolute top-1/2 -translate-y-1/2"></div>
-                                        <div class="w-[60%] h-20 md:h-32 border-2 border-white border-b-0 absolute bottom-0 rounded-t-md"></div>
-                                        <div class="w-[30%] h-8 md:h-12 border-2 border-white border-b-0 absolute bottom-0"></div>
+                                        <div class="w-40 h-40 pitch-circle absolute top-1/2 -translate-y-1/2"></div>
+                                        <div class="w-2 h-2 bg-white rounded-full absolute top-1/2 -translate-y-1/2"></div>
+                                        <div class="w-[60%] h-32 border-2 border-white border-b-0 absolute bottom-0 rounded-t-md"></div>
+                                        <div class="w-[30%] h-12 border-2 border-white border-b-0 absolute bottom-0"></div>
                                     </div>
-                                    
-                                    <!-- Dynamic Pitch Players Container (Flex Col Reverse to put Goalkeeper at Bottom) -->
-                                    <div id="lineup-pitch-container" class="absolute inset-0 z-10 flex flex-col-reverse justify-evenly py-4 md:py-8 px-2 md:px-6 gap-1 md:gap-2">
+                                    <div id="lineup-pitch-container" class="absolute inset-0 z-10 flex flex-col-reverse justify-evenly py-6 px-4">
                                         <!-- Player rows generated by JS -->
                                     </div>
                                 </div>
                                 
                                 <!-- Substitutes & Coach Panel -->
-                                <div class="w-[200px] md:w-[320px] bg-black/30 p-4 md:p-8 flex flex-col z-20 shadow-[-10px_0_20px_rgba(0,0,0,0.5)]">
-                                    <div class="theme-text-accent font-extrabold text-xs md:text-sm tracking-[0.2em] uppercase mb-3 md:mb-6 border-b border-white/10 pb-2"><i class="fas fa-chair mr-2"></i> Substitutes</div>
-                                    
-                                    <!-- Subs List -->
-                                    <div id="lineup-subs-container" class="flex-1 flex flex-col gap-2 md:gap-3 overflow-hidden custom-colored-text font-bold text-sm md:text-xl mb-4 pr-2">
+                                <div class="w-[300px] border-l border-white/10 p-6 flex flex-col z-20 backdrop-blur-md bg-black/40">
+                                    <div class="font-extrabold text-sm tracking-[0.2em] uppercase mb-4 border-b border-white/20 pb-2 custom-colored-text opacity-90"><i class="fas fa-chair mr-2"></i> Substitutes</div>
+                                    <div id="lineup-subs-container" class="flex-1 flex flex-col gap-3 overflow-hidden custom-colored-text font-bold text-lg mb-4 pr-2">
                                         <!-- Subs injected by JS -->
                                     </div>
-                                    
-                                    <!-- Manager/Coach Info -->
-                                    <div class="mt-auto pt-3 md:pt-5 border-t border-white/10 bg-black/40 -mx-4 md:-mx-8 px-4 md:px-8 pb-3">
-                                        <div class="panel-text font-bold text-[8px] md:text-[10px] tracking-widest uppercase mb-1 opacity-80">Head Coach / Manager</div>
-                                        <div id="lineup-manager-name" class="custom-colored-text font-black text-xl md:text-3xl uppercase truncate drop-shadow-md">Coach Name</div>
+                                    <div class="mt-auto pt-4 border-t border-white/20 -mx-6 px-6 pb-2">
+                                        <div class="font-bold text-[10px] tracking-widest uppercase mb-1 custom-colored-text opacity-80">Head Coach / Manager</div>
+                                        <div id="lineup-manager-name" class="custom-colored-text font-black text-2xl uppercase truncate drop-shadow-md">Coach Name</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
-                <!-- MATCH STATS OVERLAY (COMPACT FULLSCREEN CENTER) -->
-                <div id="stats-overlay" class="absolute inset-0 pointer-events-none z-50">
-                    
-                    <!-- WRAPPER PENENGAH MUTLAK (Tidak boleh dianimasikan) -->
-                    <div class="absolute top-[50%] left-[50%] w-[95%] max-w-[850px] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                        
-                        <!-- KONTEN ANIMASI MURNI -->
-                        <div class="scoreboard-main w-full shadow-[0_30px_70px_rgba(0,0,0,0.9)] flex flex-col rounded-2xl overflow-hidden relative overlay-layer anim-type-scale scoreboard-hidden-bottom pointer-events-auto">
-                            
-                            <div class="h-1.5 w-full theme-bg-accent absolute top-0 left-0 z-20"></div>
-                            
-                            <div class="score-panel panel-text py-3 md:py-4 px-4 md:px-8 text-center shadow-lg relative z-10 border-b border-white/10">
-                                <span class="font-black text-xl md:text-3xl tracking-[0.25em] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"><i class="fas fa-chart-line theme-text-accent mr-3"></i>Match Statistics</span>
+                <!-- MATCH STATS OVERLAY (CENTERED WRAPPER) -->
+                <div class="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+                    <div id="stats-overlay" class="w-[95%] max-w-[850px] anim-type-scale scoreboard-hidden-center">
+                        <div class="theme-popup shadow-[0_30px_70px_rgba(0,0,0,0.9)] flex flex-col w-full overflow-hidden relative">
+                            <!-- Header -->
+                            <div class="theme-popup-header py-4 px-8 text-center relative z-10">
+                                <span class="font-black text-3xl tracking-[0.25em] uppercase drop-shadow-md"><i class="fas fa-chart-line mr-3 opacity-80"></i>Match Statistics</span>
                             </div>
                             
-                            <div class="bg-black/40 backdrop-blur-xl p-4 md:p-8 relative z-10">
-                                <div class="flex justify-between items-center mb-6 md:mb-8 pb-3 md:pb-4 border-b border-white/10 relative">
-                                    <div class="flex-1 text-left w-1/3 overflow-hidden">
-                                        <div class="text-[8px] md:text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">Home Team</div>
-                                        <div class="text-2xl md:text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-home-name">HOME</div>
-                                    </div>
-                                    
-                                    <div class="flex flex-col items-center justify-center mx-4 flex-shrink-0 z-10 relative">
-                                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-black text-xl md:text-2xl shadow-inner border-2 border-white/10 panel-text bg-black/60">
-                                            <!-- Score Normal Time -->
-                                            <div class="flex items-center gap-1.5 mt-1">
-                                                <span id="stats-home-score">0</span>
-                                                <span class="text-[10px] md:text-xs opacity-50">VS</span>
-                                                <span id="stats-away-score">0</span>
+                            <!-- Content -->
+                            <div class="p-8 relative z-10 bg-black/40 backdrop-blur-sm">
+                                <!-- Teams Header inside Stats -->
+                                <div class="flex flex-col items-center mb-8 pb-6 border-b border-white/10">
+                                    <div class="flex justify-between items-center w-full">
+                                        <div class="flex-1 text-left">
+                                            <div class="text-[10px] font-bold uppercase tracking-widest mb-1 custom-colored-text opacity-70">Home Team</div>
+                                            <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-home-name">HOME</div>
+                                        </div>
+                                        
+                                        <!-- Score Circle -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="h-16 bg-black/60 rounded-xl flex items-center justify-center font-black custom-colored-text text-4xl border border-white/20 shadow-inner px-6 gap-4">
+                                                <span id="stats-score-home">0</span>
+                                                <span class="text-xl opacity-50 font-normal">vs</span>
+                                                <span id="stats-score-away">0</span>
+                                            </div>
+                                            <!-- Stats Penalty Box -->
+                                            <div id="stats-penalty-wrapper" class="bg-amber-400 text-slate-900 font-black text-[12px] px-3 py-1 rounded shadow-lg tracking-widest uppercase mt-2 hidden">
+                                                <span id="stats-pen-home">0</span> PEN <span id="stats-pen-away">0</span>
                                             </div>
                                         </div>
-                                        <!-- Score Penalty (Hanya muncul jika penalti aktif) -->
-                                        <div id="stats-penalty-wrapper" class="mt-2 bg-amber-400 text-slate-900 px-2 py-0.5 rounded-sm text-[8px] md:text-[9px] hidden flex gap-1 font-extrabold shadow-md border border-amber-500 tracking-wider">
-                                            <span id="stats-home-pen">0</span><span class="opacity-70">PEN</span><span id="stats-away-pen">0</span>
+
+                                        <div class="flex-1 text-right">
+                                            <div class="text-[10px] font-bold uppercase tracking-widest mb-1 custom-colored-text opacity-70">Away Team</div>
+                                            <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-away-name">AWAY</div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="flex-1 text-right w-1/3 overflow-hidden">
-                                        <div class="text-[8px] md:text-[10px] text-red-400 font-bold uppercase tracking-widest mb-1">Away Team</div>
-                                        <div class="text-2xl md:text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-away-name">AWAY</div>
                                     </div>
                                 </div>
                                 
                                 <!-- Dynamic Stats Rows -->
-                                <div id="stats-rows-container" class="space-y-4 md:space-y-6">
+                                <div id="stats-rows-container" class="space-y-6">
                                     <!-- JS Injected Rows -->
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -998,21 +1004,17 @@
 
     <script>
         /* State management */
-        let initialLoadTime = Date.now();
-        
         window.appState = {
             scores: { home: 0, away: 0 },
             teamNames: { home: 'HOM', away: 'AWY' },
             fullTeamNames: { home: 'Home Team FC', away: 'Away Team FC' },
             stats: { home: { fouls: 0, yellow: 0, red: 0 }, away: { fouls: 0, yellow: 0, red: 0 } },
             activeView: 'none',
-            activeOverlay: 'none', 
             theme: 'epl',
             font: 'font-teko',
             customColor: '#ffffff',
+            logoUrl: '',
             animation: 'slide',
-            leagueLogo: { show: false, url: '' },
-            penalties: { active: false, home: [], away: [] },
             timer: { 
                 seconds: 0, 
                 targetMins: 15,
@@ -1022,19 +1024,21 @@
                 direction: 'up', 
                 stoppage: '' 
             },
-            topScorer: { name: '', min: '' },
+            topScorer: { name: '', min: '', visible: false },
             bottomScorers: { home: '', away: '', visible: false },
             goalEvent: { active: false, team: null, timestamp: 0 },
-            substitution: { team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
-            infoBanner: { title: '', subtitle: '' },
-            lineup: { team: 'home', formation: '4-3-3', players: '', subs: '', coach: '' },
+            substitution: { active: false, team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
+            infoBanner: { active: false, title: '', subtitle: '' },
+            lineup: { active: false, team: 'home', formation: '4-3-3', players: '', subs: '', coach: '' },
             matchStats: { 
+                active: false, 
                 possH: 50, possA: 50, 
                 shotsH: 0, shotsA: 0, 
                 sotH: 0, sotA: 0, 
                 cornH: 0, cornA: 0,
                 offsH: 0, offsA: 0 
-            }
+            },
+            penalties: { active: false, home: [], away: [] }
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1043,6 +1047,7 @@
         let mqttClient = null;
         let isMQTTActive = false;
         let bc = null;
+        let isFirstSync = true; 
 
         function inIframe() {
             try { return window.self !== window.top; } catch (e) { return true; }
@@ -1115,17 +1120,11 @@
             roomCode = document.getElementById('input-room-code').value.trim() || 'liga-match-v2';
             window.generateOBSLink();
             
-            if (bc) {
-                bc.close();
-                initSync();
-            } else {
-                initSync();
-            }
+            if (bc) { bc.close(); initSync(); } else { initSync(); }
 
             if (isMQTTActive && mqttClient) {
                 mqttClient.unsubscribe('obs-score-v2/state/' + oldRoom);
                 mqttClient.unsubscribe('obs-score-v2/request/' + oldRoom);
-                
                 mqttClient.subscribe('obs-score-v2/state/' + roomCode);
                 if (!document.body.classList.contains('mode-overlay')) {
                     mqttClient.subscribe('obs-score-v2/request/' + roomCode);
@@ -1134,128 +1133,113 @@
             }
         };
 
-        window.requestForceSync = function() {
-            syncState(null, true);
-        };
+        window.requestForceSync = function() { syncState(null, true); };
 
         window.syncState = function(triggerGoalForTeam = null, force = false) {
             if (document.body.classList.contains('mode-overlay')) return;
             if (triggerGoalForTeam) window.appState.goalEvent = { active: true, team: triggerGoalForTeam, timestamp: Date.now() };
             
             try { localStorage.setItem('obs_score_v2_' + roomCode, JSON.stringify(window.appState)); } catch(e) {}
-            
-            if (bc) {
-                bc.postMessage({ type: 'state', payload: window.appState });
-            }
-
-            if (isMQTTActive && mqttClient) {
-                mqttClient.publish('obs-score-v2/state/' + roomCode, JSON.stringify(window.appState), { retain: true, qos: 1 });
-            }
+            if (bc) bc.postMessage({ type: 'state', payload: window.appState });
+            if (isMQTTActive && mqttClient) mqttClient.publish('obs-score-v2/state/' + roomCode, JSON.stringify(window.appState), { retain: true, qos: 1 });
         };
 
         function applyRemoteState(newState) {
             const oldGoalTimestamp = (window.appState.goalEvent && window.appState.goalEvent.timestamp) ? window.appState.goalEvent.timestamp : 0;
             window.appState = { ...newState };
+            
+            // Retro-compatibility check for penalties
+            if (!window.appState.penalties) window.appState.penalties = { active: false, home: [], away: [] };
 
             if (!document.body.classList.contains('mode-overlay')) {
-                const elHome = document.getElementById('input-home-name');
-                const elAway = document.getElementById('input-away-name');
-                if (elHome) elHome.value = window.appState.teamNames.home;
-                if (elAway) elAway.value = window.appState.teamNames.away;
+                const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
                 
-                const elHomeFull = document.getElementById('input-home-full');
-                const elAwayFull = document.getElementById('input-away-full');
-                if (elHomeFull) elHomeFull.value = (window.appState.fullTeamNames && window.appState.fullTeamNames.home) ? window.appState.fullTeamNames.home : '';
-                if (elAwayFull) elAwayFull.value = (window.appState.fullTeamNames && window.appState.fullTeamNames.away) ? window.appState.fullTeamNames.away : '';
+                setVal('input-home-name', window.appState.teamNames.home);
+                setVal('input-away-name', window.appState.teamNames.away);
+                setVal('input-home-full', (window.appState.fullTeamNames && window.appState.fullTeamNames.home) ? window.appState.fullTeamNames.home : '');
+                setVal('input-away-full', (window.appState.fullTeamNames && window.appState.fullTeamNames.away) ? window.appState.fullTeamNames.away : '');
 
-                const elTheme = document.getElementById('theme-selector');
-                const elFont = document.getElementById('font-selector');
-                const elColor = document.getElementById('input-text-color');
-                const elAnim = document.getElementById('anim-selector');
+                setVal('theme-selector', window.appState.theme);
+                setVal('font-selector', window.appState.font);
+                setVal('input-text-color', window.appState.customColor || '#ffffff');
+                setVal('input-logo-url', window.appState.logoUrl || '');
+                setVal('anim-selector', window.appState.animation || 'slide');
 
-                if (elTheme) elTheme.value = window.appState.theme;
-                if (elFont) elFont.value = window.appState.font;
-                if (elColor) elColor.value = window.appState.customColor || '#ffffff';
-                if (elAnim) elAnim.value = window.appState.animation || 'slide';
-                
-                if (newState.leagueLogo) {
-                    const elLogoURL = document.getElementById('input-logo-url');
-                    if (elLogoURL) elLogoURL.value = newState.leagueLogo.url || '';
-                }
-
-                const elScorersH = document.getElementById('input-scorers-home');
-                const elScorersA = document.getElementById('input-scorers-away');
-                if (elScorersH) elScorersH.value = (window.appState.bottomScorers && window.appState.bottomScorers.home) ? window.appState.bottomScorers.home : '';
-                if (elScorersA) elScorersA.value = (window.appState.bottomScorers && window.appState.bottomScorers.away) ? window.appState.bottomScorers.away : '';
+                setVal('input-scorers-home', (window.appState.bottomScorers && window.appState.bottomScorers.home) ? window.appState.bottomScorers.home : '');
+                setVal('input-scorers-away', (window.appState.bottomScorers && window.appState.bottomScorers.away) ? window.appState.bottomScorers.away : '');
                 
                 if (!window.appState.timer.isRunning) {
-                    const elMins = document.getElementById('input-mins');
-                    const elSecs = document.getElementById('input-secs');
-                    let secs = 0; if(window.appState.timer && window.appState.timer.seconds) secs = window.appState.timer.seconds;
-                    if (elMins) elMins.value = Math.floor(secs / 60);
-                    if (elSecs) elSecs.value = secs % 60;
+                    setVal('input-mins', Math.floor((window.appState.timer && window.appState.timer.seconds ? window.appState.timer.seconds : 0) / 60));
+                    setVal('input-secs', (window.appState.timer && window.appState.timer.seconds ? window.appState.timer.seconds : 0) % 60);
                 }
-                const elStop = document.getElementById('input-stoppage');
-                const elDir = document.getElementById('timer-dir');
-                const elTarget = document.getElementById('input-target-mins');
-                const elStopMins = document.getElementById('input-stoppage-mins');
-
-                if (elStop) elStop.value = window.appState.timer.stoppage || '';
-                if (elDir) elDir.value = window.appState.timer.direction || 'up';
-                if (elTarget) elTarget.value = (window.appState.timer.targetMins !== undefined) ? window.appState.timer.targetMins : 15;
-                if (elStopMins) elStopMins.value = (window.appState.timer.stoppageTargetMins !== undefined) ? window.appState.timer.stoppageTargetMins : 0;
+                setVal('input-stoppage', window.appState.timer.stoppage || '');
+                setVal('timer-dir', window.appState.timer.direction || 'up');
+                setVal('input-target-mins', window.appState.timer.targetMins !== undefined ? window.appState.timer.targetMins : 15);
+                setVal('input-stoppage-mins', window.appState.timer.stoppageTargetMins !== undefined ? window.appState.timer.stoppageTargetMins : 0);
 
                 if (newState.substitution) {
-                    document.getElementById('sub-team').value = newState.substitution.team || 'home';
-                    document.getElementById('sub-out-number').value = newState.substitution.outNumber || '';
-                    document.getElementById('sub-out-name').value = newState.substitution.outName || '';
-                    document.getElementById('sub-in-number').value = newState.substitution.inNumber || '';
-                    document.getElementById('sub-in-name').value = newState.substitution.inName || '';
+                    setVal('sub-team', newState.substitution.team || 'home');
+                    setVal('sub-out-number', newState.substitution.outNumber || '');
+                    setVal('sub-out-name', newState.substitution.outName || '');
+                    setVal('sub-in-number', newState.substitution.inNumber || '');
+                    setVal('sub-in-name', newState.substitution.inName || '');
                 }
                 
                 if (newState.infoBanner) {
-                    document.getElementById('banner-title').value = newState.infoBanner.title || '';
-                    document.getElementById('banner-subtitle').value = newState.infoBanner.subtitle || '';
+                    setVal('banner-title', newState.infoBanner.title || '');
+                    setVal('banner-subtitle', newState.infoBanner.subtitle || '');
                 }
 
                 if (newState.lineup) {
-                    document.getElementById('lineup-team').value = newState.lineup.team || 'home';
-                    document.getElementById('lineup-formation').value = newState.lineup.formation || '4-3-3';
-                    document.getElementById('lineup-players').value = newState.lineup.players || '';
-                    document.getElementById('lineup-subs').value = newState.lineup.subs || '';
-                    document.getElementById('lineup-coach').value = newState.lineup.coach || '';
+                    setVal('lineup-team', newState.lineup.team || 'home');
+                    setVal('lineup-formation', newState.lineup.formation || '4-3-3');
+                    setVal('lineup-players', newState.lineup.players || '');
+                    setVal('lineup-subs', newState.lineup.subs || '');
+                    setVal('lineup-coach', newState.lineup.coach || '');
                 }
 
                 if (newState.matchStats) {
-                    document.getElementById('stat-poss-h').value = newState.matchStats.possH || 50;
-                    document.getElementById('stat-poss-a').value = newState.matchStats.possA || 50;
-                    document.getElementById('stat-shots-h').value = newState.matchStats.shotsH || 0;
-                    document.getElementById('stat-shots-a').value = newState.matchStats.shotsA || 0;
-                    document.getElementById('stat-sot-h').value = newState.matchStats.sotH || 0;
-                    document.getElementById('stat-sot-a').value = newState.matchStats.sotA || 0;
-                    document.getElementById('stat-corn-h').value = newState.matchStats.cornH || 0;
-                    document.getElementById('stat-corn-a').value = newState.matchStats.cornA || 0;
-                    
-                    if(document.getElementById('stat-offs-h')) document.getElementById('stat-offs-h').value = newState.matchStats.offsH || 0;
-                    if(document.getElementById('stat-offs-a')) document.getElementById('stat-offs-a').value = newState.matchStats.offsA || 0;
+                    setVal('stat-poss-h', newState.matchStats.possH || 50);
+                    setVal('stat-poss-a', newState.matchStats.possA || 50);
+                    setVal('stat-shots-h', newState.matchStats.shotsH || 0);
+                    setVal('stat-shots-a', newState.matchStats.shotsA || 0);
+                    setVal('stat-sot-h', newState.matchStats.sotH || 0);
+                    setVal('stat-sot-a', newState.matchStats.sotA || 0);
+                    setVal('stat-corn-h', newState.matchStats.cornH || 0);
+                    setVal('stat-corn-a', newState.matchStats.cornA || 0);
+                    setVal('stat-offs-h', newState.matchStats.offsH || 0);
+                    setVal('stat-offs-a', newState.matchStats.offsA || 0);
+                }
+
+                const btnPen = document.getElementById('btn-pen-toggle');
+                if(btnPen) {
+                    if(window.appState.penalties.active) {
+                        btnPen.innerHTML = '<i class="fas fa-power-off"></i> Disable Penalty Mode';
+                        btnPen.classList.replace('btn-outline', 'btn-primary');
+                    } else {
+                        btnPen.innerHTML = '<i class="fas fa-power-off"></i> Enable Penalty Mode';
+                        btnPen.classList.replace('btn-primary', 'btn-outline');
+                    }
                 }
             }
 
             renderDOM();
             updateTimerRunningState();
 
-            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && newState.goalEvent.timestamp > initialLoadTime) {
+            // Trigger anim goal HANYA JIKA BUKAN sinkronisasi pertama (bukan latah) DAN timestampnya lebih baru
+            if (!isFirstSync && newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
                 triggerGoalEffects(newState.goalEvent.team);
             }
+            
+            // Matikan flag setelah terima data pertama
+            if (isFirstSync) isFirstSync = false;
         }
 
         window.generateOBSLink = function() {
             const url = new URL(window.location.href);
             url.searchParams.set('mode', 'overlay');
-            const roomEl = document.getElementById('input-room-code');
-            url.searchParams.set('room', roomEl ? roomEl.value : 'liga-match-v2');
-            const obsEl = document.getElementById('obs-link-display');
-            if(obsEl) obsEl.value = url.href;
+            url.searchParams.set('room', document.getElementById('input-room-code').value || 'liga-match-v2');
+            document.getElementById('obs-link-display').value = url.href;
         };
 
         window.copyOBSLink = function(event) {
@@ -1277,25 +1261,17 @@
             if (mode === 'mobile') document.body.classList.add('mode-mobile');
         }
 
-        /* NEW: Centralized Overlay Trigger to enforce Mutually Exclusive viewing */
-        window.triggerOverlay = function(overlayName) {
-            window.appState.activeOverlay = overlayName;
-            renderDOM();
-            syncState();
-            
-            if (overlayName === 'topScorer') {
-                setTimeout(() => {
-                    if (window.appState.activeOverlay === 'topScorer') {
-                        window.appState.activeOverlay = 'none';
-                        renderDOM(); syncState();
-                    }
-                }, 8000);
-            }
-        };
+        function hideAllOverlays() {
+            window.appState.lineup.active = false;
+            window.appState.matchStats.active = false;
+            window.appState.substitution.active = false;
+            window.appState.infoBanner.active = false;
+            window.appState.topScorer.visible = false;
+        }
 
         function toggleView(view) {
             window.appState.activeView = (window.appState.activeView === view) ? 'none' : view;
-            window.appState.activeOverlay = 'none'; // Clear any active overlay when toggling scoreboard
+            if(view !== 'none') hideAllOverlays(); 
             
             const btnTop = document.getElementById('btn-show-top');
             const btnBtm = document.getElementById('btn-show-bottom');
@@ -1305,194 +1281,63 @@
             renderDOM(); syncState();
         }
 
-        function toggleLogo() {
-            window.appState.leagueLogo.show = !window.appState.leagueLogo.show;
-            window.appState.leagueLogo.url = document.getElementById('input-logo-url').value;
-            renderDOM(); syncState();
-        }
-
-        function renderPenaltyDots(teamArray, isBottom = false) {
-            const total = Math.max(5, teamArray.length);
-            let html = '';
-            const sizeClass = isBottom ? 'w-4 h-4' : 'w-3 h-3';
-            for(let i=0; i<total; i++) {
-                if (teamArray[i] === 'scored') {
-                    html += `<div class="${sizeClass} rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.8)] flex-shrink-0"></div>`;
-                } else if (teamArray[i] === 'missed') {
-                    html += `<div class="${sizeClass} rounded-full bg-red-600 shadow-[0_0_5px_rgba(239,68,68,0.8)] flex-shrink-0"></div>`;
-                } else {
-                    html += `<div class="${sizeClass} rounded-full bg-slate-900/60 shadow-inner flex-shrink-0"></div>`;
-                }
-            }
-            return html;
-        }
-
         function renderDOM() {
             const state = window.appState;
-            const wrapperTop = document.getElementById('overlay-container-top');
-            const wrapperBtm = document.getElementById('overlay-container-bottom');
+            const wrapperTop = document.getElementById('scoreboard-top-wrapper');
+            const wrapperBtm = document.getElementById('scoreboard-bottom-wrapper');
+            
+            const isAnyOverlayActive = state.lineup.active || state.matchStats.active || state.substitution.active || state.infoBanner.active || state.topScorer.visible;
 
             document.getElementById('app-body').setAttribute('data-theme', state.theme);
             document.documentElement.style.setProperty('--custom-text-color', state.customColor || '#ffffff');
             
-            document.querySelectorAll('.scoreboard-main, .scorer-dropdown, .goal-text-overlay').forEach(el => {
+            document.querySelectorAll('.scoreboard-main, .scorer-dropdown, .theme-popup').forEach(el => {
                 el.className = el.className.replace(/font-\w+/g, ''); 
                 el.classList.add(state.font);
             });
 
-            // Set Animation Type
-            const animTypeClass = `anim-type-${state.animation || 'slide'}`;
-            document.querySelectorAll('.overlay-layer').forEach(el => {
-                el.className = el.className.replace(/anim-type-\w+/g, '');
-                el.classList.add(animTypeClass);
-            });
-
-            // --- VISIBILITY LOGIC (MUTUAL EXCLUSIVITY) ---
-            const overlayIsActive = state.activeOverlay !== 'none';
+            // Logo Update
+            const logoUrl = state.logoUrl || '';
+            const topLogoContainer = document.getElementById('top-logo-container');
+            const topLogoImg = document.getElementById('top-logo-img');
+            const btmLogoContainer = document.getElementById('btm-logo-container');
+            const btmLogoImg = document.getElementById('btm-logo-img');
             
-            // 1. Hide/Show Main Scoreboards
-            if (overlayIsActive) {
-                if (wrapperTop) {
-                    wrapperTop.classList.remove('scoreboard-visible');
-                    wrapperTop.classList.add('scoreboard-hidden-top');
-                }
-                if (wrapperBtm) {
-                    wrapperBtm.classList.remove('scoreboard-visible');
-                    wrapperBtm.classList.add('scoreboard-hidden-bottom');
-                }
+            if (logoUrl.trim() !== '') {
+                topLogoContainer.classList.remove('hidden'); btmLogoContainer.classList.remove('hidden');
+                topLogoImg.src = logoUrl; btmLogoImg.src = logoUrl;
             } else {
-                if (state.activeView === 'top') {
-                    if (wrapperBtm) {
-                        wrapperBtm.classList.remove('scoreboard-visible');
-                        wrapperBtm.classList.add('scoreboard-hidden-bottom');
-                    }
-                    setTimeout(() => {
-                        if (wrapperTop) {
-                            wrapperTop.classList.remove('scoreboard-hidden-top');
-                            wrapperTop.classList.add('scoreboard-visible');
-                        }
-                    }, 50);
-                } else if (state.activeView === 'bottom') {
-                    if (wrapperTop) {
-                        wrapperTop.classList.remove('scoreboard-visible');
-                        wrapperTop.classList.add('scoreboard-hidden-top');
-                    }
-                    setTimeout(() => {
-                        if (wrapperBtm) {
-                            wrapperBtm.classList.remove('scoreboard-hidden-bottom');
-                            wrapperBtm.classList.add('scoreboard-visible');
-                        }
-                    }, 50);
-                } else {
-                    if (wrapperTop) {
-                        wrapperTop.classList.remove('scoreboard-visible');
-                        wrapperTop.classList.add('scoreboard-hidden-top');
-                    }
-                    if (wrapperBtm) {
-                        wrapperBtm.classList.remove('scoreboard-visible');
-                        wrapperBtm.classList.add('scoreboard-hidden-bottom');
-                    }
-                }
+                topLogoContainer.classList.add('hidden'); btmLogoContainer.classList.add('hidden');
             }
 
-            // 2. Hide/Show Specific Overlays based on state.activeOverlay
-            const overlayMap = {
-                'lineup': 'lineup-overlay',
-                'matchStats': 'stats-overlay', 
-                'substitution': 'substitution-overlay',
-                'infoBanner': 'info-banner-overlay',
-                'topScorer': 'single-goal-overlay'
-            };
+            const animTypeClass = `anim-type-${state.animation || 'slide'}`;
+            wrapperTop.className = wrapperTop.className.replace(/anim-type-\w+/g, '');
+            wrapperTop.classList.add(animTypeClass);
+            wrapperBtm.className = wrapperBtm.className.replace(/anim-type-\w+/g, '');
+            wrapperBtm.classList.add(animTypeClass);
 
-            for (const [key, id] of Object.entries(overlayMap)) {
-                const wrapperEl = document.getElementById(id);
-                if (!wrapperEl) continue;
-                
-                // Cari elemen yang bertugas untuk animasi
-                const animEl = wrapperEl.querySelector('.overlay-layer') || wrapperEl;
-                
-                if (state.activeOverlay === key) {
-                    animEl.classList.remove('scoreboard-hidden-top', 'scoreboard-hidden-bottom', 'scoreboard-hidden-left', 'scoreboard-hidden-right');
-                    animEl.classList.add('scoreboard-visible');
-                } else {
-                    animEl.classList.remove('scoreboard-visible');
-                    // Reset to default hidden state based on ID
-                    if (id === 'lineup-overlay') animEl.classList.add('scoreboard-hidden-top');
-                    else if (id === 'stats-overlay') animEl.classList.add('scoreboard-hidden-bottom');
-                    else if (id === 'info-banner-overlay') animEl.classList.add('scoreboard-hidden-right');
-                    else animEl.classList.add('scoreboard-hidden-left'); // sub, single goal
-                }
-            }
-
-            // LEAGUE LOGO RENDER
-            const logoTopContainer = document.getElementById('logo-container-top');
-            const logoTop = document.getElementById('logo-img-top');
-            const logoBtm = document.getElementById('logo-img-bottom');
-            if (state.leagueLogo && state.leagueLogo.show && state.leagueLogo.url && state.leagueLogo.url.trim() !== '') {
-                if(logoTop) logoTop.src = state.leagueLogo.url;
-                if(logoBtm) logoBtm.src = state.leagueLogo.url;
-                if(logoTopContainer) {
-                    logoTopContainer.classList.remove('hidden');
-                    logoTopContainer.classList.add('flex');
-                }
-                if(logoBtm) logoBtm.classList.remove('hidden');
+            // Mutual Exclusivity visibility logic
+            if (state.activeView === 'top' && !isAnyOverlayActive) {
+                wrapperBtm.classList.remove('scoreboard-visible'); wrapperBtm.classList.add('scoreboard-hidden-bottom');
+                setTimeout(() => { wrapperTop.classList.remove('scoreboard-hidden-top'); wrapperTop.classList.add('scoreboard-visible'); }, 50);
+            } else if (state.activeView === 'bottom' && !isAnyOverlayActive) {
+                wrapperTop.classList.remove('scoreboard-visible'); wrapperTop.classList.add('scoreboard-hidden-top');
+                setTimeout(() => { wrapperBtm.classList.remove('scoreboard-hidden-bottom'); wrapperBtm.classList.add('scoreboard-visible'); }, 50);
             } else {
-                if(logoTopContainer) {
-                    logoTopContainer.classList.add('hidden');
-                    logoTopContainer.classList.remove('flex');
-                }
-                if(logoBtm) logoBtm.classList.add('hidden');
-            }
-
-            // PENALTIES RENDER
-            const penTopWrapper = document.getElementById('top-penalties-wrapper');
-            const penBtmWrapper = document.getElementById('btm-penalties-wrapper');
-            const statsPenWrapper = document.getElementById('stats-penalty-wrapper');
-
-            if (state.penalties && state.penalties.active) {
-                if(penTopWrapper) penTopWrapper.classList.remove('hidden');
-                if(penBtmWrapper) penBtmWrapper.classList.remove('hidden');
-                if(statsPenWrapper) statsPenWrapper.classList.remove('hidden');
-                if(statsPenWrapper) statsPenWrapper.classList.add('flex');
-
-                if(document.getElementById('penalties-home-top')) document.getElementById('penalties-home-top').innerHTML = renderPenaltyDots(state.penalties.home, false);
-                if(document.getElementById('penalties-away-top')) document.getElementById('penalties-away-top').innerHTML = renderPenaltyDots(state.penalties.away, false);
-                if(document.getElementById('penalties-home-btm')) document.getElementById('penalties-home-btm').innerHTML = renderPenaltyDots(state.penalties.home, true);
-                if(document.getElementById('penalties-away-btm')) document.getElementById('penalties-away-btm').innerHTML = renderPenaltyDots(state.penalties.away, true);
-
-                const hPenScore = state.penalties.home.filter(r => r === 'scored').length;
-                const aPenScore = state.penalties.away.filter(r => r === 'scored').length;
-                
-                document.querySelectorAll('.pen-score-home-val').forEach(el => el.textContent = hPenScore);
-                document.querySelectorAll('.pen-score-away-val').forEach(el => el.textContent = aPenScore);
-                
-                if(document.getElementById('stats-home-pen')) document.getElementById('stats-home-pen').textContent = hPenScore;
-                if(document.getElementById('stats-away-pen')) document.getElementById('stats-away-pen').textContent = aPenScore;
-
-            } else {
-                if(penTopWrapper) penTopWrapper.classList.add('hidden');
-                if(penBtmWrapper) penBtmWrapper.classList.add('hidden');
-                if(statsPenWrapper) {
-                    statsPenWrapper.classList.add('hidden');
-                    statsPenWrapper.classList.remove('flex');
-                }
+                wrapperTop.classList.remove('scoreboard-visible'); wrapperTop.classList.add('scoreboard-hidden-top');
+                wrapperBtm.classList.remove('scoreboard-visible'); wrapperBtm.classList.add('scoreboard-hidden-bottom');
             }
 
             if (!window.isHomeGoalAnimating) {
                 document.querySelectorAll('.team-name-home').forEach(el => el.textContent = state.teamNames.home);
-                document.querySelectorAll('.team-name-home-full').forEach(el => {
-                    el.textContent = (state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home;
-                });
+                document.querySelectorAll('.team-name-home-full').forEach(el => el.textContent = (state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home);
             }
             if (!window.isAwayGoalAnimating) {
                 document.querySelectorAll('.team-name-away').forEach(el => el.textContent = state.teamNames.away);
-                document.querySelectorAll('.team-name-away-full').forEach(el => {
-                    el.textContent = (state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away;
-                });
+                document.querySelectorAll('.team-name-away-full').forEach(el => el.textContent = (state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away);
             }
             document.querySelectorAll('.score-home').forEach(el => el.textContent = state.scores.home);
             document.querySelectorAll('.score-away').forEach(el => el.textContent = state.scores.away);
-            
             document.querySelectorAll('.match-time-text').forEach(el => el.textContent = formatTime(state.timer.seconds));
             
             document.querySelectorAll('.stoppage-badge').forEach(el => {
@@ -1509,17 +1354,13 @@
                 if (isVisible) {
                     el.classList.remove('hidden');
                     if (labelTextEl) {
-                        if (hasLabel) {
-                            labelTextEl.textContent = t.stoppage;
-                            labelTextEl.classList.remove('hidden');
-                        } else { labelTextEl.classList.add('hidden'); }
+                        if (hasLabel) { labelTextEl.textContent = t.stoppage; labelTextEl.classList.remove('hidden'); } 
+                        else { labelTextEl.classList.add('hidden'); }
                     }
                     if (targetTextEl) {
                         if (hasTarget) {
-                            targetTextEl.textContent = `+${t.stoppageTargetMins}'`;
-                            targetTextEl.classList.remove('hidden');
-                            if (hasLabel) { targetTextEl.classList.add('pl-2'); } 
-                            else { targetTextEl.classList.remove('pl-2'); }
+                            targetTextEl.textContent = `+${t.stoppageTargetMins}'`; targetTextEl.classList.remove('hidden');
+                            if (hasLabel) { targetTextEl.classList.add('pl-2'); } else { targetTextEl.classList.remove('pl-2'); }
                         } else { targetTextEl.classList.add('hidden'); }
                     }
                     if (timerTextEl) {
@@ -1527,29 +1368,54 @@
                         else { timerTextEl.classList.remove('pl-2'); }
                     }
                     if (clockTextEl) clockTextEl.textContent = formatTime(t.stoppageSecs);
-                } else {
-                    el.classList.add('hidden');
-                }
+                } else { el.classList.add('hidden'); }
             });
 
-            /* Setup contents for specific overlays even if hidden */
-            if(document.getElementById('single-goal-name')) document.getElementById('single-goal-name').textContent = state.topScorer.name;
-            if(document.getElementById('single-goal-time')) document.getElementById('single-goal-time').textContent = state.topScorer.min;
-            
-            const elScH = document.getElementById('btm-scorers-home');
-            const elScA = document.getElementById('btm-scorers-away');
-            if(elScH) elScH.innerText = (state.bottomScorers && state.bottomScorers.home) ? state.bottomScorers.home : '';
-            if(elScA) elScA.innerText = (state.bottomScorers && state.bottomScorers.away) ? state.bottomScorers.away : '';
-            
-            const btmScorersPanel = document.getElementById('btm-scorers-panel');
-            let hasHomeBtm = state.bottomScorers && state.bottomScorers.home && state.bottomScorers.home.trim() !== '';
-            let hasAwayBtm = state.bottomScorers && state.bottomScorers.away && state.bottomScorers.away.trim() !== '';
-            if (state.activeView === 'bottom' && state.bottomScorers.visible && (hasHomeBtm || hasAwayBtm) && !overlayIsActive) {
-                if(btmScorersPanel) btmScorersPanel.classList.add('show');
+            /* Penalty Rendering */
+            const renderPenalties = (team, containerId) => {
+                const container = document.getElementById(containerId);
+                if(!container) return;
+                container.innerHTML = '';
+                const arr = state.penalties[team] || [];
+                arr.forEach(status => {
+                    const color = status === 1 ? 'bg-emerald-500' : 'bg-red-600';
+                    container.innerHTML += `<div class="w-3 h-3 rounded-full ${color} border border-white/40 shadow-sm"></div>`;
+                });
+            };
+
+            const topPenWrapper = document.getElementById('top-penalty-wrapper');
+            const btmPenWrapper = document.getElementById('btm-penalty-wrapper');
+            if(state.penalties.active) {
+                if(topPenWrapper) topPenWrapper.classList.remove('hidden');
+                if(btmPenWrapper) btmPenWrapper.classList.remove('hidden');
+                renderPenalties('home', 'top-penalty-home'); renderPenalties('away', 'top-penalty-away');
+                renderPenalties('home', 'btm-penalty-home'); renderPenalties('away', 'btm-penalty-away');
             } else {
-                if(btmScorersPanel) btmScorersPanel.classList.remove('show');
+                if(topPenWrapper) topPenWrapper.classList.add('hidden');
+                if(btmPenWrapper) btmPenWrapper.classList.add('hidden');
             }
 
+            /* Single Goal Event */
+            const singleGoalOverlay = document.getElementById('single-goal-overlay');
+            document.getElementById('top-scorer-name-display').textContent = state.topScorer.name;
+            document.getElementById('top-scorer-time-display').textContent = state.topScorer.min;
+            if (state.topScorer.visible) {
+                singleGoalOverlay.className = singleGoalOverlay.className.replace(/anim-type-\w+/g, '');
+                singleGoalOverlay.classList.add(animTypeClass, 'show');
+            } else {
+                singleGoalOverlay.classList.remove('show');
+            }
+            
+            document.getElementById('btm-scorers-home').innerText = (state.bottomScorers && state.bottomScorers.home) ? state.bottomScorers.home : '';
+            document.getElementById('btm-scorers-away').innerText = (state.bottomScorers && state.bottomScorers.away) ? state.bottomScorers.away : '';
+            const btmScorersPanel = document.getElementById('btm-scorers-panel');
+            if (state.activeView === 'bottom' && !isAnyOverlayActive && state.bottomScorers.visible && (((state.bottomScorers && state.bottomScorers.home) ? state.bottomScorers.home.trim() : '') !== '' || ((state.bottomScorers && state.bottomScorers.away) ? state.bottomScorers.away.trim() : '') !== '')) {
+                btmScorersPanel.classList.add('show');
+            } else {
+                btmScorersPanel.classList.remove('show');
+            }
+
+            /* Cards & Fouls Render Below Scoreboard Bar */
             const createCardHTML = (color, count) => {
                 let html = '';
                 const bgClass = color === 'yellow' ? 'bg-amber-400' : 'bg-red-600';
@@ -1562,172 +1428,157 @@
             const homeStatsHTML = `${state.stats.home.fouls > 0 ? `<span class="text-[11px] font-bold bg-slate-900/90 text-white border border-slate-700 px-2 py-0.5 rounded shadow mr-1"><i class="fas fa-exclamation-triangle text-amber-400 text-[10px] mr-1"></i>${state.stats.home.fouls}</span>` : ''} ${createCardHTML('yellow', state.stats.home.yellow)} ${createCardHTML('red', state.stats.home.red)}`;
             const awayStatsHTML = `${createCardHTML('red', state.stats.away.red)} ${createCardHTML('yellow', state.stats.away.yellow)} ${state.stats.away.fouls > 0 ? `<span class="text-[11px] font-bold bg-slate-900/90 text-white border border-slate-700 px-2 py-0.5 rounded shadow ml-1"><i class="fas fa-exclamation-triangle text-amber-400 text-[10px] mr-1"></i>${state.stats.away.fouls}</span>` : ''}`;
 
-            if(document.getElementById('top-stats-home')) document.getElementById('top-stats-home').innerHTML = homeStatsHTML;
-            if(document.getElementById('top-stats-away')) document.getElementById('top-stats-away').innerHTML = awayStatsHTML;
-            if(document.getElementById('btm-stats-home')) document.getElementById('btm-stats-home').innerHTML = homeStatsHTML;
-            if(document.getElementById('btm-stats-away')) document.getElementById('btm-stats-away').innerHTML = awayStatsHTML;
+            document.getElementById('top-stats-home').innerHTML = homeStatsHTML;
+            document.getElementById('top-stats-away').innerHTML = awayStatsHTML;
+            document.getElementById('btm-stats-home').innerHTML = homeStatsHTML;
+            document.getElementById('btm-stats-away').innerHTML = awayStatsHTML;
 
-            if (state.substitution) {
-                let tName = '';
-                if(state.substitution.team === 'home') tName = (state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home;
-                else tName = (state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away;
-                
-                if(document.getElementById('sub-team-name')) document.getElementById('sub-team-name').textContent = tName;
-                if(document.getElementById('sub-out-num-display')) document.getElementById('sub-out-num-display').textContent = state.substitution.outNumber;
-                if(document.getElementById('sub-out-name-display')) document.getElementById('sub-out-name-display').textContent = state.substitution.outName;
-                if(document.getElementById('sub-in-num-display')) document.getElementById('sub-in-num-display').textContent = state.substitution.inNumber;
-                if(document.getElementById('sub-in-name-display')) document.getElementById('sub-in-name-display').textContent = state.substitution.inName;
-            }
+            /* Sub Overlay */
+            const subOverlay = document.getElementById('substitution-overlay');
+            if (state.substitution && state.substitution.active) {
+                subOverlay.className = subOverlay.className.replace(/anim-type-\w+/g, '');
+                subOverlay.classList.add(animTypeClass, 'show');
+                const tName = state.substitution.team === 'home' ? ((state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home) : ((state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away);
+                document.getElementById('sub-team-name').textContent = tName;
+                document.getElementById('sub-out-num-display').textContent = state.substitution.outNumber;
+                document.getElementById('sub-out-name-display').textContent = state.substitution.outName;
+                document.getElementById('sub-in-num-display').textContent = state.substitution.inNumber;
+                document.getElementById('sub-in-name-display').textContent = state.substitution.inName;
+            } else { subOverlay.classList.remove('show'); }
 
-            if (state.infoBanner) {
-                if(document.getElementById('banner-title-display')) document.getElementById('banner-title-display').textContent = state.infoBanner.title;
-                if(document.getElementById('banner-subtitle-display')) document.getElementById('banner-subtitle-display').textContent = state.infoBanner.subtitle;
-            }
+            /* Banner Overlay */
+            const bannerOverlay = document.getElementById('info-banner-overlay');
+            if (state.infoBanner && state.infoBanner.active) {
+                bannerOverlay.className = bannerOverlay.className.replace(/anim-type-\w+/g, '');
+                bannerOverlay.classList.add(animTypeClass, 'show');
+                document.getElementById('banner-title-display').textContent = state.infoBanner.title;
+                document.getElementById('banner-subtitle-display').textContent = state.infoBanner.subtitle;
+            } else { bannerOverlay.classList.remove('show'); }
 
-            if (state.lineup) {
+            /* Lineup Render Logic */
+            const lineupOverlay = document.getElementById('lineup-overlay');
+            if (state.lineup && state.lineup.active) {
+                lineupOverlay.className = lineupOverlay.className.replace(/anim-type-\w+/g, '');
+                lineupOverlay.classList.add(`anim-type-${state.animation === 'slide' ? 'scale' : state.animation}`, 'show-center');
                 const t = state.lineup.team;
-                let fullName = '';
-                if(state.fullTeamNames && state.fullTeamNames[t]) fullName = state.fullTeamNames[t];
-                else fullName = state.teamNames[t];
-                
-                if(document.getElementById('lineup-team-name')) document.getElementById('lineup-team-name').textContent = fullName;
-                if(document.getElementById('lineup-formation-display')) document.getElementById('lineup-formation-display').textContent = state.lineup.formation;
-                if(document.getElementById('lineup-manager-name')) document.getElementById('lineup-manager-name').textContent = state.lineup.coach || 'Head Coach';
+                document.getElementById('lineup-team-name').textContent = (state.fullTeamNames && state.fullTeamNames[t]) ? state.fullTeamNames[t] : state.teamNames[t];
+                document.getElementById('lineup-formation-display').textContent = state.lineup.formation;
+                document.getElementById('lineup-manager-name').textContent = state.lineup.coach || 'Head Coach';
                 
                 const playersList = (state.lineup.players || '').split('\n').map(p => p.trim()).filter(p => p);
                 const pitchContainer = document.getElementById('lineup-pitch-container');
+                pitchContainer.innerHTML = '';
                 
-                if (state.activeOverlay === 'lineup' && pitchContainer) {
-                    pitchContainer.innerHTML = '';
-                    const rows = [1];
-                    if(state.lineup.formation) {
-                        const formParts = state.lineup.formation.split('-');
-                        formParts.forEach(numStr => rows.push(parseInt(numStr) || 0));
-                    }
-                    
-                    let playerIndex = 0;
-                    rows.forEach(count => {
-                        const rowDiv = document.createElement('div');
-                        rowDiv.className = 'flex justify-around items-center w-full z-10';
-                        
-                        for(let i = 0; i < count; i++) {
-                            const pText = playersList[playerIndex] || '';
-                            let num = '-', name = pText || 'Player';
-                            const match = pText.match(/^(\d+)\s+(.+)$/);
-                            if(match) { num = match[1]; name = match[2]; }
-                            
-                            const pDiv = document.createElement('div');
-                            pDiv.className = 'flex flex-col items-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] w-16 md:w-28 transform transition-transform hover:scale-110';
-                            
-                            const colorClass = (playerIndex === 0 && count === 1) 
-                                ? 'bg-gradient-to-br from-amber-300 to-amber-600 text-slate-900 border-white' 
-                                : (t === 'home' ? 'bg-gradient-to-br from-blue-400 to-blue-700 text-white border-white' : 'bg-gradient-to-br from-red-400 to-red-700 text-white border-white');
-                            
-                            pDiv.innerHTML = `
-                                <div class="w-7 h-7 md:w-10 md:h-10 rounded-full ${colorClass} font-black text-sm md:text-xl flex items-center justify-center border-[2px] md:border-[3px] shadow-[0_0_15px_rgba(0,0,0,0.5)] mb-1 md:mb-1.5 leading-none z-20 relative">${num}</div>
-                                <div class="bg-slate-900/95 border border-slate-700 text-white text-[9px] md:text-[13px] font-bold px-1.5 md:px-3 py-1 md:py-1.5 rounded w-full text-center truncate shadow-lg uppercase relative z-10 custom-colored-text">${name}</div>
-                            `;
-                            rowDiv.appendChild(pDiv);
-                            playerIndex++;
-                        }
-                        pitchContainer.appendChild(rowDiv);
-                    });
-                    
-                    const subsContainer = document.getElementById('lineup-subs-container');
-                    if(subsContainer) {
-                        subsContainer.innerHTML = '';
-                        const subsList = (state.lineup.subs || '').split('\n').map(p => p.trim()).filter(p => p);
-                        subsList.forEach(pText => {
-                            let num = '-', name = pText;
-                            const match = pText.match(/^(\d+)\s+(.+)$/);
-                            if(match) { num = match[1]; name = match[2]; }
-                            subsContainer.innerHTML += `
-                                <div class="flex items-center gap-2 md:gap-4 bg-slate-800/40 py-1 md:py-1.5 px-2 md:px-4 rounded-lg border border-slate-700/50 shadow-sm">
-                                    <span class="theme-text-accent font-black text-lg md:text-2xl w-6 md:w-8 text-right">${num}</span>
-                                    <span class="panel-text uppercase truncate flex-1 text-base md:text-2xl drop-shadow-sm">${name}</span>
-                                </div>`;
-                        });
-                    }
-                }
-            }
-
-            if (state.matchStats) {
-                let hFullName = '', aFullName = '';
-                if(state.fullTeamNames && state.fullTeamNames.home) hFullName = state.fullTeamNames.home;
-                else hFullName = state.teamNames.home;
-                if(state.fullTeamNames && state.fullTeamNames.away) aFullName = state.fullTeamNames.away;
-                else aFullName = state.teamNames.away;
-
-                if(document.getElementById('stats-home-name')) document.getElementById('stats-home-name').textContent = hFullName;
-                if(document.getElementById('stats-away-name')) document.getElementById('stats-away-name').textContent = aFullName;
-                if(document.getElementById('stats-home-score')) document.getElementById('stats-home-score').textContent = (state.scores && state.scores.home !== undefined) ? state.scores.home : '0';
-                if(document.getElementById('stats-away-score')) document.getElementById('stats-away-score').textContent = (state.scores && state.scores.away !== undefined) ? state.scores.away : '0';
+                const isFutsal = state.lineup.formation.split('-').reduce((a, b) => a + parseInt(b), 0) < 10;
+                const rows = isFutsal ? [1, ...state.lineup.formation.split('-').map(Number)] : [1, ...state.lineup.formation.split('-').map(Number)];
+                let playerIndex = 0;
                 
-                if (state.activeOverlay === 'matchStats') {
-                    const statsContainer = document.getElementById('stats-rows-container');
-                    if(statsContainer) {
-                        statsContainer.innerHTML = '';
+                rows.forEach(count => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'flex justify-evenly items-center w-full my-1 z-10';
+                    
+                    for(let i = 0; i < count; i++) {
+                        const pText = playersList[playerIndex] || '';
+                        let num = '-', name = pText || 'Player';
+                        const match = pText.match(/^(\d+)\s+(.+)$/);
+                        if(match) { num = match[1]; name = match[2]; }
                         
-                        const createStatRow = (label, valH, valA, isPercent = false) => {
-                            const numH = parseFloat(valH) || 0; const numA = parseFloat(valA) || 0;
-                            const total = numH + numA;
-                            const pctH = total === 0 ? 50 : (numH / total * 100);
-                            const pctA = total === 0 ? 50 : (numA / total * 100);
-                            
-                            const displayH = isPercent ? `${numH}%` : numH;
-                            const displayA = isPercent ? `${numA}%` : numA;
-                            
-                            return `
-                                <div class="flex flex-col gap-1.5 md:gap-2">
-                                    <div class="flex justify-between items-end px-1 md:px-2 text-white font-black text-xl md:text-3xl uppercase drop-shadow-md">
-                                        <span class="w-16 md:w-24 text-left text-blue-400">${displayH}</span>
-                                        <span class="text-slate-300 text-xs md:text-lg tracking-widest md:tracking-[0.15em] opacity-90 custom-colored-text truncate mx-2 text-center flex-1">${label}</span>
-                                        <span class="w-16 md:w-24 text-right text-red-400">${displayA}</span>
-                                    </div>
-                                    <div class="flex gap-1 h-2 md:h-3.5 w-full">
-                                        <div class="stat-bar-bg flex justify-end rounded-r-none"><div class="stat-bar-fill-home" style="width: ${pctH}%"></div></div>
-                                        <div class="stat-bar-bg rounded-l-none"><div class="stat-bar-fill-away" style="width: ${pctA}%"></div></div>
-                                    </div>
-                                </div>
-                            `;
-                        };
+                        const pDiv = document.createElement('div');
+                        pDiv.className = 'flex flex-col items-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] w-24 transform transition-transform hover:scale-110';
                         
-                        statsContainer.innerHTML += createStatRow('Ball Possession', state.matchStats.possH, state.matchStats.possA, true);
-                        statsContainer.innerHTML += createStatRow('Total Shots', state.matchStats.shotsH, state.matchStats.shotsA);
-                        statsContainer.innerHTML += createStatRow('Shots on Target', state.matchStats.sotH, state.matchStats.sotA);
-                        statsContainer.innerHTML += createStatRow('Corner Kicks', state.matchStats.cornH, state.matchStats.cornA);
-                        if (state.matchStats.offsH > 0 || state.matchStats.offsA > 0) statsContainer.innerHTML += createStatRow('Offsides', state.matchStats.offsH, state.matchStats.offsA);
-                        statsContainer.innerHTML += createStatRow('Fouls', state.stats.home.fouls, state.stats.away.fouls);
-                        statsContainer.innerHTML += createStatRow('Yellow Cards', state.stats.home.yellow, state.stats.away.yellow);
-                        statsContainer.innerHTML += createStatRow('Red Cards', state.stats.home.red, state.stats.away.red);
+                        const colorClass = (playerIndex === 0 && count === 1) 
+                            ? 'bg-gradient-to-br from-amber-300 to-amber-600 text-slate-900' 
+                            : (t === 'home' ? 'bg-gradient-to-br from-blue-400 to-blue-700 text-white' : 'bg-gradient-to-br from-red-400 to-red-700 text-white');
+                        
+                        const sizeClasses = isFutsal ? 'w-11 h-11 text-xl' : 'w-9 h-9 text-lg';
+                        const nameClasses = isFutsal ? 'text-[14px] px-3' : 'text-[12px] px-2.5';
+
+                        pDiv.innerHTML = `
+                            <div class="${sizeClasses} rounded-full ${colorClass} font-black flex items-center justify-center border-[3px] border-white shadow-[0_0_15px_rgba(0,0,0,0.5)] mb-1 leading-none z-20 relative">${num}</div>
+                            <div class="bg-black/80 border border-white/20 text-white ${nameClasses} font-bold py-1 rounded w-full text-center truncate shadow-lg uppercase relative z-10 custom-colored-text">${name}</div>
+                        `;
+                        rowDiv.appendChild(pDiv);
+                        playerIndex++;
                     }
+                    pitchContainer.appendChild(rowDiv);
+                });
+                
+                const subsContainer = document.getElementById('lineup-subs-container');
+                subsContainer.innerHTML = '';
+                const subsList = (state.lineup.subs || '').split('\n').map(p => p.trim()).filter(p => p);
+                subsList.forEach(pText => {
+                    let num = '-', name = pText;
+                    const match = pText.match(/^(\d+)\s+(.+)$/);
+                    if(match) { num = match[1]; name = match[2]; }
+                    subsContainer.innerHTML += `
+                        <div class="flex items-center gap-4 bg-black/40 py-1.5 px-3 rounded-lg border border-white/10 shadow-sm">
+                            <span class="theme-popup-accent bg-clip-text text-transparent font-black text-xl w-6 text-right">${num}</span>
+                            <span class="text-white uppercase truncate flex-1 text-xl drop-shadow-sm opacity-90">${name}</span>
+                        </div>`;
+                });
+                
+            } else { lineupOverlay.classList.remove('show-center'); }
+
+            /* Match Stats Render Logic */
+            const statsOverlay = document.getElementById('stats-overlay');
+            if (state.matchStats && state.matchStats.active) {
+                statsOverlay.className = statsOverlay.className.replace(/anim-type-\w+/g, '');
+                statsOverlay.classList.add(`anim-type-${state.animation === 'slide' ? 'scale' : state.animation}`, 'show-center');
+                
+                document.getElementById('stats-home-name').textContent = (state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home;
+                document.getElementById('stats-away-name').textContent = (state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away;
+                
+                document.getElementById('stats-score-home').textContent = state.scores.home;
+                document.getElementById('stats-score-away').textContent = state.scores.away;
+
+                const statPenWrapper = document.getElementById('stats-penalty-wrapper');
+                if(state.penalties.active) {
+                    statPenWrapper.classList.remove('hidden');
+                    const homePenScore = (state.penalties.home || []).filter(v=>v===1).length;
+                    const awayPenScore = (state.penalties.away || []).filter(v=>v===1).length;
+                    document.getElementById('stats-pen-home').textContent = homePenScore;
+                    document.getElementById('stats-pen-away').textContent = awayPenScore;
+                } else {
+                    statPenWrapper.classList.add('hidden');
                 }
-            }
-        }
 
-        // PENALTY LOGIC
-        function togglePenalties() {
-            window.appState.penalties.active = !window.appState.penalties.active;
-            renderDOM(); syncState();
-        }
-
-        function addPenalty(team, result) {
-            if (!window.appState.penalties) window.appState.penalties = { active: true, home: [], away: [] };
-            window.appState.penalties[team].push(result);
-            renderDOM(); syncState();
-        }
-
-        function undoPenalty(team) {
-            if (!window.appState.penalties) return;
-            window.appState.penalties[team].pop();
-            renderDOM(); syncState();
-        }
-
-        function resetPenalties() {
-            if (!window.appState.penalties) window.appState.penalties = { active: true, home: [], away: [] };
-            window.appState.penalties.home = [];
-            window.appState.penalties.away = [];
-            renderDOM(); syncState();
+                const statsContainer = document.getElementById('stats-rows-container');
+                statsContainer.innerHTML = '';
+                
+                const createStatRow = (label, valH, valA, isPercent = false) => {
+                    const numH = parseFloat(valH) || 0; const numA = parseFloat(valA) || 0;
+                    const total = numH + numA;
+                    const pctH = total === 0 ? 50 : (numH / total * 100);
+                    const pctA = total === 0 ? 50 : (numA / total * 100);
+                    
+                    const displayH = isPercent ? `${numH}%` : numH;
+                    const displayA = isPercent ? `${numA}%` : numA;
+                    
+                    return `
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between items-end px-2 text-white font-black text-2xl xl:text-3xl uppercase drop-shadow-md">
+                                <span class="w-24 text-left text-blue-400">${displayH}</span>
+                                <span class="text-white text-sm xl:text-base tracking-[0.15em] opacity-80 custom-colored-text">${label}</span>
+                                <span class="w-24 text-right text-red-400">${displayA}</span>
+                            </div>
+                            <div class="flex gap-1 h-3.5 w-full">
+                                <div class="stat-bar-bg flex justify-end rounded-r-none"><div class="stat-bar-fill-home" style="width: ${pctH}%"></div></div>
+                                <div class="stat-bar-bg rounded-l-none"><div class="stat-bar-fill-away" style="width: ${pctA}%"></div></div>
+                            </div>
+                        </div>
+                    `;
+                };
+                
+                statsContainer.innerHTML += createStatRow('Ball Possession', state.matchStats.possH, state.matchStats.possA, true);
+                statsContainer.innerHTML += createStatRow('Total Shots', state.matchStats.shotsH, state.matchStats.shotsA);
+                statsContainer.innerHTML += createStatRow('Shots on Target', state.matchStats.sotH, state.matchStats.sotA);
+                statsContainer.innerHTML += createStatRow('Corner Kicks', state.matchStats.cornH, state.matchStats.cornA);
+                statsContainer.innerHTML += createStatRow('Offsides', state.matchStats.offsH, state.matchStats.offsA);
+                statsContainer.innerHTML += createStatRow('Fouls', state.stats.home.fouls, (state.stats.away && state.stats.away.fouls) ? state.stats.away.fouls : 0);
+                statsContainer.innerHTML += createStatRow('Yellow Cards', state.stats.home.yellow, state.stats.away.yellow);
+                statsContainer.innerHTML += createStatRow('Red Cards', state.stats.home.red, state.stats.away.red);
+                
+            } else { statsOverlay.classList.remove('show-center'); }
         }
 
         function updateStat(team, type, change) {
@@ -1784,47 +1635,149 @@
             window.appState.theme = document.getElementById('theme-selector').value;
             window.appState.font = document.getElementById('font-selector').value;
             window.appState.customColor = document.getElementById('input-text-color').value;
+            window.appState.logoUrl = document.getElementById('input-logo-url').value;
             window.appState.animation = document.getElementById('anim-selector').value;
             renderDOM(); syncState();
         }
 
-        function triggerTopScorer() {
-            let minute = document.getElementById('input-top-scorer-min').value.trim();
-            if (minute !== "" && !minute.includes("'")) minute += "'";
-            window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute };
-            
-            triggerOverlay('topScorer');
+        /* Penalty Functions */
+        function togglePenalty() {
+            window.appState.penalties.active = !window.appState.penalties.active;
+            const btnPen = document.getElementById('btn-pen-toggle');
+            if(window.appState.penalties.active) {
+                btnPen.innerHTML = '<i class="fas fa-power-off"></i> Disable Penalty Mode';
+                btnPen.classList.replace('btn-outline', 'btn-primary');
+            } else {
+                btnPen.innerHTML = '<i class="fas fa-power-off"></i> Enable Penalty Mode';
+                btnPen.classList.replace('btn-primary', 'btn-outline');
+            }
+            renderDOM(); syncState();
         }
 
-        function hideTopScorer() {
-            if (window.appState.activeOverlay === 'topScorer') {
-                triggerOverlay('none');
-            }
+        function addPenalty(team, status) {
+            if(!window.appState.penalties.active) return;
+            window.appState.penalties[team].push(status);
+            renderDOM(); syncState();
+        }
+
+        function undoPenalty(team) {
+            if(!window.appState.penalties.active || window.appState.penalties[team].length === 0) return;
+            window.appState.penalties[team].pop();
+            renderDOM(); syncState();
+        }
+
+        function resetPenalty() {
+            window.appState.penalties.home = [];
+            window.appState.penalties.away = [];
+            renderDOM(); syncState();
+        }
+
+        function triggerTopScorer() {
+            hideAllOverlays();
+            let minute = document.getElementById('input-top-scorer-min').value.trim();
+            if (minute !== "" && !minute.includes("'")) minute += "'";
+            window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute, visible: true };
+            renderDOM(); syncState();
+            setTimeout(() => hideTopScorer(true), 8000);
+        }
+
+        function hideTopScorer(doSync = true) {
+            window.appState.topScorer.visible = false; renderDOM(); if (doSync) syncState();
+        }
+
+        function triggerSub() {
+            hideAllOverlays();
+            window.appState.substitution = {
+                active: true,
+                team: document.getElementById('sub-team').value,
+                inName: document.getElementById('sub-in-name').value,
+                inNumber: document.getElementById('sub-in-number').value,
+                outName: document.getElementById('sub-out-name').value,
+                outNumber: document.getElementById('sub-out-number').value
+            };
+            renderDOM(); syncState();
+        }
+
+        function hideSub() {
+            window.appState.substitution.active = false;
+            renderDOM(); syncState();
+        }
+
+        function triggerBanner() {
+            hideAllOverlays();
+            window.appState.infoBanner = {
+                active: true,
+                title: document.getElementById('banner-title').value || 'INFO',
+                subtitle: document.getElementById('banner-subtitle').value
+            };
+            renderDOM(); syncState();
+        }
+
+        function hideBanner() {
+            window.appState.infoBanner.active = false;
+            renderDOM(); syncState();
         }
 
         function updateBottomScorers() {
             const h = document.getElementById('input-scorers-home').value.trim();
             const a = document.getElementById('input-scorers-away').value.trim();
             window.appState.bottomScorers = { home: h, away: a, visible: (h !== '' || a !== '') };
-            if (window.appState.activeView === 'none') window.appState.activeView = 'bottom';
+            renderDOM(); syncState();
+        }
+        function hideBottomScorers() {
+            window.appState.bottomScorers.visible = false;
             renderDOM(); syncState();
         }
 
-        /* Updates values directly via onchange/click without triggering display manually. Display is handled by triggerOverlay() */
-        document.getElementById('sub-team').addEventListener('change', e => { window.appState.substitution.team = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('sub-in-name').addEventListener('input', e => { window.appState.substitution.inName = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('sub-in-number').addEventListener('input', e => { window.appState.substitution.inNumber = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('sub-out-name').addEventListener('input', e => { window.appState.substitution.outName = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('sub-out-number').addEventListener('input', e => { window.appState.substitution.outNumber = e.target.value; renderDOM(); syncState(); });
+        function triggerLineup() {
+            hideAllOverlays();
+            window.appState.lineup = {
+                active: true,
+                team: document.getElementById('lineup-team').value,
+                formation: document.getElementById('lineup-formation').value,
+                players: document.getElementById('lineup-players').value,
+                subs: document.getElementById('lineup-subs').value,
+                coach: document.getElementById('lineup-coach').value
+            };
+            renderDOM(); syncState();
+        }
 
-        document.getElementById('banner-title').addEventListener('input', e => { window.appState.infoBanner.title = e.target.value || 'INFO'; renderDOM(); syncState(); });
-        document.getElementById('banner-subtitle').addEventListener('input', e => { window.appState.infoBanner.subtitle = e.target.value; renderDOM(); syncState(); });
+        function hideLineup() {
+            window.appState.lineup.active = false;
+            renderDOM(); syncState();
+        }
 
-        document.getElementById('lineup-team').addEventListener('change', e => { window.appState.lineup.team = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('lineup-formation').addEventListener('change', e => { window.appState.lineup.formation = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('lineup-players').addEventListener('input', e => { window.appState.lineup.players = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('lineup-subs').addEventListener('input', e => { window.appState.lineup.subs = e.target.value; renderDOM(); syncState(); });
-        document.getElementById('lineup-coach').addEventListener('input', e => { window.appState.lineup.coach = e.target.value; renderDOM(); syncState(); });
+        /* LIVE SYNC UNTUK STATISTIK */
+        function updateLiveStats() {
+            if (!window.appState.matchStats) window.appState.matchStats = {};
+            window.appState.matchStats.possH = document.getElementById('stat-poss-h').value || 50;
+            window.appState.matchStats.possA = document.getElementById('stat-poss-a').value || 50;
+            window.appState.matchStats.shotsH = document.getElementById('stat-shots-h').value || 0;
+            window.appState.matchStats.shotsA = document.getElementById('stat-shots-a').value || 0;
+            window.appState.matchStats.sotH = document.getElementById('stat-sot-h').value || 0;
+            window.appState.matchStats.sotA = document.getElementById('stat-sot-a').value || 0;
+            window.appState.matchStats.cornH = document.getElementById('stat-corn-h').value || 0;
+            window.appState.matchStats.cornA = document.getElementById('stat-corn-a').value || 0;
+            
+            const elOffsH = document.getElementById('stat-offs-h');
+            const elOffsA = document.getElementById('stat-offs-a');
+            if (elOffsH) window.appState.matchStats.offsH = elOffsH.value || 0;
+            if (elOffsA) window.appState.matchStats.offsA = elOffsA.value || 0;
+            
+            renderDOM(); 
+            syncState();
+        }
+
+        function triggerStats() {
+            hideAllOverlays();
+            window.appState.matchStats.active = true;
+            updateLiveStats(); // Memastikan nilai form ditangkap sebelum render
+        }
+
+        function hideStats() {
+            window.appState.matchStats.active = false;
+            renderDOM(); syncState();
+        }
 
         function formatTime(seconds) {
             const m = Math.floor(seconds / 60);
@@ -1854,13 +1807,19 @@
                                         t.stoppageSecs++;
                                     } else {
                                         t.stoppageSecs = stoppageTargetSecs;
-                                        stopTimer();
+                                        stopTimer(); 
                                     }
-                                } else { stopTimer(); }
+                                } else {
+                                    stopTimer(); 
+                                }
                             }
                         } else {
-                            if (t.seconds > 0) { t.seconds--; } 
-                            else { t.seconds = 0; stopTimer(); }
+                            if (t.seconds > 0) {
+                                t.seconds--;
+                            } else {
+                                t.seconds = 0;
+                                stopTimer();
+                            }
                         }
                         renderDOM();
                     }, 1000);
@@ -1894,7 +1853,7 @@
         }
 
         function startTimer() {
-            if (window.appState.timer && !window.appState.timer.isRunning) {
+            if (!window.appState.timer.isRunning) {
                 window.appState.timer.isRunning = true;
                 window.appState.timer.direction = document.getElementById('timer-dir').value;
                 window.appState.timer.targetMins = parseInt(document.getElementById('input-target-mins').value) || 15;
@@ -1904,7 +1863,7 @@
         }
 
         function stopTimer() {
-            if (window.appState.timer && window.appState.timer.isRunning) {
+            if (window.appState.timer.isRunning) {
                 window.appState.timer.isRunning = false;
                 updateTimerRunningState(); syncState();
             }
@@ -1919,15 +1878,11 @@
             }
             
             try {
-                const roomEl = document.getElementById('input-room-code');
-                const savedState = localStorage.getItem('obs_score_v2_' + (roomEl ? roomEl.value : 'liga-match-v2'));
+                const savedState = localStorage.getItem('obs_score_v2_' + (document.getElementById('input-room-code') ? document.getElementById('input-room-code').value : 'liga-match-v2'));
                 if (savedState) {
                     const parsed = JSON.parse(savedState);
                     window.appState = { ...window.appState, ...parsed };
-                    
-                    // Reset overlay visibility upon reload
-                    window.appState.activeOverlay = 'none';
-                    if (window.appState.topScorer) window.appState.topScorer.visible = false;
+                    if (!window.appState.penalties) window.appState.penalties = { active: false, home: [], away: [] };
                 }
             } catch(e) {}
 
