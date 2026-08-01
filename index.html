@@ -1956,17 +1956,5 @@
             if(btnBtm) btnBtm.className = window.appState.activeView === 'bottom' ? 'flex-1 btn-pro btn-primary' : 'flex-1 btn-pro btn-outline';
         });
     </script>
-    <script>
-function syncSingleGoal() {
-    const playerName = document.getElementById('input-goal-name').value;
-    const playerMin = document.getElementById('input-goal-min').value;
-
-    const overlayName = document.getElementById('single-goal-name');
-    const overlayTime = document.getElementById('single-goal-time');
-
-    if (overlayName) overlayName.innerText = playerName;
-    if (overlayTime) overlayTime.innerText = playerMin;
-}
-</script>
 </body>
 </html>
