@@ -37,23 +37,21 @@
         .font-rajdhani { font-family: 'Rajdhani', sans-serif !important; }
         .font-syne { font-family: 'Syne', sans-serif !important; }
 
-        #scoreboard-top-wrapper, #scoreboard-bottom-wrapper {
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
-            will-change: transform, opacity;
-        }
+        /* General Overlay Transitions */
+        .overlay-layer { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; will-change: transform, opacity; }
         
-        /* Animation Type: Slide */
-        .anim-type-slide.scoreboard-hidden-top { transform: translateY(-150%); opacity: 0; pointer-events: none; }
-        .anim-type-slide.scoreboard-hidden-bottom { transform: translateY(150%); opacity: 0; pointer-events: none; }
+        /* Animation Types */
+        .anim-type-slide.overlay-hidden-top { transform: translateY(-150%); opacity: 0; pointer-events: none; }
+        .anim-type-slide.overlay-hidden-bottom { transform: translateY(150%); opacity: 0; pointer-events: none; }
+        .anim-type-slide.overlay-hidden-left { transform: translateX(-150%); opacity: 0; pointer-events: none; }
+        .anim-type-slide.overlay-hidden-right { transform: translateX(150%); opacity: 0; pointer-events: none; }
         
-        /* Animation Type: Fade */
-        .anim-type-fade.scoreboard-hidden-top, .anim-type-fade.scoreboard-hidden-bottom { opacity: 0; transform: translateY(0); pointer-events: none; }
+        .anim-type-fade.overlay-hidden-top, .anim-type-fade.overlay-hidden-bottom, .anim-type-fade.overlay-hidden-left, .anim-type-fade.overlay-hidden-right { opacity: 0; transform: translateY(0) translateX(0); pointer-events: none; }
         
-        /* Animation Type: Scale */
-        .anim-type-scale.scoreboard-hidden-top, .anim-type-scale.scoreboard-hidden-bottom { transform: scale(0.8); opacity: 0; pointer-events: none; }
+        .anim-type-scale.overlay-hidden-top, .anim-type-scale.overlay-hidden-bottom, .anim-type-scale.overlay-hidden-left, .anim-type-scale.overlay-hidden-right { transform: scale(0.8); opacity: 0; pointer-events: none; }
 
         /* Visible State */
-        .scoreboard-visible { transform: translate(0) scale(1) !important; opacity: 1 !important; pointer-events: auto; }
+        .overlay-visible { transform: translate(0) scale(1) !important; opacity: 1 !important; pointer-events: auto; }
 
         .custom-colored-text { color: var(--custom-text-color) !important; }
 
@@ -64,7 +62,7 @@
         @keyframes teamGoalFlash { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; color: #fbbf24; } 75% { opacity: 0; } 100% { opacity: 1; } }
         .anim-team-goal { animation: teamGoalFlash 1.5s ease-in-out infinite alternate; }
 
-        /* Huge Goal Alert - Kick Animation */
+        /* Huge Goal Alert - Cinematic Kick Animation */
         .goal-alert { position: absolute; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; overflow: hidden; background: transparent; transition: opacity 0.3s; }
         .animate-goal { animation: goalSceneShow 4s ease-in-out forwards; }
         @keyframes goalSceneShow { 0% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
@@ -85,54 +83,42 @@
         .animate-goal .goal-text-overlay { animation: goalTextPop 4s forwards; }
         @keyframes goalTextPop { 0%, 25% { transform: scale(0.2) skewX(-10deg); opacity: 0; } 30% { transform: scale(1.2) skewX(-10deg); opacity: 1; filter: drop-shadow(0 0 50px #facc15); } 35% { transform: scale(1) skewX(-10deg); opacity: 1; } 85% { transform: scale(1.05) skewX(-10deg); opacity: 1; } 100% { transform: scale(0.8) skewX(-10deg); opacity: 0; } }
 
-        /* UNIVERSAL THEMES (Applies to all scoreboard-main and score-panel elements) */
-        .panel-text { color: #ffffff; }
-
-        /* Standard */
-        body[data-theme="standard"] .scoreboard-main { background: linear-gradient(180deg, #1f2937, #111827); border: 1px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-radius: 8px; }
-        body[data-theme="standard"] .score-panel { background: #000; border-left: 2px solid #374151; border-right: 2px solid #374151; }
-        body[data-theme="standard"] .team-panel { background: transparent; }
-        
-        /* Minimalist */
-        body[data-theme="minimalist"] .scoreboard-main { background-color: rgba(15, 23, 42, 0.92); backdrop-filter: blur(8px); border-bottom: 4px solid #3b82f6; border-radius: 6px; }
-        body[data-theme="minimalist"] .score-panel { border-left: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); }
-        
-        /* EPL Style (Premier League) */
-        body[data-theme="epl"] .scoreboard-main { background: #3d195b; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); border: none; }
-        body[data-theme="epl"] .score-panel { background: #e90052; margin: 0; border-radius: 0; }
-        body[data-theme="epl"] .score-text { color: #fff !important; }
-        body[data-theme="epl"] .match-time-text { background: #00ff85; color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
-        body[data-theme="epl"] .stoppage-badge { background: #3d195b; border-color: #00ff85; }
-        body[data-theme="epl"] .stoppage-target-text { color: #00ff85; border-color: rgba(0,255,133,0.3); }
-        body[data-theme="epl"] .panel-text { color: #ffffff !important; }
-
-        /* UCL Style (Champions League) */
-        body[data-theme="ucl"] .scoreboard-main { background: linear-gradient(to right, #001235, #002366, #001235); border: 2px solid #cbd5e1; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        body[data-theme="ucl"] .score-panel { background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); }
-        body[data-theme="ucl"] .match-time-text { color: #fff; }
-        body[data-theme="ucl"] .stoppage-badge { background: rgba(0, 18, 53, 0.95); border-color: #38bdf8; }
-        body[data-theme="ucl"] .stoppage-target-text { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
-
-        /* Broadcast Clean */
-        body[data-theme="broadcast"] .scoreboard-main { background: #0f172a; border-left: 6px solid #2563eb; border-right: 6px solid #dc2626; border-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); border-top: none; border-bottom: none;}
-        body[data-theme="broadcast"] .score-panel { background: linear-gradient(180deg, #1e293b, #020617); }
-
-        /* World Cup */
-        body[data-theme="worldcup"] .scoreboard-main { background: #5a0026; border: 2px solid #cfb268; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        body[data-theme="worldcup"] .score-panel { background: #cfb268; margin: 4px; border-radius: 4px; }
+        /* THEME VARIABLES (For Universal Overlay Sync) */
+        body[data-theme="standard"] { --theme-bg-gradient: linear-gradient(180deg, rgba(31,41,55,0.95), rgba(17,24,39,0.95)); --theme-border: #374151; --theme-score-bg: rgba(0,0,0,0.8); --theme-accent: #3b82f6; --theme-text: #ffffff; }
+        body[data-theme="minimalist"] { --theme-bg-gradient: rgba(15, 23, 42, 0.92); --theme-border: rgba(255,255,255,0.1); --theme-score-bg: rgba(0,0,0,0.4); --theme-accent: #3b82f6; --theme-text: #ffffff; border-bottom-color: #3b82f6; }
+        body[data-theme="epl"] { --theme-bg-gradient: rgba(61, 25, 91, 0.98); --theme-border: rgba(255,255,255,0.2); --theme-score-bg: #e90052; --theme-accent: #00ff85; --theme-text: #ffffff; }
+        body[data-theme="ucl"] { --theme-bg-gradient: linear-gradient(to right, rgba(0,18,53,0.95), rgba(0,35,102,0.95), rgba(0,18,53,0.95)); --theme-border: #cbd5e1; --theme-score-bg: rgba(255,255,255,0.15); --theme-accent: #38bdf8; --theme-text: #ffffff; }
+        body[data-theme="broadcast"] { --theme-bg-gradient: rgba(15, 23, 42, 0.98); --theme-border: #2563eb; --theme-score-bg: linear-gradient(180deg, #1e293b, #020617); --theme-accent: #dc2626; --theme-text: #ffffff; }
+        body[data-theme="worldcup"] { --theme-bg-gradient: rgba(90, 0, 38, 0.98); --theme-border: #cfb268; --theme-score-bg: #cfb268; --theme-accent: #ffffff; --theme-text: #ffffff; }
         body[data-theme="worldcup"] .score-text { color: #5a0026 !important; }
-        body[data-theme="worldcup"] .match-time-text { color: #cfb268; }
-        body[data-theme="worldcup"] .panel-text { color: #5a0026 !important; }
+        body[data-theme="sportscenter"] { --theme-bg-gradient: rgba(17, 24, 39, 0.98); --theme-border: #dc2626; --theme-score-bg: #1f2937; --theme-accent: #ef4444; --theme-text: #ffffff; }
 
-        /* Sports Red */
-        body[data-theme="sportscenter"] .scoreboard-main { background: #111827; border-bottom: 5px solid #dc2626; border-radius: 6px; }
-        body[data-theme="sportscenter"] .score-panel { background: #1f2937; border-left: 2px solid #374151; border-right: 2px solid #374151; }
-        body[data-theme="sportscenter"] .match-time-text { color: #ef4444; }
+        /* UNIVERSAL THEMES APPLICATION */
+        .scoreboard-main, .theme-panel { background: var(--theme-bg-gradient); border: 2px solid var(--theme-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .score-panel { background: var(--theme-score-bg); }
+        .theme-text-accent { color: var(--theme-accent); }
+        .theme-bg-accent { background-color: var(--theme-accent); }
+        .theme-border-accent { border-color: var(--theme-accent); }
+        .panel-text { color: var(--theme-text); }
+        
+        /* Specialized theme overrides */
+        body[data-theme="standard"] .scoreboard-main { border-radius: 8px; }
+        body[data-theme="minimalist"] .scoreboard-main { border-width: 0 0 4px 0; border-color: var(--theme-accent); border-radius: 6px; }
+        body[data-theme="epl"] .scoreboard-main { border-radius: 10px; border: none; }
+        body[data-theme="ucl"] .scoreboard-main { border-radius: 24px; border-width: 2px; }
+        body[data-theme="broadcast"] .scoreboard-main { border-radius: 6px; border-width: 0 6px; border-color: var(--theme-accent); border-left-color: var(--theme-border); }
+        body[data-theme="worldcup"] .scoreboard-main { border-radius: 8px; }
+        body[data-theme="sportscenter"] .scoreboard-main { border-radius: 6px; border-width: 0 0 5px 0; }
+
+        body[data-theme="epl"] .match-time-text { background: var(--theme-accent); color: #3d195b; padding: 2px 10px; border-radius: 4px; font-weight: 900; }
+        body[data-theme="worldcup"] .match-time-text { color: var(--theme-border); }
+        body[data-theme="sportscenter"] .match-time-text { color: var(--theme-accent); }
 
         /* Sub-panels / Scorer Dropdowns */
         .scorer-dropdown { transition: all 0.4s ease; max-height: 0; opacity: 0; overflow: hidden; transform-origin: top; }
         .scorer-dropdown.show { max-height: 250px; opacity: 1; }
 
+        /* Layout & Controller */
         #main-layout { display: flex; width: 100vw; height: 100vh; overflow: hidden; background: #f8fafc; }
         .mode-overlay #main-layout { display: block; background: transparent !important; }
         .mode-overlay #controller-panel { display: none !important; }
@@ -141,20 +127,10 @@
         .mode-mobile #controller-panel { width: 100% !important; max-width: 100%; border: none; }
         .mode-mobile #preview-panel { display: none !important; }
 
-        /* Preview Grid Checkerboard */
-        .bg-transparent-grid {
-            background-color: #cbd5e1;
-            background-image: linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8), linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8);
-            background-size: 20px 20px; background-position: 0 0, 10px 10px;
-        }
-
-        #preview-scale-wrapper {
-            transform: scale(0.75); transform-origin: top center; width: 100%; height: 100%; position: absolute; inset: 0;
-            pointer-events: none;
-        }
+        .bg-transparent-grid { background-color: #cbd5e1; background-image: linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8), linear-gradient(45deg, #94a3b8 25%, transparent 25%, transparent 75%, #94a3b8 75%, #94a3b8); background-size: 20px 20px; background-position: 0 0, 10px 10px; }
+        #preview-scale-wrapper { transform: scale(0.75); transform-origin: top center; width: 100%; height: 100%; position: absolute; inset: 0; pointer-events: none; }
         .mode-overlay #preview-scale-wrapper { transform: scale(1) !important; }
 
-        /* Controller Controls */
         #controller-panel { background: #f1f5f9; color: #1e293b; scrollbar-width: thin; scrollbar-color: #cbd5e1 #f1f5f9; }
         .ctrl-group { background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -2px rgba(0,0,0,0.02); transition: all 0.2s; }
         .ctrl-title { font-size: 15px; text-transform: capitalize; letter-spacing: 0.5px; color: #334155; margin-bottom: 24px; font-weight: 800; border-bottom: 2px solid #f8fafc; padding-bottom: 16px; display: flex; align-items: center; }
@@ -174,17 +150,16 @@
         .btn-success { background: #10b981; color: #ffffff; box-shadow: 0 2px 4px rgba(16,185,129,0.1); }
         .btn-success:hover:not(:disabled) { background: #059669; box-shadow: 0 4px 6px rgba(16,185,129,0.2); }
 
-        /* Overlays General Transitions */
-        #single-goal-overlay, #substitution-overlay, #info-banner-overlay, #lineup-overlay, #stats-overlay { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; pointer-events: none; }
+        /* Pitch for LineUp */
+        .pitch-bg { background: linear-gradient(0deg, rgba(2,13,38,0.8) 0%, rgba(13,33,79,0.8) 100%); border-right: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 50px rgba(0,0,0,0.6); }
+        .pitch-line-top { border-top: 2px solid rgba(255,255,255,0.15); }
+        .pitch-line-bottom { border-bottom: 2px solid rgba(255,255,255,0.15); }
+        .pitch-circle { border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; }
         
-        .slide-in-left { transform: translateX(-150%); opacity: 0; }
-        .slide-in-left.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
-        
-        .slide-in-right { transform: translateX(150%); opacity: 0; }
-        .slide-in-right.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
-        
-        .fade-scale { transform: scale(0.8); opacity: 0; }
-        .fade-scale.show { transform: scale(1); opacity: 1; pointer-events: auto; }
+        /* Stat Bars */
+        .stat-bar-bg { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; height: 10px; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .stat-bar-fill-home { background: linear-gradient(90deg, #3b82f6, #60a5fa); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
+        .stat-bar-fill-away { background: linear-gradient(90deg, #f87171, #ef4444); height: 100%; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); float: right; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
     </style>
 </head>
 
@@ -195,7 +170,6 @@
         <!-- Controller Panel -->
         <div id="controller-panel" class="w-[55%] xl:w-[50%] flex-shrink-0 h-full flex flex-col border-r border-[#e2e8f0] z-50 overflow-y-auto relative">
             
-            <!-- Top Header -->
             <div class="px-8 py-5 bg-white border-b border-[#e2e8f0] flex justify-between items-center sticky top-0 z-20 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]">
                 <h1 class="font-bold text-xl text-slate-800 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-broadcast-tower"></i></div> 
@@ -208,7 +182,6 @@
                 </div>
             </div>
 
-            <!-- Main Scrollable Content -->
             <div class="p-8 flex-grow overflow-y-auto bg-slate-50">
                 <div class="max-w-4xl mx-auto space-y-6 w-full pb-10">
                     
@@ -288,7 +261,7 @@
                                 <input type="color" id="input-text-color" value="#ffffff" onchange="applyStyles()" class="w-24 h-8 cursor-pointer rounded border border-slate-300 bg-white p-0.5">
                             </div>
                             
-                            <!-- NEW: League Logo Add-on -->
+                            <!-- League Logo Add-on -->
                             <div class="lg:col-span-5 pt-4 border-t border-slate-100 grid grid-cols-12 gap-4 items-end">
                                 <div class="col-span-8">
                                     <label class="label-pro">Logo Liga (URL Gambar / Kosongkan jika tidak ada)</label>
@@ -410,7 +383,6 @@
                         <div class="ctrl-title"><i class="fas fa-stopwatch text-amber-500 mr-2.5 text-lg"></i> 4. Match Clock Controls</div>
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                             
-                            <!-- Settings -->
                             <div class="lg:col-span-4 space-y-4">
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
@@ -438,7 +410,6 @@
                                 <button onclick="applyTimerSettings()" class="btn-pro btn-outline w-full hover:bg-slate-100 text-slate-600 border-slate-300"><i class="fas fa-check text-green-500"></i> Apply Clock Settings</button>
                             </div>
 
-                            <!-- Big Clock -->
                             <div class="lg:col-span-4 flex flex-col items-center justify-center bg-slate-900 rounded-xl p-5 shadow-inner border border-slate-700 h-full">
                                 <div class="flex items-center gap-1.5 mb-2">
                                     <input type="number" id="input-mins" value="0" class="w-16 text-center text-5xl font-black font-mono bg-transparent border-none focus:outline-none text-white p-0 leading-none" min="0" placeholder="00">
@@ -448,7 +419,6 @@
                                 <div class="text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase bg-slate-800 px-3 py-1 rounded-full border border-slate-600 shadow-sm mt-1">Live Display Timer</div>
                             </div>
 
-                            <!-- Controls -->
                             <div class="lg:col-span-4 space-y-3 h-full flex flex-col justify-center">
                                 <button onclick="startTimer()" id="btn-timer-start" class="btn-pro btn-success w-full py-3.5 text-[15px]"><i class="fas fa-play"></i> Start Clock</button>
                                 <button onclick="stopTimer()" id="btn-timer-stop" class="btn-pro btn-danger w-full py-3.5 text-[15px]" disabled><i class="fas fa-pause"></i> Pause Clock</button>
@@ -521,8 +491,8 @@
                                 </div>
                             </div>
                             <div class="lg:col-span-12 flex gap-2 mt-2">
-                                <button onclick="triggerSub()" class="flex-1 btn-pro btn-success shadow-[0_2px_10px_rgba(16,185,129,0.3)] border-none text-sm"><i class="fas fa-play"></i> Tampilkan Grafis Substitusi</button>
-                                <button onclick="hideSub()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
+                                <button onclick="triggerOverlay('substitution')" class="flex-1 btn-pro btn-success shadow-[0_2px_10px_rgba(16,185,129,0.3)] border-none text-sm"><i class="fas fa-play"></i> Tampilkan Grafis Substitusi</button>
+                                <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus</button>
                             </div>
                         </div>
                     </div>
@@ -540,8 +510,8 @@
                                 <input type="text" id="banner-subtitle" placeholder="Ketik deskripsi..." class="input-pro">
                             </div>
                             <div class="lg:col-span-3 flex gap-2">
-                                <button onclick="triggerBanner()" class="flex-1 btn-pro btn-primary bg-purple-600 hover:bg-purple-700 shadow-[0_2px_8px_rgba(147,51,234,0.3)] border-none"><i class="fas fa-eye"></i> Show</button>
-                                <button onclick="hideBanner()" class="btn-pro btn-outline px-5 text-slate-400 hover:text-red-500 hover:bg-red-50" title="Hide"><i class="fas fa-eye-slash"></i></button>
+                                <button onclick="triggerOverlay('infoBanner')" class="flex-1 btn-pro btn-primary bg-purple-600 hover:bg-purple-700 shadow-[0_2px_8px_rgba(147,51,234,0.3)] border-none"><i class="fas fa-eye"></i> Show</button>
+                                <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-5 text-slate-400 hover:text-red-500 hover:bg-red-50" title="Hide"><i class="fas fa-eye-slash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -583,8 +553,8 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-2 pt-2">
-                                    <button onclick="triggerLineup()" class="btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_10px_rgba(79,70,229,0.3)] border-none text-sm w-full py-2.5"><i class="fas fa-eye mr-1"></i> Tampilkan Grafis Lineup</button>
-                                    <button onclick="hideLineup()" class="btn-pro btn-outline text-slate-500 hover:text-red-600 hover:bg-red-50 w-full py-2" title="Sembunyikan"><i class="fas fa-eye-slash mr-1"></i> Hapus Lineup</button>
+                                    <button onclick="triggerOverlay('lineup')" class="btn-pro btn-primary bg-indigo-600 hover:bg-indigo-700 shadow-[0_2px_10px_rgba(79,70,229,0.3)] border-none text-sm w-full py-2.5"><i class="fas fa-eye mr-1"></i> Tampilkan Grafis Lineup</button>
+                                    <button onclick="triggerOverlay('none')" class="btn-pro btn-outline text-slate-500 hover:text-red-600 hover:bg-red-50 w-full py-2" title="Sembunyikan"><i class="fas fa-eye-slash mr-1"></i> Hapus Lineup</button>
                                 </div>
                                 <div class="bg-blue-50 text-blue-800 text-[10px] p-2 rounded-md border border-blue-100 mt-2 leading-snug">
                                     <i class="fas fa-info-circle mr-1"></i> <b>Format: "[Nomor] [Spasi] [Nama]"</b>. Baris pertama selalu jadi Kiper di lapangan, pemain lainnya mengikuti urutan baris formasi dari bawah ke atas.
@@ -625,23 +595,20 @@
                             <div class="lg:col-span-4"><input type="number" id="stat-corn-h" class="input-pro text-center" value="0"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Corner Kicks</div>
                             <div class="lg:col-span-4"><input type="number" id="stat-corn-a" class="input-pro text-center" value="0"></div>
-                            
+
                             <div class="lg:col-span-4"><input type="number" id="stat-offs-h" class="input-pro text-center" value="0"></div>
                             <div class="lg:col-span-4 text-center text-xs font-bold text-slate-700 bg-white border border-slate-200 py-1 rounded-full shadow-sm">Offsides</div>
                             <div class="lg:col-span-4"><input type="number" id="stat-offs-a" class="input-pro text-center" value="0"></div>
                         </div>
                         <div class="flex gap-3">
-                            <button onclick="triggerStats()" class="flex-1 btn-pro btn-primary bg-sky-600 hover:bg-sky-700 shadow-[0_4px_12px_rgba(2,132,199,0.3)] border-none py-3 text-sm"><i class="fas fa-chart-bar mr-2"></i> Munculkan Graphic Statistik</button>
-                            <button onclick="hideStats()" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus Graphic</button>
+                            <button onclick="triggerOverlay('matchStats')" class="flex-1 btn-pro btn-primary bg-sky-600 hover:bg-sky-700 shadow-[0_4px_12px_rgba(2,132,199,0.3)] border-none py-3 text-sm"><i class="fas fa-chart-bar mr-2"></i> Munculkan Graphic Statistik</button>
+                            <button onclick="triggerOverlay('none')" class="btn-pro btn-outline px-8 text-slate-500 hover:text-red-500 hover:bg-red-50" title="Sembunyikan"><i class="fas fa-eye-slash"></i> Hapus Graphic</button>
                         </div>
                     </div>
 
-                    <!-- NEW SECTION 11: PENALTY SHOOTOUT -->
+                    <!-- SECTION 11: PENALTY SHOOTOUT -->
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-dot-circle text-orange-500 mr-2.5 text-lg"></i> 11. Adu Penalti (Penalty Shootout)</div>
-                        <div class="bg-orange-50 text-orange-800 text-xs p-3 rounded-lg border border-orange-200 mb-5 leading-snug">
-                            <i class="fas fa-info-circle mr-1"></i> Catatan: Skor Adu Penalti sekarang <b>terpisah</b> dari Skor Waktu Normal. Angka skor penalti akan otomatis muncul di sebelah nama tim di papan skor.
-                        </div>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             
                             <!-- Home Penalty -->
@@ -708,14 +675,14 @@
             <div id="preview-scale-wrapper">
                 
                 <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
-                <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30">
-                    <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex items-start gap-3">
-                        
+                <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30 overlay-layer anim-type-slide overlay-hidden-top scoreboard-main-wrapper">
+                    
+                    <div class="flex items-center justify-start gap-4 relative">
                         <!-- LEAGUE LOGO TOP -->
-                        <img id="logo-img-top" class="h-16 w-auto max-w-[80px] object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] hidden transition-all" src="" />
+                        <img id="logo-img-top" class="h-16 w-auto max-w-[80px] object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] hidden transition-all" src="" />
                         
                         <div class="flex flex-col items-start justify-start relative">
-                            <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl z-20">
+                            <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative z-20">
                                 <!-- Home Team -->
                                 <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
                                     <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
@@ -737,16 +704,16 @@
                             </div>
 
                             <!-- PENALTY SHOOTOUT BAR TOP -->
-                            <div id="top-penalties-wrapper" class="w-full flex justify-between mt-1 px-2 hidden pointer-events-auto z-10">
-                                <div id="penalties-home-top" class="flex gap-1.5 items-center bg-black/40 px-3 py-1.5 rounded-b shadow-lg border border-white/10 border-t-0"></div>
-                                <div class="flex-1 flex items-start justify-center">
-                                    <div class="bg-amber-400 text-slate-900 font-black px-3 py-0.5 rounded-b text-sm flex items-center gap-2 shadow-lg -mt-1 border border-amber-500 border-t-0">
+                            <div id="top-penalties-wrapper" class="w-full flex justify-center hidden pointer-events-auto z-10 relative">
+                                <div class="absolute left-2 flex gap-1.5 items-center px-3 py-1.5 bg-black/60 rounded-b shadow-md border border-white/10 border-t-0" id="penalties-home-top"></div>
+                                <div class="flex items-start justify-center">
+                                    <div class="bg-amber-400 text-slate-900 font-black px-3 py-0.5 rounded-b text-sm flex items-center gap-2 shadow-lg -mt-[2px] border-x border-b border-amber-500">
                                         <span class="pen-score-home-val text-base">0</span>
                                         <span class="text-[10px] uppercase tracking-widest opacity-80">PEN</span>
                                         <span class="pen-score-away-val text-base">0</span>
                                     </div>
                                 </div>
-                                <div id="penalties-away-top" class="flex gap-1.5 items-center bg-black/40 px-3 py-1.5 rounded-b shadow-lg border border-white/10 border-t-0"></div>
+                                <div class="absolute right-2 flex gap-1.5 items-center px-3 py-1.5 bg-black/60 rounded-b shadow-md border border-white/10 border-t-0" id="penalties-away-top"></div>
                             </div>
 
                             <!-- Additional Time / Stoppage Time Badge -->
@@ -761,7 +728,7 @@
                                 </div>
                             </div>
 
-                            <!-- Cards & Fouls Bar (Below Top Scoreboard) -->
+                            <!-- Cards & Fouls Bar -->
                             <div class="w-full flex justify-between items-center px-2 mt-1 pointer-events-auto">
                                 <div id="top-stats-home" class="flex gap-1 items-center"></div>
                                 <div id="top-stats-away" class="flex gap-1 items-center"></div>
@@ -771,14 +738,14 @@
                 </div>
 
                 <!-- BOTTOM SCOREBOARD -->
-                <div id="overlay-container-bottom" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-40">
-                    <div id="scoreboard-bottom-wrapper" class="scoreboard-hidden-bottom anim-type-slide w-[90%] max-w-6xl flex flex-col items-center justify-center">
-                        
+                <div id="overlay-container-bottom" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-40 overlay-layer anim-type-slide overlay-hidden-bottom scoreboard-main-wrapper">
+                    
+                    <div class="w-[90%] max-w-6xl flex flex-col items-center justify-center relative">
                         <!-- LEAGUE LOGO BOTTOM -->
-                        <img id="logo-img-bottom" class="h-28 w-auto max-w-[120px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] hidden transition-all mb-2 z-30" src="" />
+                        <img id="logo-img-bottom" class="h-[120px] w-auto max-w-[120px] object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] hidden transition-all z-30 mb-2" src="" />
                         
                         <!-- Main Bottom Scorebar -->
-                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative shadow-2xl z-20">
+                        <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative z-20">
                             <!-- Home Team Long -->
                             <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden">
                                 <span class="team-name-home-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right truncate">Home Team FC</span>
@@ -800,16 +767,16 @@
                         </div>
 
                         <!-- PENALTY SHOOTOUT BAR BOTTOM -->
-                        <div id="btm-penalties-wrapper" class="w-full flex justify-between px-8 hidden pointer-events-auto z-10 -mt-1">
-                            <div id="penalties-home-btm" class="flex gap-2 items-center bg-black/60 px-5 py-2.5 rounded-b-lg shadow-xl border border-white/10 border-t-0"></div>
+                        <div id="btm-penalties-wrapper" class="w-full flex justify-center hidden pointer-events-auto z-10 relative">
+                            <div class="absolute left-8 flex gap-2 items-center px-5 py-2.5 bg-black/60 rounded-b-lg shadow-xl border border-white/10 border-t-0" id="penalties-home-btm"></div>
                             <div class="min-w-[220px] flex items-start justify-center">
-                                <div class="bg-amber-400 text-slate-900 font-black px-4 py-1 rounded-b-lg text-lg flex items-center gap-3 shadow-xl border border-amber-500 border-t-0">
+                                <div class="bg-amber-400 text-slate-900 font-black px-4 py-1 rounded-b-lg text-lg flex items-center gap-3 shadow-xl border-x border-b border-amber-500 -mt-[2px]">
                                     <span class="pen-score-home-val text-2xl">0</span>
                                     <span class="text-xs uppercase tracking-[0.2em] opacity-80">PEN</span>
                                     <span class="pen-score-away-val text-2xl">0</span>
                                 </div>
                             </div>
-                            <div id="penalties-away-btm" class="flex gap-2 items-center bg-black/60 px-5 py-2.5 rounded-b-lg shadow-xl border border-white/10 border-t-0"></div>
+                            <div class="absolute right-8 flex gap-2 items-center px-5 py-2.5 bg-black/60 rounded-b-lg shadow-xl border border-white/10 border-t-0" id="penalties-away-btm"></div>
                         </div>
 
                         <!-- Additional Time / Stoppage Time Badge -->
@@ -833,11 +800,11 @@
                         <!-- Bottom Multiline Scorers List -->
                         <div id="btm-scorers-panel" class="scorer-dropdown w-full flex justify-between pointer-events-auto mt-2">
                             <div class="flex-1 flex justify-end pr-2">
-                                <div id="btm-scorers-home" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-l-4 border-blue-500 rounded-bl-lg shadow-xl whitespace-pre-line text-right empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-home" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-l-4 theme-border-accent rounded-bl-lg shadow-xl whitespace-pre-line text-right empty:hidden leading-snug"></div>
                             </div>
                             <div class="min-w-[220px]"></div> 
                             <div class="flex-1 flex justify-start pl-2">
-                                <div id="btm-scorers-away" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-r-4 border-red-500 rounded-br-lg shadow-xl whitespace-pre-line text-left empty:hidden leading-snug"></div>
+                                <div id="btm-scorers-away" class="custom-colored-text text-base bg-black/40 backdrop-blur px-5 py-2.5 border-r-4 theme-border-accent rounded-br-lg shadow-xl whitespace-pre-line text-left empty:hidden leading-snug"></div>
                             </div>
                         </div>
                         
@@ -855,33 +822,33 @@
                 </div>
 
                 <!-- SINGLE GOAL EVENT (BOTTOM LEFT) -->
-                <div id="single-goal-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start slide-in-left z-50">
-                    <div class="scoreboard-main shadow-2xl flex items-center overflow-hidden border border-white/20">
+                <div id="single-goal-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start z-50 overlay-layer anim-type-slide overlay-hidden-left">
+                    <div class="theme-panel shadow-2xl flex items-center overflow-hidden">
                         <div class="score-panel panel-text px-5 py-2.5 font-extrabold text-2xl flex items-center gap-3">
-                            <i class="fas fa-futbol"></i> GOAL
+                            <i class="fas fa-futbol theme-text-accent"></i> GOAL
                         </div>
-                        <div class="px-6 py-2.5 flex items-center gap-4 bg-black/40 backdrop-blur-md">
+                        <div class="px-6 py-2.5 flex items-center gap-4 bg-black/40 backdrop-blur-sm">
                             <span id="single-goal-name" class="custom-colored-text text-2xl font-bold uppercase tracking-wide">PLAYER</span>
-                            <span id="single-goal-time" class="text-2xl font-black text-amber-400">45'</span>
+                            <span id="single-goal-time" class="text-2xl font-black theme-text-accent">45'</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- SUBSTITUTION OVERLAY (BOTTOM LEFT) -->
-                <div id="substitution-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start slide-in-left z-50">
-                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[400px] border border-white/20">
+                <div id="substitution-overlay" class="absolute bottom-16 left-16 w-auto flex flex-col items-start z-50 overlay-layer anim-type-slide overlay-hidden-left">
+                    <div class="theme-panel shadow-2xl flex flex-col overflow-hidden min-w-[400px]">
                         <!-- Header -->
                         <div class="score-panel panel-text py-2 px-5 font-extrabold text-xl uppercase tracking-widest flex items-center gap-3">
-                            <i class="fas fa-exchange-alt"></i> <span id="sub-team-name">TEAM NAME</span>
+                            <i class="fas fa-exchange-alt theme-text-accent"></i> <span id="sub-team-name">TEAM NAME</span>
                         </div>
                         <!-- Out Player -->
-                        <div class="flex items-stretch bg-black/50 backdrop-blur border-b border-white/10">
+                        <div class="flex items-stretch bg-black/40 backdrop-blur-sm border-b border-white/10">
                             <div class="w-14 bg-red-600 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-down"></i></div>
                             <div class="w-16 flex items-center justify-center font-bold text-3xl text-red-400 border-r border-white/10" id="sub-out-num-display">10</div>
                             <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-out-name-display">PLAYER OUT</div>
                         </div>
                         <!-- In Player -->
-                        <div class="flex items-stretch bg-black/50 backdrop-blur">
+                        <div class="flex items-stretch bg-black/40 backdrop-blur-sm">
                             <div class="w-14 bg-emerald-500 flex items-center justify-center font-bold text-2xl text-white shadow-inner"><i class="fas fa-caret-up"></i></div>
                             <div class="w-16 flex items-center justify-center font-bold text-3xl text-emerald-400 border-r border-white/10" id="sub-in-num-display">11</div>
                             <div class="flex-1 px-5 py-3 flex items-center font-bold text-2xl text-white custom-colored-text uppercase truncate" id="sub-in-name-display">PLAYER IN</div>
@@ -890,66 +857,71 @@
                 </div>
 
                 <!-- INFO BANNER OVERLAY (BOTTOM RIGHT) -->
-                <div id="info-banner-overlay" class="absolute bottom-16 right-16 w-auto flex flex-col items-end slide-in-right z-50">
-                    <div class="scoreboard-main shadow-2xl flex flex-col overflow-hidden min-w-[350px] max-w-[600px] text-right border border-white/20">
+                <div id="info-banner-overlay" class="absolute bottom-16 right-16 w-auto flex flex-col items-end z-50 overlay-layer anim-type-slide overlay-hidden-right">
+                    <div class="theme-panel shadow-2xl flex flex-col overflow-hidden min-w-[350px] max-w-[600px] text-right">
                         <div class="score-panel panel-text py-2 px-6 font-black text-xl uppercase tracking-widest" id="banner-title-display">
                             TITLE
                         </div>
-                        <div class="bg-black/50 backdrop-blur-md py-4 px-6 font-bold text-3xl custom-colored-text uppercase truncate shadow-inner" id="banner-subtitle-display">
+                        <div class="bg-black/40 backdrop-blur-sm py-4 px-6 font-bold text-3xl custom-colored-text uppercase truncate shadow-inner" id="banner-subtitle-display">
                             SUBTITLE
                         </div>
                     </div>
                 </div>
 
                 <!-- LINEUP & FORMATION OVERLAY (FULLSCREEN CENTER) -->
-                <div id="lineup-overlay" class="absolute inset-0 m-auto w-[850px] h-[550px] fade-scale z-50 flex">
-                    <div class="scoreboard-main shadow-2xl flex flex-col w-full h-full rounded-2xl overflow-hidden border border-white/20">
+                <div id="lineup-overlay" class="absolute inset-0 m-auto w-[1000px] h-[650px] z-50 flex overlay-layer anim-type-scale overlay-hidden-top">
+                    <div class="theme-panel shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col w-full h-full rounded-2xl overflow-hidden relative">
+                        <!-- Top Accent Line -->
+                        <div class="h-1.5 w-full theme-bg-accent absolute top-0 left-0 z-20"></div>
+                        
                         <!-- Lineup Header -->
-                        <div class="score-panel panel-text py-3 px-8 flex justify-between items-center z-10 shadow-lg relative">
+                        <div class="score-panel panel-text py-4 px-8 flex justify-between items-center z-10 shadow-lg relative border-b border-white/10">
+                            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 translate-x-[-150%] animate-[shine_3s_infinite]"></div>
+                            
                             <div class="relative z-10">
-                                <div class="font-extrabold text-[10px] tracking-[0.2em] uppercase mb-0.5"><i class="fas fa-users mr-1"></i> Starting Lineup</div>
-                                <div id="lineup-team-name" class="text-4xl font-black uppercase drop-shadow-md text-white">TEAM NAME</div>
+                                <div class="theme-text-accent font-extrabold text-[10px] tracking-[0.2em] uppercase mb-0.5"><i class="fas fa-users mr-1"></i> Starting Lineup</div>
+                                <div id="lineup-team-name" class="text-5xl font-black uppercase drop-shadow-md">TEAM NAME</div>
                             </div>
                             <div class="text-right relative z-10">
-                                <div class="font-bold text-[10px] tracking-widest uppercase opacity-80 mb-1 text-white">Formation</div>
-                                <div id="lineup-formation-display" class="text-white text-3xl font-black bg-black/30 px-4 py-1 rounded-lg border border-white/20 tracking-widest">4-3-3</div>
+                                <div class="font-bold text-[10px] tracking-widest uppercase opacity-80 mb-1 panel-text">Formation</div>
+                                <div id="lineup-formation-display" class="panel-text text-3xl font-black bg-black/40 px-4 py-1 rounded-lg border border-white/10 shadow-inner tracking-widest">4-3-3</div>
                             </div>
                         </div>
                         
                         <!-- Lineup Content -->
-                        <div class="flex-1 flex bg-black/40 backdrop-blur-sm relative overflow-hidden">
+                        <div class="flex-1 flex bg-black/40 backdrop-blur-md relative overflow-hidden">
                             <!-- Graphical Pitch Area -->
-                            <div class="flex-1 relative flex flex-col justify-between py-6 px-2 border-r border-white/10">
+                            <div class="flex-1 pitch-bg relative flex flex-col justify-between py-8 px-4 border-r border-white/10">
                                 <!-- Abstract Pitch Lines -->
                                 <div class="absolute inset-0 pointer-events-none flex flex-col items-center justify-center opacity-20">
-                                    <div class="w-[60%] h-24 border-2 border-white border-t-0 absolute top-0 rounded-b-md"></div>
-                                    <div class="w-[30%] h-8 border-2 border-white border-t-0 absolute top-0"></div>
-                                    <div class="w-full h-0 border-b-2 border-white absolute top-1/2"></div>
-                                    <div class="w-32 h-32 border-2 border-white rounded-full absolute top-1/2 -translate-y-1/2"></div>
+                                    <div class="w-[60%] h-32 border-2 border-white border-t-0 absolute top-0 rounded-b-md"></div>
+                                    <div class="w-[30%] h-12 border-2 border-white border-t-0 absolute top-0"></div>
+                                    <div class="w-full h-0 pitch-line-bottom absolute top-1/2"></div>
+                                    <div class="w-40 h-40 pitch-circle absolute top-1/2 -translate-y-1/2"></div>
                                     <div class="w-2 h-2 bg-white rounded-full absolute top-1/2 -translate-y-1/2"></div>
-                                    <div class="w-[60%] h-24 border-2 border-white border-b-0 absolute bottom-0 rounded-t-md"></div>
-                                    <div class="w-[30%] h-8 border-2 border-white border-b-0 absolute bottom-0"></div>
+                                    <div class="w-[60%] h-32 border-2 border-white border-b-0 absolute bottom-0 rounded-t-md"></div>
+                                    <div class="w-[30%] h-12 border-2 border-white border-b-0 absolute bottom-0"></div>
                                 </div>
                                 
                                 <!-- Dynamic Pitch Players Container (Flex Col Reverse to put Goalkeeper at Bottom) -->
-                                <div id="lineup-pitch-container" class="absolute inset-0 z-10 flex flex-col-reverse justify-evenly py-6 px-4 gap-1">
+                                <div id="lineup-pitch-container" class="absolute inset-0 z-10 flex flex-col-reverse justify-evenly py-8 px-6 gap-2">
                                     <!-- Player rows generated by JS -->
                                 </div>
                             </div>
                             
                             <!-- Substitutes & Coach Panel -->
-                            <div class="w-[300px] bg-black/40 p-6 flex flex-col z-20">
-                                <div class="text-white font-extrabold text-sm tracking-[0.2em] uppercase mb-4 border-b border-white/20 pb-2"><i class="fas fa-chair mr-2"></i> Substitutes</div>
+                            <div class="w-[320px] bg-black/30 p-8 flex flex-col z-20 shadow-[-10px_0_20px_rgba(0,0,0,0.5)]">
+                                <div class="theme-text-accent font-extrabold text-sm tracking-[0.2em] uppercase mb-6 border-b border-white/10 pb-2"><i class="fas fa-chair mr-2"></i> Substitutes</div>
                                 
                                 <!-- Subs List -->
-                                <div id="lineup-subs-container" class="flex-1 flex flex-col gap-2 overflow-hidden custom-colored-text font-bold text-lg mb-4 pr-2">
+                                <div id="lineup-subs-container" class="flex-1 flex flex-col gap-3 overflow-hidden custom-colored-text font-bold text-xl mb-4 pr-2">
                                     <!-- Subs injected by JS -->
                                 </div>
                                 
                                 <!-- Manager/Coach Info -->
-                                <div class="mt-auto pt-4 border-t border-white/20 bg-black/30 -mx-6 px-6 pb-2">
-                                    <div class="text-white font-bold text-[10px] tracking-widest uppercase mb-1 opacity-80">Head Coach / Manager</div>
-                                    <div id="lineup-manager-name" class="custom-colored-text font-black text-2xl uppercase truncate drop-shadow-md">Coach Name</div>
+                                <div class="mt-auto pt-5 border-t border-white/10 bg-black/40 -mx-8 px-8 pb-3">
+                                    <div class="panel-text font-bold text-[10px] tracking-widest uppercase mb-1 opacity-80">Head Coach / Manager</div>
+                                    <div id="lineup-manager-name" class="custom-colored-text font-black text-3xl uppercase truncate drop-shadow-md">Coach Name</div>
                                 </div>
                             </div>
                         </div>
@@ -957,36 +929,48 @@
                 </div>
 
                 <!-- MATCH STATS OVERLAY (COMPACT FULLSCREEN CENTER) -->
-                <div id="stats-overlay" class="absolute inset-0 m-auto w-[800px] h-fit fade-scale z-50 flex flex-col">
-                    <div class="scoreboard-main shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-xl overflow-hidden flex flex-col w-full border border-white/20 relative">
+                <div id="stats-overlay" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] z-50 flex flex-col overlay-layer anim-type-scale overlay-hidden-bottom">
+                    <div class="theme-panel shadow-[0_30px_70px_rgba(0,0,0,0.9)] flex flex-col w-full rounded-2xl overflow-hidden relative">
                         
-                        <!-- Header -->
-                        <div class="score-panel panel-text py-3 px-6 text-center shadow-lg relative z-10 border-b border-white/10">
-                            <span class="font-black text-2xl tracking-[0.2em] uppercase drop-shadow-md"><i class="fas fa-chart-line mr-3 opacity-80"></i>Match Statistics</span>
+                        <div class="h-1.5 w-full theme-bg-accent absolute top-0 left-0 z-20"></div>
+                        
+                        <div class="score-panel panel-text py-4 px-8 text-center shadow-lg relative z-10 border-b border-white/10">
+                            <span class="font-black text-3xl tracking-[0.25em] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"><i class="fas fa-chart-line theme-text-accent mr-3"></i>Match Statistics</span>
                         </div>
                         
-                        <!-- Content -->
-                        <div class="bg-black/50 backdrop-blur-md p-8 relative z-10">
-                            <!-- Teams Header inside Stats -->
-                            <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/20">
+                        <div class="bg-black/40 backdrop-blur-xl p-8 relative z-10">
+                            <div class="flex justify-between items-center mb-8 pb-4 border-b border-white/10 relative">
                                 <div class="flex-1 text-left">
-                                    <div class="text-[10px] text-blue-300 font-bold uppercase tracking-widest mb-1">Home Team</div>
+                                    <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">Home Team</div>
                                     <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-home-name">HOME</div>
                                 </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="text-5xl font-black text-white bg-black/60 px-6 py-1.5 rounded-lg border border-white/10 shadow-inner" id="stats-home-score">0</div>
-                                    <div class="text-white opacity-60 font-black text-xl">VS</div>
-                                    <div class="text-5xl font-black text-white bg-black/60 px-6 py-1.5 rounded-lg border border-white/10 shadow-inner" id="stats-away-score">0</div>
+                                
+                                <!-- Match Score Center Display inside Stats -->
+                                <div class="flex flex-col items-center justify-center gap-1">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-5xl font-black panel-text bg-black/60 px-5 py-2 rounded-lg border border-white/10 shadow-inner min-w-[70px] text-center" id="stats-home-score">0</div>
+                                        <div class="panel-text opacity-50 font-black text-2xl">VS</div>
+                                        <div class="text-5xl font-black panel-text bg-black/60 px-5 py-2 rounded-lg border border-white/10 shadow-inner min-w-[70px] text-center" id="stats-away-score">0</div>
+                                    </div>
+                                    <!-- Penalty Score distinct badge -->
+                                    <div id="stats-penalty-wrapper" class="hidden mt-1">
+                                        <div class="bg-amber-400 text-slate-900 font-black px-3 py-0.5 rounded text-sm flex items-center gap-2 shadow-lg border border-amber-500">
+                                            <span id="stats-home-pen">0</span>
+                                            <span class="text-[10px] uppercase tracking-widest opacity-80">PEN</span>
+                                            <span id="stats-away-pen">0</span>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="flex-1 text-right">
-                                    <div class="text-[10px] text-red-300 font-bold uppercase tracking-widest mb-1">Away Team</div>
+                                    <div class="text-[10px] text-red-400 font-bold uppercase tracking-widest mb-1">Away Team</div>
                                     <div class="text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-away-name">AWAY</div>
                                 </div>
                             </div>
                             
                             <!-- Dynamic Stats Rows -->
-                            <div id="stats-rows-container" class="space-y-4">
-                                <!-- JS Injected Rows (Center-Out Bars) -->
+                            <div id="stats-rows-container" class="space-y-6">
+                                <!-- JS Injected Rows -->
                             </div>
                         </div>
                     </div>
@@ -1004,6 +988,7 @@
             fullTeamNames: { home: 'Home Team FC', away: 'Away Team FC' },
             stats: { home: { fouls: 0, yellow: 0, red: 0 }, away: { fouls: 0, yellow: 0, red: 0 } },
             activeView: 'none',
+            activeOverlay: 'none', // NEW: controls mutually exclusive overlays (lineup, stats, sub, banner, topScorer)
             theme: 'epl',
             font: 'font-teko',
             customColor: '#ffffff',
@@ -1019,14 +1004,13 @@
                 direction: 'up', 
                 stoppage: '' 
             },
-            topScorer: { name: '', min: '', visible: false },
+            topScorer: { name: '', min: '' },
             bottomScorers: { home: '', away: '', visible: false },
             goalEvent: { active: false, team: null, timestamp: 0 },
-            substitution: { active: false, team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
-            infoBanner: { active: false, title: '', subtitle: '' },
-            lineup: { active: false, team: 'home', formation: '4-3-3', players: '', subs: '', coach: '' },
+            substitution: { team: 'home', inName: '', inNumber: '', outName: '', outNumber: '' },
+            infoBanner: { title: '', subtitle: '' },
+            lineup: { team: 'home', formation: '4-3-3', players: '', subs: '', coach: '' },
             matchStats: { 
-                active: false, 
                 possH: 50, possA: 50, 
                 shotsH: 0, shotsA: 0, 
                 sotH: 0, sotA: 0, 
@@ -1041,7 +1025,7 @@
         let mqttClient = null;
         let isMQTTActive = false;
         let bc = null;
-        let isFirstSync = true; 
+        let initialLoadTime = Date.now();
 
         function inIframe() {
             try { return window.self !== window.top; } catch (e) { return true; }
@@ -1153,11 +1137,7 @@
         };
 
         function applyRemoteState(newState) {
-            let oldGoalTimestamp = 0;
-            if (window.appState.goalEvent && window.appState.goalEvent.timestamp) {
-                oldGoalTimestamp = window.appState.goalEvent.timestamp;
-            }
-
+            const oldGoalTimestamp = (window.appState.goalEvent && window.appState.goalEvent.timestamp) ? window.appState.goalEvent.timestamp : 0;
             window.appState = { ...newState };
 
             if (!document.body.classList.contains('mode-overlay')) {
@@ -1247,13 +1227,9 @@
             renderDOM();
             updateTimerRunningState();
 
-            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && oldGoalTimestamp !== 0) {
-                if (!isFirstSync) {
-                    triggerGoalEffects(newState.goalEvent.team);
-                }
+            if (newState.goalEvent && newState.goalEvent.timestamp > oldGoalTimestamp && newState.goalEvent.timestamp > initialLoadTime) {
+                triggerGoalEffects(newState.goalEvent.team);
             }
-            
-            if (isFirstSync) isFirstSync = false;
         }
 
         window.generateOBSLink = function() {
@@ -1284,16 +1260,25 @@
             if (mode === 'mobile') document.body.classList.add('mode-mobile');
         }
 
-        function clearAllOverlays() {
-            window.appState.lineup.active = false;
-            window.appState.matchStats.active = false;
-            window.appState.substitution.active = false;
-            window.appState.infoBanner.active = false;
-            window.appState.topScorer.visible = false;
-        }
+        /* NEW: Centralized Overlay Trigger to enforce Mutually Exclusive viewing */
+        window.triggerOverlay = function(overlayName) {
+            window.appState.activeOverlay = overlayName;
+            renderDOM();
+            syncState();
+            
+            if (overlayName === 'topScorer') {
+                setTimeout(() => {
+                    if (window.appState.activeOverlay === 'topScorer') {
+                        window.appState.activeOverlay = 'none';
+                        renderDOM(); syncState();
+                    }
+                }, 8000);
+            }
+        };
 
         function toggleView(view) {
             window.appState.activeView = (window.appState.activeView === view) ? 'none' : view;
+            window.appState.activeOverlay = 'none'; // Clear any active overlay when toggling scoreboard
             
             const btnTop = document.getElementById('btn-show-top');
             const btnBtm = document.getElementById('btn-show-bottom');
@@ -1315,11 +1300,11 @@
             const sizeClass = isBottom ? 'w-4 h-4' : 'w-3 h-3';
             for(let i=0; i<total; i++) {
                 if (teamArray[i] === 'scored') {
-                    html += `<div class="${sizeClass} rounded-full bg-emerald-500 border border-white shadow-[0_0_5px_rgba(16,185,129,0.8)] flex-shrink-0"></div>`;
+                    html += `<div class="${sizeClass} rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.8)] flex-shrink-0"></div>`;
                 } else if (teamArray[i] === 'missed') {
-                    html += `<div class="${sizeClass} rounded-full bg-red-600 border border-white shadow-[0_0_5px_rgba(239,68,68,0.8)] flex-shrink-0"></div>`;
+                    html += `<div class="${sizeClass} rounded-full bg-red-600 shadow-[0_0_5px_rgba(239,68,68,0.8)] flex-shrink-0"></div>`;
                 } else {
-                    html += `<div class="${sizeClass} rounded-full bg-slate-900/60 border border-slate-500 shadow-inner flex-shrink-0"></div>`;
+                    html += `<div class="${sizeClass} rounded-full bg-slate-900/60 shadow-inner flex-shrink-0"></div>`;
                 }
             }
             return html;
@@ -1327,50 +1312,76 @@
 
         function renderDOM() {
             const state = window.appState;
-            const wrapperTop = document.getElementById('scoreboard-top-wrapper');
-            const wrapperBtm = document.getElementById('scoreboard-bottom-wrapper');
+            const wrapperTop = document.getElementById('overlay-container-top');
+            const wrapperBtm = document.getElementById('overlay-container-bottom');
 
             document.getElementById('app-body').setAttribute('data-theme', state.theme);
             document.documentElement.style.setProperty('--custom-text-color', state.customColor || '#ffffff');
             
-            document.querySelectorAll('.scoreboard-main, .scorer-dropdown').forEach(el => {
+            document.querySelectorAll('.scoreboard-main, .scorer-dropdown, .theme-panel, .goal-text-overlay').forEach(el => {
                 el.className = el.className.replace(/font-\w+/g, ''); 
                 el.classList.add(state.font);
             });
 
+            // Set Animation Type
             const animTypeClass = `anim-type-${state.animation || 'slide'}`;
-            wrapperTop.className = wrapperTop.className.replace(/anim-type-\w+/g, '');
-            wrapperTop.classList.add(animTypeClass);
-            wrapperBtm.className = wrapperBtm.className.replace(/anim-type-\w+/g, '');
-            wrapperBtm.classList.add(animTypeClass);
+            document.querySelectorAll('.overlay-layer').forEach(el => {
+                el.className = el.className.replace(/anim-type-\w+/g, '');
+                el.classList.add(animTypeClass);
+            });
 
-            const anyOverlayActive = state.lineup.active || state.matchStats.active || state.substitution.active || state.infoBanner.active || state.topScorer.visible;
-
-            if (anyOverlayActive) {
-                wrapperTop.classList.remove('scoreboard-visible');
-                wrapperTop.classList.add('scoreboard-hidden-top');
-                wrapperBtm.classList.remove('scoreboard-visible');
-                wrapperBtm.classList.add('scoreboard-hidden-bottom');
+            // --- VISIBILITY LOGIC (MUTUAL EXCLUSIVITY) ---
+            const overlayIsActive = state.activeOverlay !== 'none';
+            
+            // 1. Hide/Show Main Scoreboards
+            if (overlayIsActive) {
+                wrapperTop.classList.remove('overlay-visible');
+                wrapperTop.classList.add('overlay-hidden-top');
+                wrapperBtm.classList.remove('overlay-visible');
+                wrapperBtm.classList.add('overlay-hidden-bottom');
             } else {
                 if (state.activeView === 'top') {
-                    wrapperBtm.classList.remove('scoreboard-visible');
-                    wrapperBtm.classList.add('scoreboard-hidden-bottom');
+                    wrapperBtm.classList.remove('overlay-visible');
+                    wrapperBtm.classList.add('overlay-hidden-bottom');
                     setTimeout(() => {
-                        wrapperTop.classList.remove('scoreboard-hidden-top');
-                        wrapperTop.classList.add('scoreboard-visible');
+                        wrapperTop.classList.remove('overlay-hidden-top');
+                        wrapperTop.classList.add('overlay-visible');
                     }, 50);
                 } else if (state.activeView === 'bottom') {
-                    wrapperTop.classList.remove('scoreboard-visible');
-                    wrapperTop.classList.add('scoreboard-hidden-top');
+                    wrapperTop.classList.remove('overlay-visible');
+                    wrapperTop.classList.add('overlay-hidden-top');
                     setTimeout(() => {
-                        wrapperBtm.classList.remove('scoreboard-hidden-bottom');
-                        wrapperBtm.classList.add('scoreboard-visible');
+                        wrapperBtm.classList.remove('overlay-hidden-bottom');
+                        wrapperBtm.classList.add('overlay-visible');
                     }, 50);
                 } else {
-                    wrapperTop.classList.remove('scoreboard-visible');
-                    wrapperTop.classList.add('scoreboard-hidden-top');
-                    wrapperBtm.classList.remove('scoreboard-visible');
-                    wrapperBtm.classList.add('scoreboard-hidden-bottom');
+                    wrapperTop.classList.remove('overlay-visible');
+                    wrapperTop.classList.add('overlay-hidden-top');
+                    wrapperBtm.classList.remove('overlay-visible');
+                    wrapperBtm.classList.add('overlay-hidden-bottom');
+                }
+            }
+
+            // 2. Hide/Show Specific Overlays based on state.activeOverlay
+            const overlayMap = {
+                'lineup': 'lineup-overlay',
+                'matchStats': 'stats-overlay',
+                'substitution': 'substitution-overlay',
+                'infoBanner': 'info-banner-overlay',
+                'topScorer': 'single-goal-overlay'
+            };
+
+            for (const [key, id] of Object.entries(overlayMap)) {
+                const el = document.getElementById(id);
+                if (state.activeOverlay === key) {
+                    el.classList.remove('overlay-hidden-top', 'overlay-hidden-bottom', 'overlay-hidden-left', 'overlay-hidden-right');
+                    el.classList.add('overlay-visible');
+                } else {
+                    el.classList.remove('overlay-visible');
+                    // Reset to default hidden state based on ID
+                    if (id === 'lineup-overlay' || id === 'stats-overlay') el.classList.add('overlay-hidden-top');
+                    else if (id === 'info-banner-overlay') el.classList.add('overlay-hidden-right');
+                    else el.classList.add('overlay-hidden-left'); // sub, single goal
                 }
             }
 
@@ -1390,9 +1401,13 @@
             // PENALTIES RENDER
             const penTopWrapper = document.getElementById('top-penalties-wrapper');
             const penBtmWrapper = document.getElementById('btm-penalties-wrapper');
+            const statsPenWrapper = document.getElementById('stats-penalty-wrapper');
+
             if (state.penalties && state.penalties.active) {
                 penTopWrapper.classList.remove('hidden');
                 penBtmWrapper.classList.remove('hidden');
+                if(statsPenWrapper) statsPenWrapper.classList.remove('hidden');
+
                 document.getElementById('penalties-home-top').innerHTML = renderPenaltyDots(state.penalties.home, false);
                 document.getElementById('penalties-away-top').innerHTML = renderPenaltyDots(state.penalties.away, false);
                 document.getElementById('penalties-home-btm').innerHTML = renderPenaltyDots(state.penalties.home, true);
@@ -1400,11 +1415,17 @@
 
                 const hPenScore = state.penalties.home.filter(r => r === 'scored').length;
                 const aPenScore = state.penalties.away.filter(r => r === 'scored').length;
+                
                 document.querySelectorAll('.pen-score-home-val').forEach(el => el.textContent = hPenScore);
                 document.querySelectorAll('.pen-score-away-val').forEach(el => el.textContent = aPenScore);
+                
+                if(document.getElementById('stats-home-pen')) document.getElementById('stats-home-pen').textContent = hPenScore;
+                if(document.getElementById('stats-away-pen')) document.getElementById('stats-away-pen').textContent = aPenScore;
+
             } else {
                 penTopWrapper.classList.add('hidden');
                 penBtmWrapper.classList.add('hidden');
+                if(statsPenWrapper) statsPenWrapper.classList.add('hidden');
             }
 
             if (!window.isHomeGoalAnimating) {
@@ -1461,13 +1482,9 @@
                 }
             });
 
+            /* Setup contents for specific overlays even if hidden */
             document.getElementById('single-goal-name').textContent = state.topScorer.name;
             document.getElementById('single-goal-time').textContent = state.topScorer.min;
-            if (state.topScorer.visible) {
-                document.getElementById('single-goal-overlay').classList.add('show');
-            } else {
-                document.getElementById('single-goal-overlay').classList.remove('show');
-            }
             
             const elScH = document.getElementById('btm-scorers-home');
             const elScA = document.getElementById('btm-scorers-away');
@@ -1477,7 +1494,7 @@
             const btmScorersPanel = document.getElementById('btm-scorers-panel');
             let hasHomeBtm = state.bottomScorers && state.bottomScorers.home && state.bottomScorers.home.trim() !== '';
             let hasAwayBtm = state.bottomScorers && state.bottomScorers.away && state.bottomScorers.away.trim() !== '';
-            if (state.activeView === 'bottom' && state.bottomScorers.visible && (hasHomeBtm || hasAwayBtm) && !anyOverlayActive) {
+            if (state.activeView === 'bottom' && state.bottomScorers.visible && (hasHomeBtm || hasAwayBtm) && !overlayIsActive) {
                 btmScorersPanel.classList.add('show');
             } else {
                 btmScorersPanel.classList.remove('show');
@@ -1500,9 +1517,7 @@
             document.getElementById('btm-stats-home').innerHTML = homeStatsHTML;
             document.getElementById('btm-stats-away').innerHTML = awayStatsHTML;
 
-            const subOverlay = document.getElementById('substitution-overlay');
-            if (state.substitution && state.substitution.active) {
-                subOverlay.classList.add('show');
+            if (state.substitution) {
                 let tName = '';
                 if(state.substitution.team === 'home') tName = (state.fullTeamNames && state.fullTeamNames.home) ? state.fullTeamNames.home : state.teamNames.home;
                 else tName = (state.fullTeamNames && state.fullTeamNames.away) ? state.fullTeamNames.away : state.teamNames.away;
@@ -1512,24 +1527,15 @@
                 document.getElementById('sub-out-name-display').textContent = state.substitution.outName;
                 document.getElementById('sub-in-num-display').textContent = state.substitution.inNumber;
                 document.getElementById('sub-in-name-display').textContent = state.substitution.inName;
-            } else {
-                subOverlay.classList.remove('show');
             }
 
-            const bannerOverlay = document.getElementById('info-banner-overlay');
-            if (state.infoBanner && state.infoBanner.active) {
-                bannerOverlay.classList.add('show');
+            if (state.infoBanner) {
                 document.getElementById('banner-title-display').textContent = state.infoBanner.title;
                 document.getElementById('banner-subtitle-display').textContent = state.infoBanner.subtitle;
-            } else {
-                bannerOverlay.classList.remove('show');
             }
 
-            const lineupOverlay = document.getElementById('lineup-overlay');
-            if (state.lineup && state.lineup.active) {
-                lineupOverlay.classList.add('show');
+            if (state.lineup) {
                 const t = state.lineup.team;
-                
                 let fullName = '';
                 if(state.fullTeamNames && state.fullTeamNames[t]) fullName = state.fullTeamNames[t];
                 else fullName = state.teamNames[t];
@@ -1540,65 +1546,60 @@
                 
                 const playersList = (state.lineup.players || '').split('\n').map(p => p.trim()).filter(p => p);
                 const pitchContainer = document.getElementById('lineup-pitch-container');
-                pitchContainer.innerHTML = '';
                 
-                const rows = [1];
-                if(state.lineup.formation) {
-                    const formParts = state.lineup.formation.split('-');
-                    formParts.forEach(numStr => rows.push(parseInt(numStr) || 0));
-                }
-                
-                let playerIndex = 0;
-                
-                rows.forEach(count => {
-                    const rowDiv = document.createElement('div');
-                    rowDiv.className = 'flex justify-around items-center w-full z-10';
+                if (state.activeOverlay === 'lineup') {
+                    pitchContainer.innerHTML = '';
+                    const rows = [1];
+                    if(state.lineup.formation) {
+                        const formParts = state.lineup.formation.split('-');
+                        formParts.forEach(numStr => rows.push(parseInt(numStr) || 0));
+                    }
                     
-                    for(let i = 0; i < count; i++) {
-                        const pText = playersList[playerIndex] || '';
-                        let num = '-', name = pText || 'Player';
+                    let playerIndex = 0;
+                    rows.forEach(count => {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = 'flex justify-around items-center w-full z-10';
+                        
+                        for(let i = 0; i < count; i++) {
+                            const pText = playersList[playerIndex] || '';
+                            let num = '-', name = pText || 'Player';
+                            const match = pText.match(/^(\d+)\s+(.+)$/);
+                            if(match) { num = match[1]; name = match[2]; }
+                            
+                            const pDiv = document.createElement('div');
+                            pDiv.className = 'flex flex-col items-center drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] w-28 transform transition-transform hover:scale-110';
+                            
+                            const colorClass = (playerIndex === 0 && count === 1) 
+                                ? 'bg-gradient-to-br from-amber-300 to-amber-600 text-slate-900 border-white' 
+                                : (t === 'home' ? 'bg-gradient-to-br from-blue-400 to-blue-700 text-white border-white' : 'bg-gradient-to-br from-red-400 to-red-700 text-white border-white');
+                            
+                            pDiv.innerHTML = `
+                                <div class="w-10 h-10 rounded-full ${colorClass} font-black text-xl flex items-center justify-center border-[3px] shadow-[0_0_15px_rgba(0,0,0,0.5)] mb-1.5 leading-none z-20 relative">${num}</div>
+                                <div class="bg-slate-900/95 border border-slate-700 text-white text-[13px] font-bold px-3 py-1.5 rounded w-full text-center truncate shadow-lg uppercase relative z-10 custom-colored-text">${name}</div>
+                            `;
+                            rowDiv.appendChild(pDiv);
+                            playerIndex++;
+                        }
+                        pitchContainer.appendChild(rowDiv);
+                    });
+                    
+                    const subsContainer = document.getElementById('lineup-subs-container');
+                    subsContainer.innerHTML = '';
+                    const subsList = (state.lineup.subs || '').split('\n').map(p => p.trim()).filter(p => p);
+                    subsList.forEach(pText => {
+                        let num = '-', name = pText;
                         const match = pText.match(/^(\d+)\s+(.+)$/);
                         if(match) { num = match[1]; name = match[2]; }
-                        
-                        const pDiv = document.createElement('div');
-                        pDiv.className = 'flex flex-col items-center drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)] w-20';
-                        
-                        const colorClass = (playerIndex === 0 && count === 1) 
-                            ? 'bg-gradient-to-br from-amber-300 to-amber-600 text-slate-900' 
-                            : (t === 'home' ? 'bg-gradient-to-br from-blue-400 to-blue-700 text-white' : 'bg-gradient-to-br from-red-400 to-red-700 text-white');
-                        
-                        pDiv.innerHTML = `
-                            <div class="w-8 h-8 rounded-full ${colorClass} font-black text-sm flex items-center justify-center border-2 border-white shadow-[0_0_10px_rgba(0,0,0,0.5)] mb-1 leading-none z-20 relative">${num}</div>
-                            <div class="bg-black/60 border border-white/20 text-white text-[10px] font-bold px-1.5 py-0.5 rounded w-full text-center truncate shadow uppercase relative z-10 custom-colored-text">${name}</div>
-                        `;
-                        rowDiv.appendChild(pDiv);
-                        playerIndex++;
-                    }
-                    pitchContainer.appendChild(rowDiv);
-                });
-                
-                const subsContainer = document.getElementById('lineup-subs-container');
-                subsContainer.innerHTML = '';
-                const subsList = (state.lineup.subs || '').split('\n').map(p => p.trim()).filter(p => p);
-                subsList.forEach(pText => {
-                    let num = '-', name = pText;
-                    const match = pText.match(/^(\d+)\s+(.+)$/);
-                    if(match) { num = match[1]; name = match[2]; }
-                    subsContainer.innerHTML += `
-                        <div class="flex items-center gap-3 bg-black/40 py-1.5 px-3 rounded border border-white/10 shadow-sm">
-                            <span class="text-amber-400 font-black text-sm w-5 text-right">${num}</span>
-                            <span class="text-white uppercase truncate flex-1 text-sm">${name}</span>
-                        </div>`;
-                });
-                
-            } else {
-                lineupOverlay.classList.remove('show');
+                        subsContainer.innerHTML += `
+                            <div class="flex items-center gap-4 bg-slate-800/40 py-1.5 px-4 rounded-lg border border-slate-700/50 shadow-sm">
+                                <span class="theme-text-accent font-black text-2xl w-8 text-right">${num}</span>
+                                <span class="panel-text uppercase truncate flex-1 text-2xl drop-shadow-sm">${name}</span>
+                            </div>`;
+                    });
+                }
             }
 
-            const statsOverlay = document.getElementById('stats-overlay');
-            if (state.matchStats && state.matchStats.active) {
-                statsOverlay.classList.add('show');
-                
+            if (state.matchStats) {
                 let hFullName = '', aFullName = '';
                 if(state.fullTeamNames && state.fullTeamNames.home) hFullName = state.fullTeamNames.home;
                 else hFullName = state.teamNames.home;
@@ -1610,48 +1611,43 @@
                 document.getElementById('stats-home-score').textContent = (state.scores && state.scores.home !== undefined) ? state.scores.home : '0';
                 document.getElementById('stats-away-score').textContent = (state.scores && state.scores.away !== undefined) ? state.scores.away : '0';
                 
-                const statsContainer = document.getElementById('stats-rows-container');
-                statsContainer.innerHTML = '';
-                
-                const createStatRow = (label, valH, valA, isPercent = false) => {
-                    const numH = parseFloat(valH) || 0; const numA = parseFloat(valA) || 0;
-                    const total = numH + numA;
-                    const pctH = total === 0 ? 0 : (numH / total * 100);
-                    const pctA = total === 0 ? 0 : (numA / total * 100);
+                if (state.activeOverlay === 'matchStats') {
+                    const statsContainer = document.getElementById('stats-rows-container');
+                    statsContainer.innerHTML = '';
                     
-                    const displayH = isPercent ? `${numH}%` : numH;
-                    const displayA = isPercent ? `${numA}%` : numA;
-                    
-                    return `
-                        <div class="flex flex-col gap-1.5">
-                            <div class="flex justify-between items-center px-2 text-white font-bold text-lg uppercase drop-shadow-md">
-                                <span class="w-16 text-left text-blue-300">${displayH}</span>
-                                <span class="text-slate-100 text-sm tracking-[0.1em] opacity-90 text-center custom-colored-text">${label}</span>
-                                <span class="w-16 text-right text-red-300">${displayA}</span>
-                            </div>
-                            <div class="flex w-full gap-2 h-2.5">
-                                <div class="w-1/2 bg-black/30 rounded-l-full flex justify-end overflow-hidden shadow-inner border border-white/5">
-                                    <div class="bg-blue-500 h-full transition-all duration-1000" style="width: ${pctH}%"></div>
+                    const createStatRow = (label, valH, valA, isPercent = false) => {
+                        const numH = parseFloat(valH) || 0; const numA = parseFloat(valA) || 0;
+                        const total = numH + numA;
+                        const pctH = total === 0 ? 50 : (numH / total * 100);
+                        const pctA = total === 0 ? 50 : (numA / total * 100);
+                        
+                        const displayH = isPercent ? `${numH}%` : numH;
+                        const displayA = isPercent ? `${numA}%` : numA;
+                        
+                        return `
+                            <div class="flex flex-col gap-2">
+                                <div class="flex justify-between items-end px-2 text-white font-black text-3xl uppercase drop-shadow-md">
+                                    <span class="w-24 text-left text-blue-400">${displayH}</span>
+                                    <span class="text-slate-300 text-lg tracking-[0.15em] opacity-90 custom-colored-text">${label}</span>
+                                    <span class="w-24 text-right text-red-400">${displayA}</span>
                                 </div>
-                                <div class="w-1/2 bg-black/30 rounded-r-full flex justify-start overflow-hidden shadow-inner border border-white/5">
-                                    <div class="bg-red-500 h-full transition-all duration-1000" style="width: ${pctA}%"></div>
+                                <div class="flex gap-1 h-3.5 w-full">
+                                    <div class="stat-bar-bg flex justify-end rounded-r-none"><div class="stat-bar-fill-home" style="width: ${pctH}%"></div></div>
+                                    <div class="stat-bar-bg rounded-l-none"><div class="stat-bar-fill-away" style="width: ${pctA}%"></div></div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                };
-                
-                statsContainer.innerHTML += createStatRow('Ball Possession', state.matchStats.possH, state.matchStats.possA, true);
-                statsContainer.innerHTML += createStatRow('Total Shots', state.matchStats.shotsH, state.matchStats.shotsA);
-                statsContainer.innerHTML += createStatRow('Shots on Target', state.matchStats.sotH, state.matchStats.sotA);
-                statsContainer.innerHTML += createStatRow('Corner Kicks', state.matchStats.cornH, state.matchStats.cornA);
-                if (state.matchStats.offsH > 0 || state.matchStats.offsA > 0) statsContainer.innerHTML += createStatRow('Offsides', state.matchStats.offsH, state.matchStats.offsA);
-                statsContainer.innerHTML += createStatRow('Fouls', state.stats.home.fouls, state.stats.away.fouls);
-                statsContainer.innerHTML += createStatRow('Yellow Cards', state.stats.home.yellow, state.stats.away.yellow);
-                statsContainer.innerHTML += createStatRow('Red Cards', state.stats.home.red, state.stats.away.red);
-                
-            } else {
-                statsOverlay.classList.remove('show');
+                        `;
+                    };
+                    
+                    statsContainer.innerHTML += createStatRow('Ball Possession', state.matchStats.possH, state.matchStats.possA, true);
+                    statsContainer.innerHTML += createStatRow('Total Shots', state.matchStats.shotsH, state.matchStats.shotsA);
+                    statsContainer.innerHTML += createStatRow('Shots on Target', state.matchStats.sotH, state.matchStats.sotA);
+                    statsContainer.innerHTML += createStatRow('Corner Kicks', state.matchStats.cornH, state.matchStats.cornA);
+                    if (state.matchStats.offsH > 0 || state.matchStats.offsA > 0) statsContainer.innerHTML += createStatRow('Offsides', state.matchStats.offsH, state.matchStats.offsA);
+                    statsContainer.innerHTML += createStatRow('Fouls', state.stats.home.fouls, state.stats.away.fouls);
+                    statsContainer.innerHTML += createStatRow('Yellow Cards', state.stats.home.yellow, state.stats.away.yellow);
+                    statsContainer.innerHTML += createStatRow('Red Cards', state.stats.home.red, state.stats.away.red);
+                }
             }
         }
 
@@ -1739,49 +1735,17 @@
         }
 
         function triggerTopScorer() {
-            clearAllOverlays();
             let minute = document.getElementById('input-top-scorer-min').value.trim();
             if (minute !== "" && !minute.includes("'")) minute += "'";
-            window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute, visible: true };
-            renderDOM(); syncState();
-            setTimeout(() => hideTopScorer(true), 8000);
+            window.appState.topScorer = { name: document.getElementById('input-top-scorer-name').value.trim() || "Player", min: minute };
+            
+            triggerOverlay('topScorer');
         }
 
-        function hideTopScorer(doSync = true) {
-            window.appState.topScorer.visible = false; renderDOM(); if (doSync) syncState();
-        }
-
-        function triggerSub() {
-            clearAllOverlays();
-            window.appState.substitution = {
-                active: true,
-                team: document.getElementById('sub-team').value,
-                inName: document.getElementById('sub-in-name').value,
-                inNumber: document.getElementById('sub-in-number').value,
-                outName: document.getElementById('sub-out-name').value,
-                outNumber: document.getElementById('sub-out-number').value
-            };
-            renderDOM(); syncState();
-        }
-
-        function hideSub() {
-            window.appState.substitution.active = false;
-            renderDOM(); syncState();
-        }
-
-        function triggerBanner() {
-            clearAllOverlays();
-            window.appState.infoBanner = {
-                active: true,
-                title: document.getElementById('banner-title').value || 'INFO',
-                subtitle: document.getElementById('banner-subtitle').value
-            };
-            renderDOM(); syncState();
-        }
-
-        function hideBanner() {
-            window.appState.infoBanner.active = false;
-            renderDOM(); syncState();
+        function hideTopScorer() {
+            if (window.appState.activeOverlay === 'topScorer') {
+                triggerOverlay('none');
+            }
         }
 
         function updateBottomScorers() {
@@ -1792,46 +1756,21 @@
             renderDOM(); syncState();
         }
 
-        function triggerLineup() {
-            clearAllOverlays();
-            window.appState.lineup = {
-                active: true,
-                team: document.getElementById('lineup-team').value,
-                formation: document.getElementById('lineup-formation').value,
-                players: document.getElementById('lineup-players').value,
-                subs: document.getElementById('lineup-subs').value,
-                coach: document.getElementById('lineup-coach').value
-            };
-            renderDOM(); syncState();
-        }
+        /* Updates values directly via onchange/click without triggering display manually. Display is handled by triggerOverlay() */
+        document.getElementById('sub-team').addEventListener('change', e => { window.appState.substitution.team = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('sub-in-name').addEventListener('input', e => { window.appState.substitution.inName = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('sub-in-number').addEventListener('input', e => { window.appState.substitution.inNumber = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('sub-out-name').addEventListener('input', e => { window.appState.substitution.outName = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('sub-out-number').addEventListener('input', e => { window.appState.substitution.outNumber = e.target.value; renderDOM(); syncState(); });
 
-        function hideLineup() {
-            window.appState.lineup.active = false;
-            renderDOM(); syncState();
-        }
+        document.getElementById('banner-title').addEventListener('input', e => { window.appState.infoBanner.title = e.target.value || 'INFO'; renderDOM(); syncState(); });
+        document.getElementById('banner-subtitle').addEventListener('input', e => { window.appState.infoBanner.subtitle = e.target.value; renderDOM(); syncState(); });
 
-        function triggerStats() {
-            clearAllOverlays();
-            window.appState.matchStats = {
-                active: true,
-                possH: document.getElementById('stat-poss-h').value,
-                possA: document.getElementById('stat-poss-a').value,
-                shotsH: document.getElementById('stat-shots-h').value,
-                shotsA: document.getElementById('stat-shots-a').value,
-                sotH: document.getElementById('stat-sot-h').value,
-                sotA: document.getElementById('stat-sot-a').value,
-                cornH: document.getElementById('stat-corn-h').value,
-                cornA: document.getElementById('stat-corn-a').value,
-                offsH: document.getElementById('stat-offs-h') ? document.getElementById('stat-offs-h').value : 0,
-                offsA: document.getElementById('stat-offs-a') ? document.getElementById('stat-offs-a').value : 0
-            };
-            renderDOM(); syncState();
-        }
-
-        function hideStats() {
-            window.appState.matchStats.active = false;
-            renderDOM(); syncState();
-        }
+        document.getElementById('lineup-team').addEventListener('change', e => { window.appState.lineup.team = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('lineup-formation').addEventListener('change', e => { window.appState.lineup.formation = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('lineup-players').addEventListener('input', e => { window.appState.lineup.players = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('lineup-subs').addEventListener('input', e => { window.appState.lineup.subs = e.target.value; renderDOM(); syncState(); });
+        document.getElementById('lineup-coach').addEventListener('input', e => { window.appState.lineup.coach = e.target.value; renderDOM(); syncState(); });
 
         function formatTime(seconds) {
             const m = Math.floor(seconds / 60);
@@ -1932,7 +1871,9 @@
                     const parsed = JSON.parse(savedState);
                     window.appState = { ...window.appState, ...parsed };
                     
-                    clearAllOverlays();
+                    // Reset overlay visibility upon reload
+                    window.appState.activeOverlay = 'none';
+                    if (window.appState.topScorer) window.appState.topScorer.visible = false;
                 }
             } catch(e) {}
 
