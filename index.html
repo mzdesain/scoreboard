@@ -746,7 +746,9 @@
                     <div class="w-[90%] max-w-6xl flex flex-col items-center justify-center relative">
                         
                         <!-- LEAGUE LOGO BOTTOM (Berdiri Bebas) -->
-                        <img id="logo-img-bottom" class="h-[120px] w-auto max-w-[120px] object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.9)] hidden transition-all z-30 mb-2" src="" />
+                        <div id="logo-container-bottom" class="hidden items-center justify-center bg-white px-4 py-2.5 rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.6)] z-30 mb-3 border border-slate-200">
+                            <img id="logo-img-bottom" class="h-[90px] xl:h-[110px] w-auto max-w-[140px] object-contain drop-shadow-sm transition-all" src="" />
+                        </div>
                         
                         <!-- Main Bottom Scorebar -->
                         <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative z-20">
@@ -923,7 +925,7 @@
                                     <div class="theme-text-accent font-extrabold text-xs md:text-sm tracking-[0.2em] uppercase mb-3 md:mb-6 border-b border-white/10 pb-2"><i class="fas fa-chair mr-2"></i> Substitutes</div>
                                     
                                     <!-- Subs List -->
-                                    <div id="lineup-subs-container" class="flex-1 flex flex-col gap-2 md:gap-3 overflow-hidden custom-colored-text font-bold text-sm md:text-xl mb-4 pr-2">
+                                    <div id="lineup-subs-container" class="flex-1 flex flex-col gap-1 overflow-hidden custom-colored-text font-bold text-sm md:text-xl mb-4 pr-2">
                                         <!-- Subs injected by JS -->
                                     </div>
                                     
@@ -1434,6 +1436,7 @@
 
             // LEAGUE LOGO RENDER
             const logoTopContainer = document.getElementById('logo-container-top');
+            const logoBtmContainer = document.getElementById('logo-container-bottom');
             const logoTop = document.getElementById('logo-img-top');
             const logoBtm = document.getElementById('logo-img-bottom');
             if (state.leagueLogo && state.leagueLogo.show && state.leagueLogo.url && state.leagueLogo.url.trim() !== '') {
@@ -1443,13 +1446,19 @@
                     logoTopContainer.classList.remove('hidden');
                     logoTopContainer.classList.add('flex');
                 }
-                if(logoBtm) logoBtm.classList.remove('hidden');
+                if(logoBtmContainer) {
+                    logoBtmContainer.classList.remove('hidden');
+                    logoBtmContainer.classList.add('flex');
+                }
             } else {
                 if(logoTopContainer) {
                     logoTopContainer.classList.add('hidden');
                     logoTopContainer.classList.remove('flex');
                 }
-                if(logoBtm) logoBtm.classList.add('hidden');
+                if(logoBtmContainer) {
+                    logoBtmContainer.classList.add('hidden');
+                    logoBtmContainer.classList.remove('flex');
+                }
             }
 
             // PENALTIES RENDER
@@ -1650,9 +1659,9 @@
                             const match = pText.match(/^(\d+)\s+(.+)$/);
                             if(match) { num = match[1]; name = match[2]; }
                             subsContainer.innerHTML += `
-                                <div class="flex items-center gap-2 md:gap-4 bg-slate-800/40 py-1 md:py-1.5 px-2 md:px-4 rounded-lg border border-slate-700/50 shadow-sm">
-                                    <span class="theme-text-accent font-black text-lg md:text-2xl w-6 md:w-8 text-right">${num}</span>
-                                    <span class="panel-text uppercase truncate flex-1 text-base md:text-2xl drop-shadow-sm">${name}</span>
+                                <div class="flex items-center gap-3 py-1">
+                                    <span class="theme-text-accent font-black text-xl w-8 text-right">${num}</span>
+                                    <span class="custom-colored-text uppercase truncate flex-1 text-xl drop-shadow-sm">${name}</span>
                                 </div>`;
                         });
                     }
