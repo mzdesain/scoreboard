@@ -961,15 +961,17 @@
                                         <div class="text-2xl md:text-4xl font-black custom-colored-text uppercase truncate drop-shadow-md" id="stats-home-name">HOME</div>
                                     </div>
                                     
-                                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-full flex flex-col items-center justify-center font-black text-xl md:text-2xl shadow-inner border-2 border-white/10 panel-text mx-4 flex-shrink-0 z-10 bg-black/60 relative">
-                                        <!-- Score Normal Time -->
-                                        <div class="flex items-center gap-1.5 mt-1">
-                                            <span id="stats-home-score">0</span>
-                                            <span class="text-[10px] md:text-xs opacity-50">VS</span>
-                                            <span id="stats-away-score">0</span>
+                                    <div class="flex flex-col items-center justify-center mx-4 flex-shrink-0 z-10 relative">
+                                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center font-black text-xl md:text-2xl shadow-inner border-2 border-white/10 panel-text bg-black/60">
+                                            <!-- Score Normal Time -->
+                                            <div class="flex items-center gap-1.5 mt-1">
+                                                <span id="stats-home-score">0</span>
+                                                <span class="text-[10px] md:text-xs opacity-50">VS</span>
+                                                <span id="stats-away-score">0</span>
+                                            </div>
                                         </div>
                                         <!-- Score Penalty (Hanya muncul jika penalti aktif) -->
-                                        <div id="stats-penalty-wrapper" class="absolute -bottom-3 bg-amber-400 text-slate-900 px-2 py-0.5 rounded-sm text-[8px] md:text-[9px] hidden flex gap-1 font-extrabold shadow-md border border-amber-500 tracking-wider">
+                                        <div id="stats-penalty-wrapper" class="mt-2 bg-amber-400 text-slate-900 px-2 py-0.5 rounded-sm text-[8px] md:text-[9px] hidden flex gap-1 font-extrabold shadow-md border border-amber-500 tracking-wider">
                                             <span id="stats-home-pen">0</span><span class="opacity-70">PEN</span><span id="stats-away-pen">0</span>
                                         </div>
                                     </div>
