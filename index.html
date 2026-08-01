@@ -640,7 +640,7 @@
                     <div class="ctrl-group">
                         <div class="ctrl-title"><i class="fas fa-dot-circle text-orange-500 mr-2.5 text-lg"></i> 11. Adu Penalti (Penalty Shootout)</div>
                         <div class="bg-orange-50 text-orange-800 text-xs p-3 rounded-lg border border-orange-200 mb-5 leading-snug">
-                            <i class="fas fa-info-circle mr-1"></i> Catatan: Ketika tombol "Goal" ditekan, maka <b>Skor Papan Utama juga akan otomatis bertambah +1</b>.
+                            <i class="fas fa-info-circle mr-1"></i> Catatan: Skor Adu Penalti sekarang <b>terpisah</b> dari Skor Waktu Normal. Angka skor penalti akan otomatis muncul di sebelah nama tim di papan skor.
                         </div>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             
@@ -707,18 +707,19 @@
             
             <div id="preview-scale-wrapper">
                 
-                <!-- TOP SCOREBOARD -->
+                <!-- TOP SCOREBOARD (Positioned Top-Left like TV Broadcasts) -->
                 <div id="overlay-container-top" class="absolute top-14 left-16 w-auto flex flex-col items-start pointer-events-none z-30">
                     <div id="scoreboard-top-wrapper" class="scoreboard-hidden-top anim-type-slide flex items-start gap-3">
                         
                         <!-- LEAGUE LOGO TOP -->
-                        <img id="logo-img-top" class="w-16 h-16 object-cover rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.5)] border-2 border-white/80 hidden transition-all bg-white" src="" />
+                        <img id="logo-img-top" class="h-16 w-auto max-w-[80px] object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] hidden transition-all" src="" />
                         
                         <div class="flex flex-col items-start justify-start relative">
                             <div class="scoreboard-main flex items-stretch justify-start transition-all duration-300 pointer-events-auto relative shadow-2xl z-20">
                                 <!-- Home Team -->
                                 <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
                                     <span class="team-name-home custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">HOM</span>
+                                    <span class="pen-score-home hidden text-amber-400 font-black text-2xl ml-3 drop-shadow-md">(0)</span>
                                 </div>
                                 
                                 <!-- Score & Timer Middle Bar -->
@@ -732,6 +733,7 @@
 
                                 <!-- Away Team -->
                                 <div class="team-panel text-center py-2 px-6 flex items-center justify-center relative min-w-[120px]">
+                                    <span class="pen-score-away hidden text-amber-400 font-black text-2xl mr-3 drop-shadow-md">(0)</span>
                                     <span class="team-name-away custom-colored-text text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide">AWY</span>
                                 </div>
                             </div>
@@ -768,13 +770,14 @@
                     <div id="scoreboard-bottom-wrapper" class="scoreboard-hidden-bottom anim-type-slide w-[90%] max-w-6xl flex flex-col items-center justify-center">
                         
                         <!-- LEAGUE LOGO BOTTOM -->
-                        <img id="logo-img-bottom" class="w-24 h-24 object-cover rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] border-4 border-white/90 hidden transition-all -mb-8 z-30 bg-white" src="" />
+                        <img id="logo-img-bottom" class="h-28 w-auto max-w-[120px] object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)] hidden transition-all -mb-10 z-30" src="" />
                         
                         <!-- Main Bottom Scorebar -->
                         <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative shadow-2xl z-20">
                             <!-- Home Team Long -->
                             <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-end relative overflow-hidden">
                                 <span class="team-name-home-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-right truncate">Home Team FC</span>
+                                <span class="pen-score-home hidden text-amber-400 font-black text-2xl xl:text-3xl ml-3 drop-shadow-md">(0)</span>
                             </div>
                             
                             <!-- Middle Scores & Clock -->
@@ -788,6 +791,7 @@
 
                             <!-- Away Team Long -->
                             <div class="team-panel flex-1 text-center py-2.5 px-4 flex items-center justify-start relative overflow-hidden">
+                                <span class="pen-score-away hidden text-amber-400 font-black text-2xl xl:text-3xl mr-3 drop-shadow-md">(0)</span>
                                 <span class="team-name-away-full custom-colored-text text-2xl xl:text-3xl font-bold uppercase whitespace-nowrap z-10 tracking-wide text-left truncate">Away Team FC</span>
                             </div>
                         </div>
@@ -1384,9 +1388,21 @@
                 document.getElementById('penalties-away-top').innerHTML = renderPenaltyDots(state.penalties.away, false);
                 document.getElementById('penalties-home-btm').innerHTML = renderPenaltyDots(state.penalties.home, true);
                 document.getElementById('penalties-away-btm').innerHTML = renderPenaltyDots(state.penalties.away, true);
+
+                const hPenScore = state.penalties.home.filter(r => r === 'scored').length;
+                const aPenScore = state.penalties.away.filter(r => r === 'scored').length;
+                document.querySelectorAll('.pen-score-home').forEach(el => {
+                    el.textContent = `(${hPenScore})`;
+                    el.classList.remove('hidden');
+                });
+                document.querySelectorAll('.pen-score-away').forEach(el => {
+                    el.textContent = `(${aPenScore})`;
+                    el.classList.remove('hidden');
+                });
             } else {
                 penTopWrapper.classList.add('hidden');
                 penBtmWrapper.classList.add('hidden');
+                document.querySelectorAll('.pen-score-home, .pen-score-away').forEach(el => el.classList.add('hidden'));
             }
 
             if (!window.isHomeGoalAnimating) {
@@ -1646,21 +1662,13 @@
         function addPenalty(team, result) {
             if (!window.appState.penalties) window.appState.penalties = { active: true, home: [], away: [] };
             window.appState.penalties[team].push(result);
-            if (result === 'scored') {
-                updateScore(team, 1); 
-            } else {
-                renderDOM(); syncState();
-            }
+            renderDOM(); syncState();
         }
 
         function undoPenalty(team) {
             if (!window.appState.penalties) return;
-            const last = window.appState.penalties[team].pop();
-            if (last === 'scored') {
-                updateScore(team, -1);
-            } else if (last) {
-                renderDOM(); syncState();
-            }
+            window.appState.penalties[team].pop();
+            renderDOM(); syncState();
         }
 
         function resetPenalties() {
