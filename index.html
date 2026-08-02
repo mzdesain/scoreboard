@@ -748,8 +748,10 @@
                     
                     <div class="w-[90%] max-w-6xl flex flex-col items-center justify-center relative">
                         
-                        <!-- LEAGUE LOGO BOTTOM (Berdiri Bebas) -->
-                        <img id="logo-img-bottom" class="h-[120px] w-auto max-w-[120px] object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.9)] hidden transition-all z-30 mb-2" src="" />
+                        <!-- LEAGUE LOGO BOTTOM (Dengan Shape Putih) -->
+                        <div id="logo-container-bottom" class="hidden items-center justify-center bg-white px-8 py-2 relative z-10 rounded-t-3xl border-t-2 border-x-2 border-slate-200/50 -mb-[4px] shadow-[0_-5px_15px_rgba(0,0,0,0.1)]">
+                            <img id="logo-img-bottom" class="h-14 w-auto max-w-[100px] object-contain drop-shadow-sm transition-all" src="" />
+                        </div>
                         
                         <!-- Main Bottom Scorebar -->
                         <div class="scoreboard-main flex items-stretch justify-center transition-all duration-300 w-full pointer-events-auto relative z-20">
@@ -1430,6 +1432,7 @@
             // LEAGUE LOGO RENDER
             const logoTopContainer = document.getElementById('logo-container-top');
             const logoTop = document.getElementById('logo-img-top');
+            const logoBtmContainer = document.getElementById('logo-container-bottom');
             const logoBtm = document.getElementById('logo-img-bottom');
             if (state.leagueLogo && state.leagueLogo.show && state.leagueLogo.url && state.leagueLogo.url.trim() !== '') {
                 if(logoTop) logoTop.src = state.leagueLogo.url;
@@ -1438,46 +1441,18 @@
                     logoTopContainer.classList.remove('hidden');
                     logoTopContainer.classList.add('flex');
                 }
-                if(logoBtm) logoBtm.classList.remove('hidden');
+                if(logoBtmContainer) {
+                    logoBtmContainer.classList.remove('hidden');
+                    logoBtmContainer.classList.add('flex');
+                }
             } else {
                 if(logoTopContainer) {
                     logoTopContainer.classList.add('hidden');
                     logoTopContainer.classList.remove('flex');
                 }
-                if(logoBtm) logoBtm.classList.add('hidden');
-            }
-
-            // PENALTIES RENDER
-            const penTopWrapper = document.getElementById('top-penalties-wrapper');
-            const penBtmWrapper = document.getElementById('btm-penalties-wrapper');
-            const statsPenWrapper = document.getElementById('stats-penalty-wrapper');
-
-            if (state.penalties && state.penalties.active) {
-                if(penTopWrapper) penTopWrapper.classList.remove('hidden');
-                if(penBtmWrapper) penBtmWrapper.classList.remove('hidden');
-                if(statsPenWrapper) statsPenWrapper.classList.remove('hidden');
-                if(statsPenWrapper) statsPenWrapper.classList.add('flex');
-
-                if(document.getElementById('penalties-home-top')) document.getElementById('penalties-home-top').innerHTML = renderPenaltyDots(state.penalties.home, false);
-                if(document.getElementById('penalties-away-top')) document.getElementById('penalties-away-top').innerHTML = renderPenaltyDots(state.penalties.away, false);
-                if(document.getElementById('penalties-home-btm')) document.getElementById('penalties-home-btm').innerHTML = renderPenaltyDots(state.penalties.home, true);
-                if(document.getElementById('penalties-away-btm')) document.getElementById('penalties-away-btm').innerHTML = renderPenaltyDots(state.penalties.away, true);
-
-                const hPenScore = state.penalties.home.filter(r => r === 'scored').length;
-                const aPenScore = state.penalties.away.filter(r => r === 'scored').length;
-                
-                document.querySelectorAll('.pen-score-home-val').forEach(el => el.textContent = hPenScore);
-                document.querySelectorAll('.pen-score-away-val').forEach(el => el.textContent = aPenScore);
-                
-                if(document.getElementById('stats-home-pen')) document.getElementById('stats-home-pen').textContent = hPenScore;
-                if(document.getElementById('stats-away-pen')) document.getElementById('stats-away-pen').textContent = aPenScore;
-
-            } else {
-                if(penTopWrapper) penTopWrapper.classList.add('hidden');
-                if(penBtmWrapper) penBtmWrapper.classList.add('hidden');
-                if(statsPenWrapper) {
-                    statsPenWrapper.classList.add('hidden');
-                    statsPenWrapper.classList.remove('flex');
+                if(logoBtmContainer) {
+                    logoBtmContainer.classList.add('hidden');
+                    logoBtmContainer.classList.remove('flex');
                 }
             }
 
@@ -1957,17 +1932,5 @@
             if(btnBtm) btnBtm.className = window.appState.activeView === 'bottom' ? 'flex-1 btn-pro btn-primary' : 'flex-1 btn-pro btn-outline';
         });
     </script>
-    <script>
-function syncSingleGoal() {
-    const playerName = document.getElementById('nput-top-scorer-name').value;
-    const playerMin = document.getElementById('input-top-scorer-min').value;
-
-    const overlayName = document.getElementById('single-goal-name');
-    const overlayTime = document.getElementById('single-goal-time');
-
-    if (overlayName) overlayName.innerText = playerName;
-    if (overlayTime) overlayTime.innerText = playerMin;
-}
-</script>
 </body>
 </html>
