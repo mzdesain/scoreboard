@@ -1317,6 +1317,7 @@
         }
 
         function renderPenaltyDots(teamArray, isBottom = false) {
+            if (!teamArray) teamArray = []; // Mencegah error jika data kosong
             const total = Math.max(5, teamArray.length);
             let html = '';
             const sizeClass = isBottom ? 'w-4 h-4' : 'w-3 h-3';
@@ -1674,18 +1675,22 @@
 
         // PENALTY LOGIC
         function togglePenalties() {
+            if (!window.appState.penalties) window.appState.penalties = { active: false, home: [], away: [] };
+            if (!window.appState.penalties.home) window.appState.penalties.home = [];
+            if (!window.appState.penalties.away) window.appState.penalties.away = [];
             window.appState.penalties.active = !window.appState.penalties.active;
             renderDOM(); syncState();
         }
 
         function addPenalty(team, result) {
             if (!window.appState.penalties) window.appState.penalties = { active: true, home: [], away: [] };
+            if (!window.appState.penalties[team]) window.appState.penalties[team] = [];
             window.appState.penalties[team].push(result);
             renderDOM(); syncState();
         }
 
         function undoPenalty(team) {
-            if (!window.appState.penalties) return;
+            if (!window.appState.penalties || !window.appState.penalties[team]) return;
             window.appState.penalties[team].pop();
             renderDOM(); syncState();
         }
