@@ -748,9 +748,9 @@
                     
                     <div class="w-[90%] max-w-6xl flex flex-col items-center justify-center relative">
                         
-                        <!-- LEAGUE LOGO BOTTOM (Dengan Shape Putih) -->
-                        <div id="logo-container-bottom" class="hidden items-center justify-center bg-white px-8 py-2 relative z-10 rounded-t-3xl border-t-2 border-x-2 border-slate-200/50 -mb-[4px] shadow-[0_-5px_15px_rgba(0,0,0,0.1)]">
-                            <img id="logo-img-bottom" class="h-14 w-auto max-w-[100px] object-contain drop-shadow-sm transition-all" src="" />
+                        <!-- LEAGUE LOGO BOTTOM (Menyatu dengan Scoreboard) -->
+                        <div id="logo-container-bottom" class="hidden items-center justify-center bg-white px-10 pt-4 pb-2 relative z-10 rounded-t-[1.5rem] -mb-[1px]">
+                            <img id="logo-img-bottom" class="h-16 w-auto max-w-[100px] object-contain drop-shadow-sm transition-all" src="" />
                         </div>
                         
                         <!-- Main Bottom Scorebar -->
@@ -1434,26 +1434,15 @@
             const logoTop = document.getElementById('logo-img-top');
             const logoBtmContainer = document.getElementById('logo-container-bottom');
             const logoBtm = document.getElementById('logo-img-bottom');
+            
             if (state.leagueLogo && state.leagueLogo.show && state.leagueLogo.url && state.leagueLogo.url.trim() !== '') {
                 if(logoTop) logoTop.src = state.leagueLogo.url;
                 if(logoBtm) logoBtm.src = state.leagueLogo.url;
-                if(logoTopContainer) {
-                    logoTopContainer.classList.remove('hidden');
-                    logoTopContainer.classList.add('flex');
-                }
-                if(logoBtmContainer) {
-                    logoBtmContainer.classList.remove('hidden');
-                    logoBtmContainer.classList.add('flex');
-                }
+                if(logoTopContainer) { logoTopContainer.classList.remove('hidden'); logoTopContainer.classList.add('flex'); }
+                if(logoBtmContainer) { logoBtmContainer.classList.remove('hidden'); logoBtmContainer.classList.add('flex'); }
             } else {
-                if(logoTopContainer) {
-                    logoTopContainer.classList.add('hidden');
-                    logoTopContainer.classList.remove('flex');
-                }
-                if(logoBtmContainer) {
-                    logoBtmContainer.classList.add('hidden');
-                    logoBtmContainer.classList.remove('flex');
-                }
+                if(logoTopContainer) { logoTopContainer.classList.add('hidden'); logoTopContainer.classList.remove('flex'); }
+                if(logoBtmContainer) { logoBtmContainer.classList.add('hidden'); logoBtmContainer.classList.remove('flex'); }
             }
 
             if (!window.isHomeGoalAnimating) {
