@@ -1441,9 +1441,45 @@
                 if(logoBtm) logoBtm.src = state.leagueLogo.url;
                 if(logoTopContainer) { logoTopContainer.classList.remove('hidden'); logoTopContainer.classList.add('flex'); }
                 if(logoBtmContainer) { logoBtmContainer.classList.remove('hidden'); logoBtmContainer.classList.add('flex'); }
-            } else {
+           } else {
                 if(logoTopContainer) { logoTopContainer.classList.add('hidden'); logoTopContainer.classList.remove('flex'); }
                 if(logoBtmContainer) { logoBtmContainer.classList.add('hidden'); logoBtmContainer.classList.remove('flex'); }
+            }
+
+            // PENALTIES RENDER
+            const penTopWrapper = document.getElementById('top-penalties-wrapper');
+            const penBtmWrapper = document.getElementById('btm-penalties-wrapper');
+            const statsPenWrapper = document.getElementById('stats-penalty-wrapper');
+
+            if (state.penalties && state.penalties.active) {
+                if(penTopWrapper) penTopWrapper.classList.remove('hidden');
+                if(penBtmWrapper) penBtmWrapper.classList.remove('hidden');
+                if(statsPenWrapper) { statsPenWrapper.classList.remove('hidden'); statsPenWrapper.classList.add('flex'); }
+
+                const homePens = state.penalties.home || [];
+                const awayPens = state.penalties.away || [];
+
+                if(document.getElementById('penalties-home-top')) document.getElementById('penalties-home-top').innerHTML = renderPenaltyDots(homePens, false);
+                if(document.getElementById('penalties-away-top')) document.getElementById('penalties-away-top').innerHTML = renderPenaltyDots(awayPens, false);
+                if(document.getElementById('penalties-home-btm')) document.getElementById('penalties-home-btm').innerHTML = renderPenaltyDots(homePens, true);
+                if(document.getElementById('penalties-away-btm')) document.getElementById('penalties-away-btm').innerHTML = renderPenaltyDots(awayPens, true);
+
+                const hPenScore = homePens.filter(r => r === 'scored').length;
+                const aPenScore = awayPens.filter(r => r === 'scored').length;
+                
+                document.querySelectorAll('.pen-score-home-val').forEach(el => el.textContent = hPenScore);
+                document.querySelectorAll('.pen-score-away-val').forEach(el => el.textContent = aPenScore);
+                
+                if(document.getElementById('stats-home-pen')) document.getElementById('stats-home-pen').textContent = hPenScore;
+                if(document.getElementById('stats-away-pen')) document.getElementById('stats-away-pen').textContent = aPenScore;
+
+            } else {
+                if(penTopWrapper) penTopWrapper.classList.add('hidden');
+                if(penBtmWrapper) penBtmWrapper.classList.add('hidden');
+                if(statsPenWrapper) {
+                    statsPenWrapper.classList.add('hidden');
+                    statsPenWrapper.classList.remove('flex');
+                }
             }
 
             if (!window.isHomeGoalAnimating) {
@@ -1699,11 +1735,6 @@
             if (!window.appState.penalties) window.appState.penalties = { active: true, home: [], away: [] };
             window.appState.penalties.home = [];
             window.appState.penalties.away = [];
-            renderDOM(); syncState();
-        }
-
-        function updateStat(team, type, change) {
-            window.appState.stats[team][type] = Math.max(0, window.appState.stats[team][type] + change);
             renderDOM(); syncState();
         }
         
